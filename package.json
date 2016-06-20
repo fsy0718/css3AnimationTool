@@ -1,0 +1,26 @@
+{
+  "name": "css3_animation_tool_plus",
+  "version": "0.0.1",
+  "description": "a plus tool about css3 animation",
+  "author": "fsy0718 <fsy0718@gmail.com>",
+  "respository": {
+    "type": "git",
+    "url": "https://github.com/fsy0718/css3AnimationTool.git"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "browser-sync": "^2.13.0",
+    "gulp": "^3.9.1",
+    "gulp-jade": "^1.1.0",
+    "gulp-postcss": "^6.1.1",
+    "gulp-rename": "^1.2.2",
+    "postcss-calc": "^5.2.1",
+    "postcss-extend": "^1.0.1",
+    "postcss-functions": "^2.1.0",
+    "postcss-import": "^8.1.2",
+    "postcss-mixins": "^4.0.2",
+    "postcss-nested": "^1.0.0",
+    "postcss-scss": "^0.1.8"
+  },
+  "license": "MIT"
+}

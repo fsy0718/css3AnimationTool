@@ -1,0 +1,55 @@
+doctype html
+html
+  head
+    title css3动画交互调试加强版
+    link(href="./css/style.css", rel="stylesheet", type="text/css")
+
+body
+  header.header
+    .box.Ldf
+      h1.logo css3 Animation
+
+  section.content
+    .box.Ldf
+      section.control
+        nav.btnbox
+          -
+            btns = {
+              add: {
+                zh: '添加'
+              },
+              group: {
+                zh: '合并'
+              },
+              import: {
+                zh: '导入'
+              },
+              delete: {
+                zh: '删除'
+              }
+            }
+          each btn, key in btns
+            a.btn(href="javascript:;", class="btn-#{key}")=btn.zh
+        ul.resource.list
+          -
+            resources = [
+              {
+                title: '搜索图标',
+                id: 'css_short_id_2'
+              },{
+                title: '搜索栏',
+                id: 'css_short_id_1'
+              },{
+                title: '下拉选择',
+                id: 'css_short_id_3',
+                p: 'css_short_id_1'
+              }
+            ]
+          each resource, index in resources
+            li.item
+              span=resource.title
+
+
+      section.main
+
+
