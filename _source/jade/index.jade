@@ -79,7 +79,28 @@ body
             if cons.length ==1
               dt=item._name
             else if item._name
-              dd=item._name
+              dd
+                if item._items
+                  span.label=item._name
+                  ul.list
+                    each _item, key in item._items
+                      if !(/^_.+$/.test(key))
+                        li
+                          span.item=_item._name
+                          if item._items._type == 'unique'
+                            input(type="radio", name=item._key)
+                else
+                  label=item._name
+                    span.input
+                      if item._value
+                        input(type="text", value=item._value)
+                      else
+                        input(type="text")
+                    span.unit=item._unit
+                  span.range
+                    input(type="range")
+
+
 
 
 

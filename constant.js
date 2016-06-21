@@ -48,7 +48,16 @@
     TO: {
       _key: 'transform-origin',
       _name: '变形原点',
-      _unit: '%'
+      _items: {
+        x: {
+          _name: 'x',
+          _unit: '%'
+        },
+        y: {
+          _name: 'y',
+          _unit: '%'
+        }
+      }
     },
     TL: {
       _key: 'transform-style',
