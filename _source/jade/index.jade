@@ -51,5 +51,40 @@ body
 
 
       section.main
+        svg#print(width="800",height="600")
+          circle#css_short_id_1(cx="20", cy="20", r="20", fill="none", stroke="#aaa")
+
+
+  section.popup.Lposf
+    .tab
+      ul.tab-nav
+        -
+          navItems = {
+            '0': {
+              name: '变形&过渡'
+            },
+            '1': {
+              name: '自定义动画'
+            },
+            '3': {
+              name: '动画库',
+            }
+          }
+        each item, key in navItems
+          li
+            a(data-type=key)=item.name
+      dl.tab-cont
+        if css3Cons
+          each item, cons in css3Cons
+            if cons.length ==1
+              dt=item._name
+            else if item._name
+              dd=item._name
+
+
+
+
+
+
 
 

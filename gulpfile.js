@@ -15,14 +15,17 @@ const functions = require('postcss-functions');
 const calc = require('postcss-calc');
 const nested = require('postcss-nested');
 
-
 let sourceDir = './_source';
 let targetDir = '.';
+let jadeConstant = require('./constant.js');
 
 gulp.task('jade', function(){
   return gulp.src(sourceDir + '/jade/[^_]*.jade')
   .pipe(jade({
-    pretty: true
+    pretty: true,
+    locals: {
+      css3Cons: jadeConstant.css3Cons
+    }
   }))
   .pipe(gulp.dest(targetDir))
   .pipe(browserSync.stream({match: '**/*.html'}))
