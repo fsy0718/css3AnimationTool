@@ -29,149 +29,220 @@
       </section>
     </div>
   </section>
-  <section class="popup Lposf">
-    <div class="tab">
-      <ul class="tab-nav">
-        <li><a data-type="0">变形&amp;过渡</a></li>
-        <li><a data-type="1">自定义动画</a></li>
-        <li><a data-type="3">动画库</a></li>
-      </ul>
-      <dl class="tab-cont">
-        <dt>变形</dt>
-        <dd><span class="label">变形原点</span>
-          <ul class="list">
-            <li><span class="item">x</span>
-            </li>
-            <li><span class="item">y</span>
-            </li>
-          </ul>
-        </dd>
-        <dd><span class="label">是否3D呈现</span>
-          <ul class="list">
-            <li><span class="item">2D</span>
-              <input type="radio" name="transform-style">
-            </li>
-            <li><span class="item">3D</span>
-              <input type="radio" name="transform-style">
-            </li>
-          </ul>
-        </dd>
-        <dd>
-          <label>X轴旋转<span class="input">
-              <input type="text"></span><span class="unit">deg</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>Y轴旋转<span class="input">
-              <input type="text"></span><span class="unit">deg</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>Z轴旋转<span class="input">
-              <input type="text"></span><span class="unit">deg</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>X轴缩放<span class="input">
-              <input type="text"></span><span class="unit">倍</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>Y轴缩放<span class="input">
-              <input type="text"></span><span class="unit">倍</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>Z轴缩放<span class="input">
-              <input type="text"></span><span class="unit">倍</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>X轴位移<span class="input">
-              <input type="text"></span><span class="unit">px</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>Y轴位移<span class="input">
-              <input type="text"></span><span class="unit">px</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>Z轴位移<span class="input">
-              <input type="text"></span><span class="unit">px</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>X轴倾斜<span class="input">
-              <input type="text"></span><span class="unit">deg</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>Y轴倾斜<span class="input">
-              <input type="text"></span><span class="unit">deg</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>Z轴倾斜<span class="input">
-              <input type="text"></span><span class="unit">deg</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>透视<span class="input">
-              <input type="text"></span><span class="unit">px</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd><span class="label">矩阵变形</span>
-          <ul class="list">
-            <li><span class="item">参数a</span>
-            </li>
-            <li><span class="item">参数c</span>
-            </li>
-            <li><span class="item">参数e</span>
-            </li>
-            <li><span class="item">参数b</span>
-            </li>
-            <li><span class="item">参数d</span>
-            </li>
-            <li><span class="item">参数f</span>
-            </li>
-          </ul>
-        </dd>
-        <dt></dt>
-        <dd>
-          <label>过渡css属性<span class="input">
-              <input type="text"></span><span class="unit"></span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>过渡延迟时间<span class="input">
-              <input type="text"></span><span class="unit">s</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd>
-          <label>过渡时间<span class="input">
-              <input type="text"></span><span class="unit">s</span></label><span class="range">
-            <input type="range"></span>
-        </dd>
-        <dd><span class="label">过渡效果</span>
-          <ul class="list">
-            <li><span class="item">linear</span>
-            </li>
-            <li><span class="item">ease</span>
-            </li>
-            <li><span class="item">ease-in</span>
-            </li>
-            <li><span class="item">ease-out</span>
-            </li>
-            <li><span class="item">ease-in-out</span>
-            </li>
-            <li><span class="item">cubic-bezier(0.500,0.250,0.500,0.750)</span>
-            </li>
-          </ul>
-        </dd>
-        <dt></dt>
-        <dt></dt>
-      </dl>
+  <section class="popup">
+    <div class="popupbox">
+      <div class="tab">
+        <ul class="tab-nav">
+          <li><a data-type="0">变形&amp;过渡</a></li>
+          <li><a data-type="1">自定义动画</a></li>
+          <li><a data-type="3">动画库</a></li>
+        </ul>
+        <dl class="tab-cont">
+          <dt>变形</dt>
+          <dd class="2d">
+            <p class="tip">变形原点</p>
+            <ul class="list">
+              <li class="item">
+                <label><span class="label">x</span>
+                  <input type="text" name="x" data-origin="TO" min="0" max="100" step="1" value="50"><span class="unit">%</span>
+                </label><span class="control">
+                  <input type="range" min="0" max="100" step="1" value="50"></span>
+              </li>
+              <li class="item">
+                <label><span class="label">y</span>
+                  <input type="text" name="y" data-origin="TO" min="0" max="100" step="1" value="50"><span class="unit">%</span>
+                </label><span class="control">
+                  <input type="range" min="0" max="100" step="1" value="50"></span>
+              </li>
+            </ul>
+          </dd>
+          <dd class="2d">
+            <p class="tip">是否3D呈现</p>
+            <ul class="list">
+              <li class="item">
+                <label>
+                  <input type="radio" name="transform-style" data-origin="TL" value="flat" checked="checked"><span class="label">2D</span>
+                </label>
+              </li>
+              <li class="item">
+                <label>
+                  <input type="radio" name="transform-style" data-origin="TL" value="preserve-3d"><span class="label">3D</span>
+                </label>
+              </li>
+            </ul>
+          </dd>
+          <dd class="2d">
+            <label><span class="label">X轴旋转</span><span class="input">
+                <input type="text" data-origin="TRX" value="0" min="-360" max="360" data-key="T" step="1"></span><span class="unit">deg</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-360" max="360" data-key="T" step="1"></span>
+          </dd>
+          <dd class="2d">
+            <label><span class="label">Y轴旋转</span><span class="input">
+                <input type="text" data-origin="TRY" value="0" min="-360" max="360" data-key="T" step="1"></span><span class="unit">deg</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-360" max="360" data-key="T" step="1"></span>
+          </dd>
+          <dd class="Ldn 3d">
+            <label><span class="label">Z轴旋转</span><span class="input">
+                <input type="text" data-origin="TRZ" value="0" min="-360" max="360" data-key="T" step="1"></span><span class="unit">deg</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-360" max="360" data-key="T" step="1"></span>
+          </dd>
+          <dd class="2d">
+            <label><span class="label">X轴缩放</span><span class="input">
+                <input type="text" data-origin="TSX" value="0" min="-5" data-key="T" max="5" step="0.1"></span><span class="unit">倍</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-5" data-key="T" max="5" step="0.1"></span>
+          </dd>
+          <dd class="2d">
+            <label><span class="label">Y轴缩放</span><span class="input">
+                <input type="text" data-origin="TSY" value="0" min="-5" data-key="T" max="5" step="0.1"></span><span class="unit">倍</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-5" data-key="T" max="5" step="0.1"></span>
+          </dd>
+          <dd class="Ldn 3d">
+            <label><span class="label">Z轴缩放</span><span class="input">
+                <input type="text" data-origin="TSZ" value="0" min="-5" max="5" data-key="T" step="0.1"></span><span class="unit">倍</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-5" max="5" data-key="T" step="0.1"></span>
+          </dd>
+          <dd class="2d">
+            <label><span class="label">X轴位移</span><span class="input">
+                <input type="text" data-origin="TTX" value="0" min="-1000" max="1000" data-key="T" step="1"></span><span class="unit">px</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-1000" max="1000" data-key="T" step="1"></span>
+          </dd>
+          <dd class="2d">
+            <label><span class="label">Y轴位移</span><span class="input">
+                <input type="text" data-origin="TTY" value="0" min="-1000" max="1000" data-key="T" step="1"></span><span class="unit">px</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-1000" max="1000" data-key="T" step="1"></span>
+          </dd>
+          <dd class="Ldn 3d">
+            <label><span class="label">Z轴位移</span><span class="input">
+                <input type="text" data-origin="TTZ" value="0" min="-1000" max="1000" data-key="T" step="1"></span><span class="unit">px</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-1000" max="1000" data-key="T" step="1"></span>
+          </dd>
+          <dd class="2d">
+            <label><span class="label">X轴倾斜</span><span class="input">
+                <input type="text" data-origin="TKX" value="0" min="-180" max="180" data-key="T" step="1"></span><span class="unit">deg</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-180" max="180" data-key="T" step="1"></span>
+          </dd>
+          <dd class="2d">
+            <label><span class="label">Y轴倾斜</span><span class="input">
+                <input type="text" data-origin="TKY" value="0" min="-180" max="180" data-key="T" step="1"></span><span class="unit">deg</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-180" max="180" data-key="T" step="1"></span>
+          </dd>
+          <dd class="Ldn 3d">
+            <label><span class="label">Z轴倾斜</span><span class="input">
+                <input type="text" data-origin="TKZ" value="0" min="-180" max="180" data-key="T" step="1"></span><span class="unit">deg</span>
+            </label><span class="control">
+              <input type="range" value="0" min="-180" max="180" data-key="T" step="1"></span>
+          </dd>
+          <dd class="Ldn 3d">
+            <label><span class="label">透视</span><span class="input">
+                <input type="text" data-origin="TP" value="0" min="0" max="1000" data-key="T" step="1"></span><span class="unit">px</span>
+            </label><span class="control">
+              <input type="range" value="0" min="0" max="1000" data-key="T" step="1"></span>
+          </dd>
+          <dd class="2d">
+            <p class="tip">矩阵变形</p>
+            <ul class="list">
+              <li class="item">
+                <label><span class="label">参数a</span>
+                  <input type="number" name="a" data-origin="TM" value="1" data-key="T">
+                </label>
+              </li>
+              <li class="item">
+                <label><span class="label">参数c</span>
+                  <input type="number" name="c" data-origin="TM" value="1" data-key="T">
+                </label>
+              </li>
+              <li class="item">
+                <label><span class="label">参数e</span>
+                  <input type="number" name="e" data-origin="TM" value="0" data-key="T">
+                </label>
+              </li>
+              <li class="item">
+                <label><span class="label">参数b</span>
+                  <input type="number" name="b" data-origin="TM" value="0" data-key="T">
+                </label>
+              </li>
+              <li class="item">
+                <label><span class="label">参数d</span>
+                  <input type="number" name="d" data-origin="TM" value="0" data-key="T">
+                </label>
+              </li>
+              <li class="item">
+                <label><span class="label">参数f</span>
+                  <input type="number" name="f" data-origin="TM" value="0" data-key="T">
+                </label>
+              </li>
+            </ul>
+          </dd>
+          <dt></dt>
+          <dd class="2d">
+            <label><span class="label">过渡css属性</span><span class="input">
+                <input type="text" data-origin="SP"></span>
+            </label>
+          </dd>
+          <dd class="2d">
+            <label><span class="label">过渡延迟时间</span><span class="input">
+                <input type="number" data-origin="SL" min="0" step="0.1"></span><span class="unit">s</span>
+            </label>
+          </dd>
+          <dd class="2d">
+            <label><span class="label">过渡时间</span><span class="input">
+                <input type="number" data-origin="SD" min="0" step="0.1"></span><span class="unit">s</span>
+            </label>
+          </dd>
+          <dd class="2d">
+            <p class="tip">过渡效果</p>
+            <ul class="list">
+              <li class="item">
+                <label>
+                  <input type="radio" name="transition-timing-function" data-origin="SF" value="linear"><span class="label">linear</span>
+                </label>
+              </li>
+              <li class="item">
+                <label>
+                  <input type="radio" name="transition-timing-function" data-origin="SF" value="ease"><span class="label">ease</span>
+                </label>
+              </li>
+              <li class="item">
+                <label>
+                  <input type="radio" name="transition-timing-function" data-origin="SF" value="ease-in"><span class="label">ease-in</span>
+                </label>
+              </li>
+              <li class="item">
+                <label>
+                  <input type="radio" name="transition-timing-function" data-origin="SF" value="ease-out"><span class="label">ease-out</span>
+                </label>
+              </li>
+              <li class="item">
+                <label>
+                  <input type="radio" name="transition-timing-function" data-origin="SF" value="ease-in-out"><span class="label">ease-in-out</span>
+                </label>
+              </li>
+              <li class="item">
+                <label>
+                  <input type="radio" name="transition-timing-function" data-origin="SF" value="0.500，0.250,0.500,0.750"><span class="label">cubic-bezier(0.500,0.250,0.500,0.750)</span>
+                </label>
+              </li>
+            </ul>
+          </dd>
+          <dt></dt>
+          <dt></dt>
+        </dl>
+      </div>
+      <div class="btnbox"><a href="javascript:;" class="btn btn--green">保存</a><a href="javascript:;" class="btn btn--gray">撤消</a></div><i class="close">X</i>
     </div>
   </section>
+  <div id="scriptArea" class="Ldn">
+    <script src="./js/style.js"></script>
+  </div>
 </body>

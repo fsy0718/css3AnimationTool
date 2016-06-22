@@ -51,11 +51,23 @@
       _items: {
         x: {
           _name: 'x',
-          _unit: '%'
+          _unit: '%',
+          _attrs: {
+            min: 0,
+            max: 100,
+            step: 1,
+            value: 50
+          }
         },
         y: {
           _name: 'y',
-          _unit: '%'
+          _unit: '%',
+          _attrs: {
+            min: 0,
+            max: 100,
+            step: 1,
+            value: 50
+          }
         }
       }
     },
@@ -66,7 +78,9 @@
         _type: 'unique',
         flat: {
           _name: '2D',
-          _checked: true
+          _attrs: {
+            checked: 'checked'
+          }
         },
         'preserve-3d': {
           _name: '3D'
@@ -79,18 +93,39 @@
     TRX: {
       _key: 'rotateX',
       _name: 'X轴旋转',
-      _unit: 'deg'
+      _unit: 'deg',
+      _attrs: {
+        value: 0,
+        min: -360,
+        max: 360,
+        'data-key': 'T',
+        step: 1
+      }
     },
     TRY: {
       _key: 'rotateY',
       _name: 'Y轴旋转',
-      _unit: 'deg'
+      _unit: 'deg',
+      _attrs: {
+        value: 0,
+        min: -360,
+        max: 360,
+        'data-key': 'T',
+        step: 1
+      }
     },
     TRZ: {
       _key: 'rotateZ',
       _name: 'Z轴旋转',
       _unit: 'deg',
-      _ref: 'preserve-3d'
+      _ref: 'preserve-3d',
+      _attrs: {
+        value: 0,
+        min: -360,
+        max: 360,
+        'data-key': 'T',
+        step: 1
+      }
     },
     TS: {
       _key: 'scale'
@@ -98,18 +133,39 @@
     TSX: {
       _key: 'scaleX',
       _name: 'X轴缩放',
-      _unit: '倍'
+      _unit: '倍',
+      _attrs: {
+        value: 0,
+        min: -5,
+        'data-key': 'T',
+        max: 5,
+        step: 0.1
+      }
     },
     TSY: {
       _key: 'scaleY',
       _name: 'Y轴缩放',
-      _unit: '倍'
+      _unit: '倍',
+      _attrs: {
+        value: 0,
+        min: -5,
+        'data-key': 'T',
+        max: 5,
+        step: 0.1
+      }
     },
     TSZ: {
       _key: 'scaleZ',
       _name: 'Z轴缩放',
       _unit: '倍',
-      _ref: 'preserve-3d'
+      _ref: 'preserve-3d',
+      _attrs: {
+        value: 0,
+        min: -5,
+        max: 5,
+        'data-key': 'T',
+        step: 0.1
+      }
     },
     TT: {
       _key: 'translate'
@@ -117,18 +173,40 @@
     TTX: {
       _key: 'translateX',
       _name: 'X轴位移',
-      _unit: 'px'
+      _unit: 'px',
+      //考虑增加百分比
+      _attrs: {
+        value: 0,
+        min: -1000,
+        max: 1000,
+        'data-key': 'T',
+        step: 1
+      }
     },
     TTY: {
       _key: 'translateY',
       _name: 'Y轴位移',
-      _unit: 'px'
+      _unit: 'px',
+      _attrs: {
+        value: 0,
+        min: -1000,
+        max: 1000,
+        'data-key': 'T',
+        step: 1
+      }
     },
     TTZ: {
       _key: 'translateZ',
       _name: 'Z轴位移',
       _unit: 'px',
-      _ref: 'preserve-3d'
+      _ref: 'preserve-3d',
+      _attrs: {
+        value: 0,
+        min: -1000,
+        max: 1000,
+        'data-key': 'T',
+        step: 1
+      }
     },
     TK: {
       _key: 'skew'
@@ -136,52 +214,105 @@
     TKX: {
       _key: 'skewX',
       _name: 'X轴倾斜',
-      _unit: 'deg'
+      _unit: 'deg',
+      _attrs: {
+        value: 0,
+        min: -180,
+        max: 180,
+        'data-key': 'T',
+        step: 1
+      }
     },
     TKY: {
       _key: 'skewY',
       _name: 'Y轴倾斜',
-      _unit: 'deg'
+      _unit: 'deg',
+      _attrs: {
+        value: 0,
+        min: -180,
+        max: 180,
+        'data-key': 'T',
+        step: 1
+      }
     },
     TKZ: {
       _key: 'skewZ',
       _name: 'Z轴倾斜',
       _unit: 'deg',
-      _ref: 'preserve-3d'
+      _ref: 'preserve-3d',
+      _attrs: {
+        value: 0,
+        min: -180,
+        max: 180,
+        'data-key': 'T',
+        step: 1
+      }
     },
     TP: {
       _key: 'perspective',
       _name: '透视',
       _unit: 'px',
-      _ref: 'preserve-3d'
+      _ref: 'preserve-3d',
+      _attrs: {
+        value: 0,
+        min: 0,
+        max: 1000,
+        'data-key': 'T',
+        step: 1
+      }
     },
     TM: {
       _key: 'matrix',
       _name: '矩阵变形',
       _items: {
+        _noRange: true,
         a: {
           _name: '参数a',
-          _value: 1
+          _attrs: {
+            value: 1,
+            type: 'number',
+            'data-key': 'T'
+          }
         },
         c: {
           _name: '参数c',
-          _value: 1
+          _attrs: {
+            value: 1,
+            type: 'number',
+            'data-key': 'T'
+          }
         },
         e: {
           _name: '参数e',
-          _value: 0
+          _attrs: {
+            value: 0,
+            type: 'number',
+            'data-key': 'T'
+          }
         },
         b: {
           _name: '参数b',
-          _value: 0
+          _attrs: {
+            value: 0,
+            type: 'number',
+            'data-key': 'T'
+          }
         },
         d: {
           _name: '参数d',
-          _value: 0
+          _attrs: {
+            value: 0,
+            type: 'number',
+            'data-key': 'T'
+          }
         },
         f: {
           _name: '参数f',
-          _value: 0
+          _attrs: {
+            value: 0,
+            type: 'number',
+            'data-key': 'T'
+          }
         }
       }
     },
@@ -190,22 +321,36 @@
     },
     SP: {
       _key: 'transition-property',
-      _name: '过渡css属性'
+      _name: '过渡css属性',
+      _noRange: true
     },
     SL: {
       _key: 'transition-delay',
       _name: '过渡延迟时间',
-      _unit: 's'
+      _unit: 's',
+      _noRange: true,
+      _attrs: {
+        type: 'number',
+        min: 0,
+        step: 0.1
+      }
     },
     SD: {
       _key: 'transition-duration',
       _name: '过渡时间',
-      _unit: 's'
+      _unit: 's',
+      _noRange: true,
+      _attrs: {
+        type: 'number',
+        min: 0,
+        step: 0.1
+      }
     },
     SF: {
       _key: 'transition-timing-function',
       _name: '过渡效果',
       _items: {
+        _type: 'unique',
         linear: {
           _name: 'linear'
         },
@@ -223,7 +368,9 @@
         },
         'cubic-bezier': {
           _name: 'cubic-bezier(0.500,0.250,0.500,0.750)',
-          _value: '0.500，0.250,0.500,0.750'
+          _attrs: {
+            value: '0.500，0.250,0.500,0.750'
+          }
         }
       }
     },

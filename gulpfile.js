@@ -19,16 +19,18 @@ let sourceDir = './_source';
 let targetDir = '.';
 let jadeConstant = require('./constant.js');
 
-gulp.task('jade', function(){
+gulp.task('jade', function() {
   return gulp.src(sourceDir + '/jade/[^_]*.jade')
-  .pipe(jade({
-    pretty: true,
-    locals: {
-      css3Cons: jadeConstant.css3Cons
-    }
-  }))
-  .pipe(gulp.dest(targetDir))
-  .pipe(browserSync.stream({match: '**/*.html'}))
+    .pipe(jade({
+      pretty: true,
+      locals: {
+        css3Cons: jadeConstant.css3Cons
+      }
+    }))
+    .pipe(gulp.dest(targetDir))
+    .pipe(browserSync.stream({
+      match: '**/*.html'
+    }))
 });
 
 const processors = [
@@ -39,39 +41,43 @@ const processors = [
   calc(),
   autoprefixer({
     browsers: [
-    'ie >= 7',
-    'ie_mob >= 10',
-    'ff >= 30',
-    'chrome >= 34',
-    'safari >= 6',
-    'opera >= 12.1',
-    'ios >= 6',
-    'android >= 4.4',
-    'and_uc 9.9'
-  ],
-  cascade: false
+      'ie >= 7',
+      'ie_mob >= 10',
+      'ff >= 30',
+      'chrome >= 34',
+      'safari >= 6',
+      'opera >= 12.1',
+      'ios >= 6',
+      'android >= 4.4',
+      'and_uc 9.9'
+    ],
+    cascade: false
   })
 ]
 
-gulp.task('pcss', function(){
+gulp.task('pcss', function() {
   return gulp.src(sourceDir + '/postcss/*.pcss')
-  .pipe(postcss(processors, {parser: scss}))
-  .pipe(rename({
-    extname: '.css'
-  }))
-  .pipe(gulp.dest(targetDir + '/css'))
-  .pipe(browserSync.stream({match: '**/*.css'}));
-  })
+    .pipe(postcss(processors, {
+      parser: scss
+    }))
+    .pipe(rename({
+      extname: '.css'
+    }))
+    .pipe(gulp.dest(targetDir + '/css'))
+    .pipe(browserSync.stream({
+      match: '**/*.css'
+    }));
+})
 
 
-gulp.task('default', ['jade', 'pcss'], function(){
+gulp.task('default', ['jade', 'pcss'], function() {
   browserSync.init({
-    server:{
+    server: {
       index: 'index.html'
     }
 
   });
-  gulp.watch(sourceDir + '/jade/*.jade',['jade']);
-  gulp.watch(sourceDir + '/postcss/*.pcss',['pcss']);
+  gulp.watch(sourceDir + '/jade/*.jade', ['jade']);
+  gulp.watch(sourceDir + '/postcss/*.pcss', ['pcss']);
   gulp.watch('./index.html').on('change', browserSync.reload)
 })

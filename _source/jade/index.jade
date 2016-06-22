@@ -55,7 +55,7 @@ body
           circle#css_short_id_1(cx="20", cy="20", r="20", fill="none", stroke="#aaa")
 
 
-  section.popup.Lposf
+  section.popup: .popupbox
     .tab
       ul.tab-nav
         -
@@ -76,30 +76,46 @@ body
       dl.tab-cont
         if css3Cons
           each item, cons in css3Cons
+            -var transfromStyle = 'preserve-3d'
             if cons.length ==1
               dt=item._name
             else if item._name
-              dd
+              dd(class=item._ref == transfromStyle ? 'Ldn 3d' : '2d')
                 if item._items
-                  span.label=item._name
+                  p.tip=item._name
                   ul.list
                     each _item, key in item._items
                       if !(/^_.+$/.test(key))
-                        li
-                          span.item=_item._name
-                          if item._items._type == 'unique'
-                            input(type="radio", name=item._key)
-                else
-                  label=item._name
-                    span.input
-                      if item._value
-                        input(type="text", value=item._value)
-                      else
-                        input(type="text")
-                    span.unit=item._unit
-                  span.range
-                    input(type="range")
+                        li.item
+                          label
 
+                            if item._items._type == 'unique'
+                              input(type="radio", name=item._key, data-origin=cons , value=_item._value || key)&attributes(_item._attrs || {})
+                              span.label=_item._name
+                            else
+                              span.label=_item._name
+                              input(type="text", name=key, data-origin=cons)&attributes(_item._attrs || {})
+                            if _item._unit
+                              span.unit=_item._unit
+                          if item._items._type != 'unique' && _item._noRange == undefined && item._items._noRange != true
+                            span.control
+                              input(type="range")&attributes(_item._attrs || {})
+                else
+                  label
+                    span.label=item._name
+                    span.input
+                      input(type="text", data-origin=cons)&attributes(item._attrs || {})
+                    if item._unit
+                      span.unit=item._unit
+                  if item._noRange != true
+                    span.control
+                      input(type="range")&attributes(item._attrs || {})
+    .btnbox
+      a(href="javascript:;").btn.btn--green 保存
+      a(href="javascript:;").btn.btn--gray 撤消
+    i.close X
+  #scriptArea.Ldn
+    script(src="./js/style.js")
 
 
 

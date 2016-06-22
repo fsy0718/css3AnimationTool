@@ -4,3 +4,123 @@
   display: -ms-flexbox;
   display: flex;
 }
+*{
+  margin: 0;
+  padding: 0;
+}
+ul{
+  list-style:  none outside none;
+}
+.Ldn{
+  display: none;
+}
+.popup{
+  position: fixed;
+  background-color: rgba(0,0,0,0.05);
+  width: 100%;
+  height: 100%;
+  font: 14px/1.5 'Microsoft Yahei';
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+
+}
+.popup .tab-nav{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.popup .popupbox{
+  box-shadow: 0 0 3px rgba(0,0,0,0.3);
+  background-color: #fff;
+  position: relative;
+  padding: 10px;
+  border-radius: 5px;
+}
+.popup .popupbox .list{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-left: 20px;
+  box-sizing: content-box;
+}
+.popup .popupbox .item{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.popup .popupbox .item{
+  width: 33%;
+}
+.popup .popupbox .control{
+  padding-left: 20px;
+}
+.popup .popupbox input[type="text"], .popup .popupbox input[type="number"]{
+  width: 50px;
+}
+.popup .popupbox .tip{
+  display: block;
+  margin: 10px 0;
+  width: 100%;
+}
+.popup .close{
+  font-style: normal;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+.popup .close:hover{
+  opacity: 1;
+}
+.popup .btnbox{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.popup .btnbox .btn{
+  text-decoration: none;
+  padding: 7px 25px;
+  border-radius: 4px;
+}
+.popup .btnbox .btn.btn--green{
+  color: #fff;
+  background-color: rgba(25,105,25,0.6);
+}
+.popup .btnbox .btn.btn--green:hover{
+  background-color: rgba(25,105,25,1);
+}
+.popup .btnbox .btn.btn--gray{
+  background-color: rgba(205,205,205,0.8);
+  color: #999;
+}
+.popup .btnbox .btn.btn--gray:hover{
+  background-color: rgba(205,205,205,1)
+}
+.popup .btnbox .btn + .btn{
+  margin-left: 50px;
+}
