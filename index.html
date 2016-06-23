@@ -33,13 +33,13 @@
     <div class="popupbox">
       <div class="tab">
         <ul class="tab-nav">
-          <li><a data-type="0">变形&amp;过渡</a></li>
+          <li class="active"><a data-type="0">变形&amp;过渡</a></li>
           <li><a data-type="1">自定义动画</a></li>
           <li><a data-type="3">动画库</a></li>
         </ul>
         <dl class="tab-cont">
           <dt>变形</dt>
-          <dd class="2d">
+          <dd class="s2d">
             <p class="tip">变形原点</p>
             <ul class="list">
               <li class="item">
@@ -56,100 +56,100 @@
               </li>
             </ul>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <p class="tip">是否3D呈现</p>
             <ul class="list">
               <li class="item">
                 <label>
-                  <input type="radio" name="transform-style" data-origin="TL" value="flat" checked="checked"><span class="label">2D</span>
+                  <input type="radio" name="TL" data-origin="TL" value="flat" checked="checked"><span class="label">2D</span>
                 </label>
               </li>
               <li class="item">
                 <label>
-                  <input type="radio" name="transform-style" data-origin="TL" value="preserve-3d"><span class="label">3D</span>
+                  <input type="radio" name="TL" data-origin="TL" value="preserve-3d"><span class="label">3D</span>
                 </label>
               </li>
             </ul>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <label><span class="label">X轴旋转</span><span class="input">
                 <input type="text" data-origin="TRX" value="0" min="-360" max="360" data-key="T" step="1"></span><span class="unit">deg</span>
             </label><span class="control">
               <input type="range" value="0" min="-360" max="360" data-key="T" step="1"></span>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <label><span class="label">Y轴旋转</span><span class="input">
                 <input type="text" data-origin="TRY" value="0" min="-360" max="360" data-key="T" step="1"></span><span class="unit">deg</span>
             </label><span class="control">
               <input type="range" value="0" min="-360" max="360" data-key="T" step="1"></span>
           </dd>
-          <dd class="Ldn 3d">
+          <dd class="Ldn s3d">
             <label><span class="label">Z轴旋转</span><span class="input">
                 <input type="text" data-origin="TRZ" value="0" min="-360" max="360" data-key="T" step="1"></span><span class="unit">deg</span>
             </label><span class="control">
               <input type="range" value="0" min="-360" max="360" data-key="T" step="1"></span>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <label><span class="label">X轴缩放</span><span class="input">
                 <input type="text" data-origin="TSX" value="0" min="-5" data-key="T" max="5" step="0.1"></span><span class="unit">倍</span>
             </label><span class="control">
               <input type="range" value="0" min="-5" data-key="T" max="5" step="0.1"></span>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <label><span class="label">Y轴缩放</span><span class="input">
                 <input type="text" data-origin="TSY" value="0" min="-5" data-key="T" max="5" step="0.1"></span><span class="unit">倍</span>
             </label><span class="control">
               <input type="range" value="0" min="-5" data-key="T" max="5" step="0.1"></span>
           </dd>
-          <dd class="Ldn 3d">
+          <dd class="Ldn s3d">
             <label><span class="label">Z轴缩放</span><span class="input">
                 <input type="text" data-origin="TSZ" value="0" min="-5" max="5" data-key="T" step="0.1"></span><span class="unit">倍</span>
             </label><span class="control">
               <input type="range" value="0" min="-5" max="5" data-key="T" step="0.1"></span>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <label><span class="label">X轴位移</span><span class="input">
                 <input type="text" data-origin="TTX" value="0" min="-1000" max="1000" data-key="T" step="1"></span><span class="unit">px</span>
             </label><span class="control">
               <input type="range" value="0" min="-1000" max="1000" data-key="T" step="1"></span>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <label><span class="label">Y轴位移</span><span class="input">
                 <input type="text" data-origin="TTY" value="0" min="-1000" max="1000" data-key="T" step="1"></span><span class="unit">px</span>
             </label><span class="control">
               <input type="range" value="0" min="-1000" max="1000" data-key="T" step="1"></span>
           </dd>
-          <dd class="Ldn 3d">
+          <dd class="Ldn s3d">
             <label><span class="label">Z轴位移</span><span class="input">
                 <input type="text" data-origin="TTZ" value="0" min="-1000" max="1000" data-key="T" step="1"></span><span class="unit">px</span>
             </label><span class="control">
               <input type="range" value="0" min="-1000" max="1000" data-key="T" step="1"></span>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <label><span class="label">X轴倾斜</span><span class="input">
                 <input type="text" data-origin="TKX" value="0" min="-180" max="180" data-key="T" step="1"></span><span class="unit">deg</span>
             </label><span class="control">
               <input type="range" value="0" min="-180" max="180" data-key="T" step="1"></span>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <label><span class="label">Y轴倾斜</span><span class="input">
                 <input type="text" data-origin="TKY" value="0" min="-180" max="180" data-key="T" step="1"></span><span class="unit">deg</span>
             </label><span class="control">
               <input type="range" value="0" min="-180" max="180" data-key="T" step="1"></span>
           </dd>
-          <dd class="Ldn 3d">
+          <dd class="Ldn s3d">
             <label><span class="label">Z轴倾斜</span><span class="input">
                 <input type="text" data-origin="TKZ" value="0" min="-180" max="180" data-key="T" step="1"></span><span class="unit">deg</span>
             </label><span class="control">
               <input type="range" value="0" min="-180" max="180" data-key="T" step="1"></span>
           </dd>
-          <dd class="Ldn 3d">
+          <dd class="Ldn s3d">
             <label><span class="label">透视</span><span class="input">
                 <input type="text" data-origin="TP" value="0" min="0" max="1000" data-key="T" step="1"></span><span class="unit">px</span>
             </label><span class="control">
               <input type="range" value="0" min="0" max="1000" data-key="T" step="1"></span>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <p class="tip">矩阵变形</p>
             <ul class="list">
               <li class="item">
@@ -185,52 +185,52 @@
             </ul>
           </dd>
           <dt></dt>
-          <dd class="2d">
+          <dd class="s2d">
             <label><span class="label">过渡css属性</span><span class="input">
                 <input type="text" data-origin="SP"></span>
             </label>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <label><span class="label">过渡延迟时间</span><span class="input">
                 <input type="number" data-origin="SL" min="0" step="0.1"></span><span class="unit">s</span>
             </label>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <label><span class="label">过渡时间</span><span class="input">
                 <input type="number" data-origin="SD" min="0" step="0.1"></span><span class="unit">s</span>
             </label>
           </dd>
-          <dd class="2d">
+          <dd class="s2d">
             <p class="tip">过渡效果</p>
             <ul class="list">
               <li class="item">
                 <label>
-                  <input type="radio" name="transition-timing-function" data-origin="SF" value="linear"><span class="label">linear</span>
+                  <input type="radio" name="SF" data-origin="SF" value="linear"><span class="label">linear</span>
                 </label>
               </li>
               <li class="item">
                 <label>
-                  <input type="radio" name="transition-timing-function" data-origin="SF" value="ease"><span class="label">ease</span>
+                  <input type="radio" name="SF" data-origin="SF" value="ease"><span class="label">ease</span>
                 </label>
               </li>
               <li class="item">
                 <label>
-                  <input type="radio" name="transition-timing-function" data-origin="SF" value="ease-in"><span class="label">ease-in</span>
+                  <input type="radio" name="SF" data-origin="SF" value="ease-in"><span class="label">ease-in</span>
                 </label>
               </li>
               <li class="item">
                 <label>
-                  <input type="radio" name="transition-timing-function" data-origin="SF" value="ease-out"><span class="label">ease-out</span>
+                  <input type="radio" name="SF" data-origin="SF" value="ease-out"><span class="label">ease-out</span>
                 </label>
               </li>
               <li class="item">
                 <label>
-                  <input type="radio" name="transition-timing-function" data-origin="SF" value="ease-in-out"><span class="label">ease-in-out</span>
+                  <input type="radio" name="SF" data-origin="SF" value="ease-in-out"><span class="label">ease-in-out</span>
                 </label>
               </li>
               <li class="item">
                 <label>
-                  <input type="radio" name="transition-timing-function" data-origin="SF" value="0.500，0.250,0.500,0.750"><span class="label">cubic-bezier(0.500,0.250,0.500,0.750)</span>
+                  <input type="radio" name="SF" data-origin="SF" value="0.500，0.250,0.500,0.750"><span class="label">cubic-bezier(0.500,0.250,0.500,0.750)</span>
                 </label>
               </li>
             </ul>
@@ -243,6 +243,7 @@
     </div>
   </section>
   <div id="scriptArea" class="Ldn">
+    <script src="../constant.js"></script>
     <script src="./js/style.js"></script>
   </div>
 </body>

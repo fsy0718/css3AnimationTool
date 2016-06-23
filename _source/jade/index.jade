@@ -71,7 +71,7 @@ body
             }
           }
         each item, key in navItems
-          li
+          li(class= key==0 ? 'active' : null)
             a(data-type=key)=item.name
       dl.tab-cont
         if css3Cons
@@ -80,7 +80,7 @@ body
             if cons.length ==1
               dt=item._name
             else if item._name
-              dd(class=item._ref == transfromStyle ? 'Ldn 3d' : '2d')
+              dd(class=item._ref == transfromStyle ? 'Ldn s3d' : 's2d')
                 if item._items
                   p.tip=item._name
                   ul.list
@@ -90,7 +90,7 @@ body
                           label
 
                             if item._items._type == 'unique'
-                              input(type="radio", name=item._key, data-origin=cons , value=_item._value || key)&attributes(_item._attrs || {})
+                              input(type="radio", name=cons, data-origin=cons , value=_item._value || key)&attributes(_item._attrs || {})
                               span.label=_item._name
                             else
                               span.label=_item._name
@@ -115,6 +115,7 @@ body
       a(href="javascript:;").btn.btn--gray 撤消
     i.close X
   #scriptArea.Ldn
+    script(src="../constant.js")
     script(src="./js/style.js")
 
 

@@ -27,9 +27,15 @@ $popup.addEventListener('change', function(e){
   }else{
     var $show = $target;
   }
+
   var origin = $show.dataset.origin;
   var name = $show.getAttribute('name');
   var key = $show.dataset.key;
+  if($type == 'radio' && name === 'transform-style'){
+    transformStyleDD3d.forEach(function(ele){
+      ele.classList['toggle']('Ldn');
+    })
+  }
   if(!origin){
     console.error('this elements ' + $target + ' do not have origin');
   }
@@ -65,6 +71,33 @@ $popup.addEventListener('click', function(e){
   }
   //获取属性
   if($target.classList.contains('btn--green')){
-    getTransformStyle();
+    $popup.style.display = 'none';
   }
 })
+
+//var transformStyleItems = [].slice.call(document.querySelectorAll('input[type="number"],input[type="text"],input[type="radio"]:checked'));
+var transformStyleDD3d = [].slice.call(document.querySelectorAll('.s3d'));
+
+
+var _createTransformStyle = function(val,result){
+  if(val && css3Cons[val]){
+    if(css3Cons[val]._attrs && css3Cons[val]._attrs['data-key']){
+      var _result = result[css3Cons[css3Cons[val]._attrs['data-key']]._key];
+      if(!_result){
+        _result = [];
+      }
+
+    }
+  }
+}
+
+var createTransformStyle = function(){
+  var result = {};
+  for(var cssKey in transformStyle){
+    var cssVal = transformStyle[cssKey];
+    if(typeof cssVal === 'string' && css3Cons[cssKey]){
+
+    }
+  }
+}
+
