@@ -74,42 +74,43 @@ body
           li(class= key==0 ? 'active' : null)
             a(data-type=key)=item.name
       dl.tab-cont
-        if css3Cons
-          each item, cons in css3Cons
-            -var transfromStyle = 'preserve-3d'
-            if cons.length ==1
-              dt=item._name
-            else if item._name
-              dd(class=item._ref == transfromStyle ? 'Ldn s3d' : 's2d')
-                if item._items
-                  p.tip=item._name
-                  ul.list
-                    each _item, key in item._items
-                      if !(/^_.+$/.test(key))
-                        li.item
-                          label
+        include _transform.jade
+    //-     if css3Cons
+    //-       each item, cons in css3Cons
+    //-         -var transfromStyle = 'preserve-3d'
+    //-         if cons.length ==1
+    //-           dt=item._name
+    //-         else if item._name
+    //-           dd(class=item._ref == transfromStyle ? 'Ldn s3d' : 's2d')
+    //-             if item._items
+    //-               p.tip=item._name
+    //-               ul.list
+    //-                 each _item, key in item._items
+    //-                   if !(/^_.+$/.test(key))
+    //-                     li.item
+    //-                       label
 
-                            if item._items._type == 'unique'
-                              input(type="radio", name=cons, data-origin=cons , value=_item._value || key)&attributes(_item._attrs || {})
-                              span.label=_item._name
-                            else
-                              span.label=_item._name
-                              input(type="text", name=key, data-origin=cons)&attributes(_item._attrs || {})
-                            if _item._unit
-                              span.unit=_item._unit
-                          if item._items._type != 'unique' && _item._noRange == undefined && item._items._noRange != true
-                            span.control
-                              input(type="range")&attributes(_item._attrs || {})
-                else
-                  label
-                    span.label=item._name
-                    span.input
-                      input(type="text", data-origin=cons)&attributes(item._attrs || {})
-                    if item._unit
-                      span.unit=item._unit
-                  if item._noRange != true
-                    span.control
-                      input(type="range")&attributes(item._attrs || {})
+    //-                         if item._items._type == 'unique'
+    //-                           input(type="radio", name=cons, data-origin=cons , value=_item._value || key)&attributes(_item._attrs || {})
+    //-                           span.label=_item._name
+    //-                         else
+    //-                           span.label=_item._name
+    //-                           input(type="text", name=key, data-origin=cons)&attributes(_item._attrs || {})
+    //-                         if _item._unit
+    //-                           span.unit=_item._unit
+    //-                       if item._items._type != 'unique' && _item._noRange == undefined && item._items._noRange != true
+    //-                         span.control
+    //-                           input(type="range")&attributes(_item._attrs || {})
+    //-             else
+    //-               label
+    //-                 span.label=item._name
+    //-                 span.input
+    //-                   input(type="text", data-origin=cons)&attributes(item._attrs || {})
+    //-                 if item._unit
+    //-                   span.unit=item._unit
+    //-               if item._noRange != true
+    //-                 span.control
+    //-                   input(type="range")&attributes(item._attrs || {})
     .btnbox
       a(href="javascript:;").btn.btn--green 保存
       a(href="javascript:;").btn.btn--gray 撤消

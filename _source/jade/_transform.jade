@@ -1,0 +1,70 @@
+
+
+dd.s2d
+  p.tip 变形原点
+  ul.list
+    each val in ['x', 'y']
+      li.item
+        label
+          span.label=val
+          input(type="text", name=val, data-parent="transform-origin", min="0", max="100", step="1", value="50")
+          span.unit %
+        span.control
+          input(type="range", min="0", max="100", step="1", value="50")
+dd.s2d
+  span 是否3D呈现
+  ul.list
+    each val, key in {'flat': '2d', 'preserve-3d': '3d'}
+      li.item
+        label
+          input(type="radio", name="transform-style", value=key)
+          span.label=val
+-
+  direction = [['旋转','deg','rotate',-360,360],['缩放','倍','scale',-5,5],['位移','px','translate',-1000,1000],['倾斜','deg','skew',-180,180]]
+each val, key in  direction
+  each _val, _key in ['X', 'Y', 'Z']
+    dd(class=_key == 2 ? 's3d Ldn' : 's2d')
+      label
+        span.label #{_val}轴#{val[0]}
+        span.input
+          input(type="text", name=val[2] + _val, data-origin="transform")
+        span.unit=val[1]
+      span.control
+        input(type="range", value="0", min=val[3], max=val[4],step="1")
+
+dd.s2d
+  p.tip 矩阵变形
+  ul.list
+    each val, key in ['a', 'c','e','b','d', 'f']
+      li.item
+        label
+          span.label 参数#{val}
+          input(type="number", name=val, data-parent="matrix", data-origin="transform" value=key < 2 ? 1 : 0)
+dd.s2d
+  label
+    span.label 过渡css属性
+    span.input
+      input(type="text", name="transition-property", value="all")
+dd.s2d
+  label
+    span.label 过渡延迟时间
+    span.input
+      input(type="number",step="0.1", name="transition-delay")
+    span.unit s
+dd.s2d
+  label
+    span.label 过渡时间
+    span.input
+      input(type="number", step="0.1", name="transition-duration")
+    span.unit s
+dd.s2d
+  p.tip 过渡效果
+  ul.list
+    each val, index in ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out', 'cubic-bezier(0.500,0.250,0.500,0.750)']
+      li.item
+        label
+          input(type="radio", name="transition-timing-function", value=val)
+          span.label=val
+
+
+

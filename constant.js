@@ -1,42 +1,50 @@
 
 (function(){
-  var prop = {
-    transform: 'T',
-    'transform-origin': 'TO',
-    'transform-style': 'TS',
-    rotate: 'TR',
-    rotateX: 'TRX',
-    rotateY: 'TRY',
-    rotateZ: 'TRZ',
-    scale: 'TS',
-    scaleX: 'TSX',
-    scaleY: 'TSY',
-    scaleZ: 'TSZ',
-    translate: 'TT',
-    translateX: 'TTX',
-    translateY: 'TTY',
-    translateZ: 'TTZ',
-    skew: 'TK',
-    skewX: 'TKX',
-    skewY: 'TKY',
-    skewZ: 'TKZ',
-    matrix: 'TM',
-    perspective: 'TP',
+  var units = {
+    'transform-origin-x':'%',
+    'transform-origin-y': '%',
+    rotate: 'deg',
+    rotateX: 'deg',
+    rotateY: 'deg',
+    rotateZ: 'deg',
+    translate: 'px',
+    translateX: 'px',
+    translateY: 'px',
+    translateZ: 'px',
+    skew: 'deg',
+    skewX: 'deg',
+    skewY: 'deg',
+    skewZ: 'deg',
+    perspective: 'px',
     transition: 'S',
     'transition-property': 'SP',
-    'transition-duration': 'SD',
-    'transition-delay': 'SL',
-    'transition-timing-function': 'SF',
+    'transition-duration': 's',
+    'transition-delay': 's',
     'animation-name': 'AN',
     'animation-duration': 'AD',
     'animation-timing-function': 'AF',
-    'animation-delay': 'AL',
+    'animation-delay': 's',
     'animation-iteration-count': 'AC',
     'animation-direction': 'AR',
     'animation-fill-mode': 'AM',
     'animation-play-state': 'AS',
     'backface-visibility': 'BS',
     'perspective-origin': 'PO'
+  }
+
+  var defaultVal = {
+    'transform-origin': {
+      x: '50%',
+      y: '50%'
+    },
+    matrix: {
+      a: 1,
+      b: 0,
+      c: 1,
+      d: 0,
+      e: 0,
+      f: 0
+    }
   }
 
 
@@ -413,11 +421,13 @@
   }
   try{
     if(window){
-      window.css3Prop = prop;
+      window.css3Units = units;
+      window.css3TransformDefaultVal = defaultVal;
       window.css3Cons = constant;
     }
   }catch(e){
-    exports.css3Prop = prop;
+    exports.css3Units = units;
     exports.css3Cons = constant;
+    exports.css3TransformDefaultVal = defaultVal;
   }
 })()
