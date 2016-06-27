@@ -4,6 +4,12 @@
   display: -ms-flexbox;
   display: flex;
 }
+.Ldf--space-between{
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
 *{
   margin: 0;
   padding: 0;
@@ -13,6 +19,61 @@ ul{
 }
 .Ldn{
   display: none;
+}
+.logo{
+  font-size: 16px;
+}
+.header{
+  padding: 10px;
+}
+.btn{
+  display: inline-block;
+  padding: 5px 15px;
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+.btn + .btn{
+  margin-left: 5px;
+}
+a.btn{
+  text-decoration: none;
+  color: rgba(13,53,33,1);
+}
+.control{
+  padding: 10px 5px;
+  box-shadow: inset 1px 1px 5px rgba(0,0,0,0.2);
+  margin-right: 30px;
+}
+.control .btnbox{
+  border-bottom: solid 1px rgba(0,0,0,.2);
+  padding-bottom: 10px;
+  font-size: 12px;
+}
+.control .treebox{
+  box-sizing: border-box;
+  padding: 20px;
+}
+.tree{
+  line-height: 1.5;
+  font-size: 14px;
+}
+.tree .tree-item, .tree .tree-dir{
+  color: rgba(0,0,0,.3)
+}
+.tree .tree-item:hover, .tree .tree-item:active{
+  color: rgba(0,0,0,1);
+}
+.tree .tree-dir:active{
+  color: rgba(0,0,0,1);
+}
+.tree > .tree-item-box {
+  margin: 5px 0;
+}
+.tree .tree-item-box{
+  cursor: default;
+}
+.tree .tree-sub .tree-item-box{
+  padding-left: 20px;
 }
 .popup{
   position: fixed;
@@ -34,7 +95,9 @@ ul{
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-
+}
+.popup.Ldn{
+  display: none;
 }
 .popup .tab-nav{
   display: -webkit-box;

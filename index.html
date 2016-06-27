@@ -7,8 +7,9 @@
 </html>
 <body>
   <header class="header">
-    <div class="box Ldf">
+    <div class="box Ldf Ldf--space-between">
       <h1 class="logo">css3 Animation</h1>
+      <div class="btnbox"><a href="javascript:;" class="btn btn-run">run</a></div>
     </div>
   </header>
   <section class="content">
@@ -16,11 +17,36 @@
       <section class="control">
         <nav class="btnbox"><a href="javascript:;" class="btn btn-add">添加</a><a href="javascript:;" class="btn btn-group">合并</a><a href="javascript:;" class="btn btn-import">导入</a><a href="javascript:;" class="btn btn-delete">删除</a>
         </nav>
-        <ul class="resource list">
-          <li class="item"><span>搜索图标</span></li>
-          <li class="item"><span>搜索栏</span></li>
-          <li class="item"><span>下拉选择</span></li>
-        </ul>
+        <div class="treebox"></div>
+        <!--
+        ul.tree
+          -
+            resources = [
+              {
+                title: '搜索图标',
+                id: 'css_short_id_2'
+              },{
+                title: '搜索栏',
+                id: 'css_short_id_1'
+              },{
+                title: '下拉选择',
+                id: 'css_short_id_3',
+                p: 'css_short_id_1'
+              }
+            ]
+          each resource, index in resources
+            li.tree-item-box
+              .tree-item
+                span=resource.title
+          li.tree-item-box
+            .tree-dir
+              span 这是一个目录
+              ul.tree-sub
+                li.tree-item-box
+                  .tree-item
+                    span 这是一个子文件
+        
+        -->
       </section>
       <section class="main">
         <svg id="print" width="800" height="600">
@@ -29,7 +55,7 @@
       </section>
     </div>
   </section>
-  <section class="popup">
+  <section class="popup Ldn">
     <div class="popupbox">
       <div class="tab">
         <ul class="tab-nav">
@@ -218,6 +244,9 @@
   </section>
   <div id="scriptArea" class="Ldn">
     <script src="../constant.js"></script>
+    <script src="./js/dom.js"></script>
+    <script src="./js/tree.js"></script>
     <script src="./js/style.js"></script>
+    <script src="./js/app.js"></script>
   </div>
 </body>

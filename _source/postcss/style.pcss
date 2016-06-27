@@ -1,6 +1,9 @@
 .Ldf{
   display: flex;
 }
+.Ldf--space-between{
+  justify-content: space-between;
+}
 *{
   margin: 0;
   padding: 0;
@@ -13,6 +16,64 @@ ul{
   display: none;
 }
 
+.logo{
+  font-size: 16px;
+}
+.header{
+  padding: 10px;
+}
+.btn{
+  display: inline-block;
+  padding: 5px 15px;
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 4px;
+  & + &{
+    margin-left: 5px;
+  }
+  a&{
+    text-decoration: none;
+    color: rgba(13,53,33,1);
+  }
+}
+
+.control{
+  padding: 10px 5px;
+  box-shadow: inset 1px 1px 5px rgba(0,0,0,0.2);
+  margin-right: 30px;
+  .btnbox{
+    border-bottom: solid 1px rgba(0,0,0,.2);
+    padding-bottom: 10px;
+    font-size: 12px;
+  }
+  .treebox{
+    box-sizing: border-box;
+    padding: 20px;
+  }
+}
+.tree{
+  line-height: 1.5;
+  font-size: 14px;
+  .tree-item,.tree-dir{
+    color: rgba(0,0,0,.3)
+  }
+  .tree-item:hover,.tree-item:active{
+    color: rgba(0,0,0,1);
+  }
+  .tree-dir:active{
+    color: rgba(0,0,0,1);
+  }
+  > .tree-item-box {
+    margin: 5px 0;
+  }
+  .tree-item-box{
+    cursor: default;
+  }
+  .tree-sub{
+    .tree-item-box{
+      padding-left: 20px;
+    }
+  }
+}
 .popup{
   position: fixed;
   background-color: rgba(0,0,0,0.05);
@@ -24,6 +85,9 @@ ul{
   display: flex;
   justify-content: center;
   align-items: center;
+  &.Ldn{
+    display: none;
+  }
   .tab-nav{
     display: flex;
     margin-bottom: 20px;
@@ -154,7 +218,6 @@ ul{
       }
     }
   }
-
 }
 
 ::-webkit-scrollbar{

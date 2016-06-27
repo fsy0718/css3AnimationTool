@@ -32,21 +32,6 @@
     'perspective-origin': 'PO'
   }
 
-  var defaultVal = {
-    'transform-origin': {
-      x: '50%',
-      y: '50%'
-    },
-    matrix: {
-      a: 1,
-      b: 0,
-      c: 1,
-      d: 0,
-      e: 0,
-      f: 0
-    }
-  }
-
 
   var constant = {
     T: {
@@ -422,12 +407,10 @@
   try{
     if(window){
       window.css3Units = units;
-      window.css3TransformDefaultVal = defaultVal;
       window.css3Cons = constant;
     }
   }catch(e){
     exports.css3Units = units;
     exports.css3Cons = constant;
-    exports.css3TransformDefaultVal = defaultVal;
   }
 })()
