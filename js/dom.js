@@ -12,19 +12,19 @@
       typeStr: selectorTypes[type]
     }
   }
-  win.HTMLElement.prototype.hasClass = function(className){
+  win.SVGElement.prototype.hasClass = win.HTMLElement.prototype.hasClass = function(className){
     if(className){
       return this.classList.contains(className);
     }
     return false;
   };
-  win.HTMLElement.prototype.addClass = function(className){
+  win.SVGElement.prototype.addClass = win.HTMLElement.prototype.addClass = function(className){
     if(!this.hasClass(className)){
       this.classList.add(className);
     }
     return this;
   }
-  win.HTMLElement.prototype.removeClass = function(className){
+  win.SVGElement.prototype.removeClass = win.HTMLElement.prototype.removeClass = function(className){
     this.classList.remove(className);
     return this;
   }

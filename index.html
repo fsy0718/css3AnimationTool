@@ -9,13 +9,13 @@
   <header class="header">
     <div class="box Ldf Ldf--space-between">
       <h1 class="logo">css3 Animation</h1>
-      <div class="btnbox"><a href="javascript:;" class="btn btn-run">run</a></div>
+      <div class="btnbox"><a href="javascript:;" class="btn btn__run">run</a></div>
     </div>
   </header>
   <section class="content">
     <div class="box Ldf">
       <section class="control">
-        <nav class="btnbox"><a href="javascript:;" class="btn btn-add">添加</a><a href="javascript:;" class="btn btn-group">合并</a><a href="javascript:;" class="btn btn-import">导入</a><a href="javascript:;" class="btn btn-delete">删除</a>
+        <nav class="btnbox"><a href="javascript:;" class="btn btn__add">添加</a><a href="javascript:;" class="btn btn__group">合并</a><a href="javascript:;" class="btn btn__import">导入</a><a href="javascript:;" class="btn btn__delete">删除</a>
         </nav>
         <div class="treebox"></div>
         <!--
@@ -45,13 +45,10 @@
                 li.tree-item-box
                   .tree-item
                     span 这是一个子文件
-        
         -->
       </section>
       <section class="main">
-        <svg id="print" width="800" height="600">
-          <circle id="css_short_id_1" cx="20" cy="20" r="20" fill="none" stroke="#aaa"></circle>
-        </svg>
+        <svg id="canvas" width="600" height="800"></svg>
       </section>
     </div>
   </section>
@@ -247,6 +244,7 @@
     <script src="./js/dom.js"></script>
     <script src="./js/tree.js"></script>
     <script src="./js/style.js"></script>
+    <script src="./js/snap.svg/snap.svg.js"></script>
     <script src="./js/app.js"></script>
   </div>
 </body>

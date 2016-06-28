@@ -3,19 +3,30 @@ var $popup = document.querySelector('.popup');
 var currentNamespace = null;
 //引入简单树
 var $tree = document.querySelector('.treebox');
+
+//添加右侧资源
 var tree = new Tree(null,
   {
     dom: $tree,
     contextmenuFn: function(e,target,data){
-      currentNamespace = data.id;
+      currentNamespace = 'tree_' + data.id;
       $popup.removeClass('Ldn');
     }
 });
-tree.addTreeItem('添加一个搜索图标')
 
+var snap = Snap(document.querySelector('#canvas'));
+var t = tree.addTreeItem('测试资源');
+snap.paper.el('circle',{
+  r: 30,
+  cx: 150,
+  cy: 50,
+  fill: 'yellow'
+}).addClass('tree_' + t.id);
+
+
+
+//css规则构造函数
 var styles = new StyleFn();
-
-
 //var transformStyleItems = [].slice.call(document.querySelectorAll('input[type="number"],input[type="text"],input[type="radio"]:checked'));
 var transformStyleDD3d = [].slice.call(document.querySelectorAll('.s3d'));
 var transformStyleDD3dIpt = [];
@@ -58,7 +69,7 @@ $popup.addEventListener('change', function(e){
     //2d时，需要删除3d的属性
     var is2D = _value === 'flat';
     if(is2D){
-      changeTransformStyle();
+      deleteTransform3DStyle();
 
     }
     transformStyleDD3d.forEach(function(ele, index){
@@ -69,42 +80,7 @@ $popup.addEventListener('change', function(e){
       }
     });
   }
-/*  var result;
-  var unit = css3Units[name];
-  if(origin){
-    styles[origin] ? null : styles[origin] = {};
-    result = styles[origin]
-    //设置顺序
-    if(origin === 'transform'){
-      var _name = parent ? parent : name
-      if(!result._index){
-        result._index = [_name];
-      }else{
-        result._index.indexOf(_name) === -1 ? result._index.push(_name) : null;
-      }
-    }
-  }else{
-    result = styles;
-  }
-
-  if(parent){
-    unit = css3Units[parent + '-' + name]
-    result[parent] ? null : result[parent] = {};
-    result = result[parent];
-  }
-
-  if(unit){
-    result[name] = _value + unit;
-  }else if(/^\s*\d+\s*$/.test(_value)){
-    result[name] = Number(_value);
-  }else{
-    result[name] = _value;
-  }
-  //如果是matrix
-  if(parent === 'matrix' && Object.keys(result).length < 6){
-    styles.transform.matrix = Object.assign({}, css3TransformDefaultVal.matrix, result);
-  }*/
-  styles.addStyle(currentNamespace, name, _value, parent, origin);
+  styles.addCss(currentNamespace, name, _value, parent, origin);
   console.log(styles);
 })
 
@@ -116,76 +92,57 @@ $popup.addEventListener('click', function(e){
   }
   //获取属性
   if($target.classList.contains('btn--green')){
+    var css = styles.getCssByNamespaceWithoutSelector(currentNamespace);
+    css = '.' + currentNamespace + '.animated {\n' + css + '}\n';
+    setHeadStyle(css);
     $popup.style.display = 'none';
-    var cssString = createTransformStyle();
-    rInterface('css_short_id_1', cssString);
   }
 })
 
-
-
-var changeTransformStyle = function(){
-  if(styles.transform){
-    styles.transform._index = styles.transform._index.filter(function(z){
+//删除3d特有的transform规则
+var deleteTransform3DStyle = function(){
+  var transformStyle = styles.getCssObjByNamespace(currentNamespace).transform;
+  if(transformStyle){
+   transformStyle.__index.forEach(function(z){
       //如果是3d独有属性
       if(isTransformStyleDD3dZ.test(z)){
-        delete styles.transform[z];
-        return false;
+        styles.delCss(currentNamespace, z, null, 'transform');
       }
       return true;
     })
   }
 }
 
-var createTransformStyle = function(){
-  var result = [];
-  for(var cssKey in styles){
-    var cssVal = styles[cssKey];
-    if(cssVal && typeof cssVal !== 'object'){
-      result.push(cssKey + ':' + cssVal);
-    }else{
-      if(cssVal._index){
-        var cssString = cssKey + ':';
-        cssVal._index.forEach(function(key,index){
-          if(cssVal[key] && typeof cssVal[key] !== 'object'){
-            cssString += ' ' + key + '(' + cssVal[key] + ')'
-          }else{
-            if(css3TransformDefaultVal[key]){
-              var _val = Object.assign({}, css3TransformDefaultVal[key], cssVal[key]);
-            }
-            var _cssString = (parseStyle[key] || parseStyle.default)(_val,key)
-            _cssString ? cssString += ' ' + _cssString : null;
-          }
-        })
-        result.push(cssString);
-      }else{
-        if(css3TransformDefaultVal[cssKey]){
-          var _val = Object.assign({}, css3TransformDefaultVal[cssKey], cssVal);
-        }
-        var _cssString = parseStyle[cssKey] || parseStyle.default(_val, cssKey)
-        _cssString && result.push(_cssString);
-      }
-    }
-
-  }
-  return result.join(';\n') + ';\n';
-}
-
 var css3Style = document.querySelector('#css3Style');
 
-var createStyleTag = function(key, val){
+var setHeadStyle = function(val){
   if(!css3Style){
     var css3Style = document.createElement('style');
+    css3Style.id = 'css3Style';
     document.head.appendChild(css3Style);
   }
-  css3Style.innerHTML = '#' + key + '.animated{\n' + val + '}\n';
+  css3Style.innerHTML = val;
 }
 
-var rInterface = function(key,val,cb){
-  createStyleTag(key,val);
-}
+var $headBtnBox = document.querySelector('.header .btnbox');
+var timer = null;
+$headBtnBox.addEventListener('click', function(e){
+  var target = e.target;
+  if(target.hasClass('btn__run')){
+    //TODO 此处只调试一个，后面再修改
+    var $dom = document.querySelector('.' + currentNamespace)
+    if($dom){
+      $dom.style = null;
+      $dom.removeClass('animated');
+      clearTimeout(timer);
+      timer = setTimeout(function(){
+        $dom.addClass('animated');
+      },300)
+
+    }
+  }
+},false)
 
 
-document.querySelector('.btn-run').onclick = function(){
-  document.querySelector('#css_short_id_1').classList.add('animated');
-}
+
+
