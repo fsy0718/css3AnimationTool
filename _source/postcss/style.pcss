@@ -74,14 +74,33 @@ ul{
     }
   }
 }
+.canvas{
+  .css3_items{
+    position: relative;
+    .css3_item_origin{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      margin-left: -5px;
+      margin-right: -5px;
+      background: radial-gradient(rgba(0,0,255,0.4), rgba(255,0,0,0.4));
+      border: solid 1px red;
+      cursor: move;
+      border-radius: 50%;
+    }
+  }
+}
+
 .popup{
   position: fixed;
   background-color: rgba(0,0,0,0.05);
-  width: 100%;
+  width: 45%;
   height: 100%;
   font: 14px/1.5 'Microsoft Yahei';
   top: 0;
-  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -217,6 +236,20 @@ ul{
         margin-left: 50px;
       }
     }
+  }
+}
+.popup__file{
+  .popupbox{
+    width: 90%;
+  }
+  .preview{
+    width: 100%;
+    background-color: #fff;
+    min-height: 400px;
+    margin-bottom: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

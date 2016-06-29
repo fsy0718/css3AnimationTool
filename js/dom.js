@@ -3,6 +3,7 @@
   var body = document.body;
   var reg = /^\s*([\.|#])?([^\d].+)/;
   var selectorTypes = ['tag', 'class', 'id'];
+  var cache = {};
   var parseSelector = function(selector){
     var matches = reg.exec(selector);
     var type = matches[1] === '.' ? 1 : matches[1] === '#' ? 2 : 0;
@@ -11,6 +12,42 @@
       selector: matches[2],
       typeStr: selectorTypes[type]
     }
+  }
+
+  var elemdisplay = {
+    'html': 'block',
+    'body': 'block'
+  }
+  var actualDisplay = function(name){
+    var dom = document.createElement(name);
+    document.body.appendChild(dom);
+    var display = dom.css('display');
+    elemdisplay[name] = display;
+    document.body.removeChild(dom);
+    return display;
+
+  }
+
+  var showHide = function(show){
+    var id = this.dataset.__index;
+    if(!id){
+      id = this.dataset.__index = Date.now();
+    }
+    if(!cache[id]){
+      cache[id] = {}
+    }
+    var display = this.style.display;
+    if(show){
+      if(cache[id].olddisplay){
+        display = cache[id].olddisplay;
+      }else{
+        display = cache[id].olddisplay = actualDisplay(this.nodeName);
+      }
+    }
+    else{
+      this.style.display = 'none';
+    }
+    return this;
   }
   win.SVGElement.prototype.hasClass = win.HTMLElement.prototype.hasClass = function(className){
     if(className){
@@ -57,4 +94,19 @@
     }
     return body;
   }
+  win.HTMLElement.prototype.show = function(){
+    return showHide.call(this,true);
+  }
+  win.HTMLElement.prototype.hide = function(){
+    return showHide.call(this);
+  }
+  win.SVGElement.prototype.css = win.HTMLElement.prototype.css = function(key, val){
+    if(!val){
+      return win.getComputedStyle(this,null)[key];
+    }
+    this.style[key] = val;
+    return this;
+  }
+
+
 })(window)

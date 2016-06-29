@@ -96,6 +96,9 @@
       return this;
     },
     hasChange: function(key, namespace) {
+      if(!this.caches[namespace]){
+        return false;
+      }
       var list = this.caches[namespace].__hasChanged;
       if(!key){
         return list.length !== 0
@@ -193,7 +196,7 @@
       var cacheName = origin || parent || key;
       //更新缓存
       caches.addChange(cacheName, namespace)
-      return this;
+      return source;
     },
 
     /**
@@ -323,6 +326,19 @@
       //return result.join(';\n') + ';\n';
       return result;
     },
+
+    getStyleByFilter: function(namespace, name, parent, origin){
+      var styleObj = this.getStyleObjByNamespace(namespace);
+        if(origin){
+          return {name: origin, rule: styleObj[origin]};
+        }
+        else if(parent){
+          return {name: parent, rule: styleObj[parent]};
+        }else{
+          return {name: name, rule: styleObj[name]};
+        }
+    },
+
     /**
      * 获取指定空间的css规则
      * @param  {String} namespace 空间

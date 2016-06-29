@@ -75,14 +75,31 @@ a.btn{
 .tree .tree-sub .tree-item-box{
   padding-left: 20px;
 }
+.canvas .css3_items{
+  position: relative;
+}
+.canvas .css3_items .css3_item_origin{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin-left: -5px;
+  margin-right: -5px;
+  background: -webkit-radial-gradient(rgba(0,0,255,0.4), rgba(255,0,0,0.4));
+  background: radial-gradient(rgba(0,0,255,0.4), rgba(255,0,0,0.4));
+  border: solid 1px red;
+  cursor: move;
+  border-radius: 50%;
+}
 .popup{
   position: fixed;
   background-color: rgba(0,0,0,0.05);
-  width: 100%;
+  width: 45%;
   height: 100%;
   font: 14px/1.5 'Microsoft Yahei';
   top: 0;
-  left: 0;
+  right: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -262,6 +279,27 @@ a.btn{
 }
 .popup .btnbox .btn + .btn{
   margin-left: 50px;
+}
+.popup__file .popupbox{
+  width: 90%;
+}
+.popup__file .preview{
+  width: 100%;
+  background-color: #fff;
+  min-height: 400px;
+  margin-bottom: 100px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 ::-webkit-scrollbar{
   width: 8px;

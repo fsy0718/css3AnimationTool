@@ -22,7 +22,11 @@ dd.s2d
 -
   direction = [['旋转','deg','rotate',-360,360],['缩放','倍','scale',-5,5],['位移','px','translate',-1000,1000],['倾斜','deg','skew',-180,180]]
 each val, key in  direction
-  each _val, _key in ['X', 'Y', 'Z']
+  if key == 3
+    -var _dir = ['X', 'Y']
+  else
+    -var _dir = ['X', 'Y', 'Z']
+  each _val, _key in _dir
     dd(class=_key == 2 ? 's3d Ldn' : 's2d')
       label
         span.label #{_val}轴#{val[0]}
