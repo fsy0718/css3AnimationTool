@@ -15,6 +15,10 @@ var controlBtnEvents = function() {
     if(target.hasClass('btn__run')){
       app.trigger('animationRun');
     }
+    if(target.hasClass('btn__export')){
+      target.setAttribute('download', 'download.css');
+      target.setAttribute('href', 'data: text/css;charset=utf-8,body{color:red}');
+    }
   })
 }
 
@@ -176,9 +180,10 @@ var popupFileShowHandler = function(){
 }
 
 var popupFileEvent = function(context) {
+  var hasError = false;
   context.$popupFile.addEventListener('click', function(e){
     var target = e.target;
-    if(target.hasClass('btn--green')){
+    if(target.hasClass('btn--green') && !hasError){
       var a = popupFilePreview.children[0];
       if(a){
         popupFileArg.file = a;
@@ -222,11 +227,13 @@ var popupFileEvent = function(context) {
       var val = ($target.value || '').trim();
       if(val){
         if(name === 'namespace'){
-          if(namespaceReg.test(val)){
+          if(namespaceReg.test(val) && context.classes._classList.indexOf(val) === -1){
             popupFileArg.namespace = val;
+            hasError = false;
             popupFileIptClass.removeClass('error');
           }else{
             popupFileIptClass.addClass('error');
+            hasError = true;
           }
         }
         if(name === 'name'){
@@ -328,6 +335,7 @@ var initFn = function() {
     $dom.className = 'css3_items ' + self.classes[tree.id].namespace;
     $dom.appendChild(obj.file);
     self.$canvas.appendChild($dom);
+    obj.namespace && self.classes._classList.push(obj.namespace);
     self.trigger('popupFileHide');
     //默认全部添加进动画 TODO后期需要做分组动画演示
     self.animationList.push(tree.id);
@@ -404,7 +412,7 @@ var app = {
   trigger: trigger,
   on: on,
   events: {},
-  classes: {}
+  classes: {_classList:[]}
 };
 
 app.init();
