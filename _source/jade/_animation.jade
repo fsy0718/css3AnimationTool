@@ -1,0 +1,101 @@
+-
+  animations = [{
+    name: '基本效果',
+    items: {
+      flash: "闪光灯",
+      bounce: "弹起",
+      shake: "摇摆",
+      tada: "秋千",
+      swing: "swing",
+      wobble: "疯狂摆动",
+      pulse: "脉冲"
+    }
+  }, {
+    name: '翻转',
+    items: {
+      flip: "翻转",
+      flipInX: "X轴淡入",
+      flipOutX: "X轴淡出",
+      flipInY: "Y轴淡入",
+      flipOutY: "Y轴淡出"
+    }
+  }, {
+    name: '淡入效果',
+    items: {
+      fadeIn: "淡入",
+      fadeInUp: "下方淡入",
+      fadeInDown: "上方淡入",
+      fadeInLeft: "左边淡入",
+      fadeInRight: "右边淡入",
+      fadeInUpBig: "底部淡入",
+      fadeInDownBig: "顶部淡入",
+      fadeInLeftBig: "页面左边淡入",
+      fadeInRightBig: "页面右边淡入"
+    }
+  }, {
+    name: "淡出效果",
+    items: {
+      fadeOut: "淡出",
+      fadeOutUp: "向上淡出",
+      fadeOutDown: "向下淡出",
+      fadeOutLeft: "向左淡出",
+      fadeOutRight: "向右淡出",
+      fadeOutUpBig: "顶部淡出",
+      fadeOutDownBig: "底部淡出",
+      fadeOutLeftBig: "页面左边淡出",
+      fadeOutRightBig: "页面右边淡出"
+    }
+  }, {
+    name: "弹跳进入效果",
+    items: {
+      bounceIn: "bounceIn",
+      bounceInDown: "bounceInDown",
+      bounceInUp: "bounceInUp",
+      bounceInLeft: "bounceInLeft",
+      bounceInRight: "bounceInRight"
+    }
+  }, {
+    name: "弹跳退出效果",
+    items: {
+      bounceOut: "bounceOut",
+      bounceOutDown: "bounceOutDown",
+      bounceOutUp: "bounceOutUp",
+      bounceOutLeft: "bounceOutLeft",
+      bounceOutRight: "bounceOutRight"
+    }
+  }, {
+    name: "旋转进入效果",
+    items: {
+      rotateIn: "rotateIn",
+      rotateInDownLeft: "rotateInDownLeft",
+      rotateInDownRight: "rotateInDownRight",
+      rotateInUpLeft: "rotateInUpLeft",
+      rotateInUpRight: "rotateInUpRight"
+    }
+  }, {
+    name: "旋转退出效果",
+    items: {
+      rotateOut: "rotateOut",
+      rotateOutDownLeft: "rotateOutDownLeft",
+      rotateOutDownRight: "rotateOutDownRight",
+      rotateOutUpLeft: "rotateOutUpLeft",
+      rotateOutUpRight: "rotateOutUpRight"
+
+    }
+  }, {
+    name: "特效",
+    items: {
+      hinge: "hinge",
+      rollIn: "rollIn",
+      rollOut: "rollOut"
+    }
+  }]
+
+for animation in animations
+  dt.sort-title
+    span=animation.name
+  if animation.items
+    dd.sort-content
+      for name, key in animation.items
+        a(href="javascript:;", data-key=key).btn.btn__animate=name
+

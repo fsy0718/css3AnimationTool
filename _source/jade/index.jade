@@ -3,6 +3,7 @@ html
   head
     title css3动画交互调试加强版
     link(href="./css/style.css", rel="stylesheet", type="text/css")
+    link(href="./css/animate.css", rel="stylesheet", type="text/css")
 
 body
   header.header
@@ -82,103 +83,13 @@ body
           li(class= key==0 ? 'active tab-nav-item' : 'tab-nav-item', data-index=key)
             a.tab-nav-item-a=item.name
       ul.tab-cont
-        li.tab-cont-item(data-index="0")
+        li.tab-cont-item.active(data-index="0")
           dl
             include _transform.jade
         li.tab-cont-item(data-index="1")
         li.tab-cont-item(data-index="2")
-          -
-            animation = [{
-              name: '基本效果',
-              items: {
-                flash: "闪光灯",
-                bounce: "弹起",
-                shake: "摇摆",
-                tada: "秋千",
-                swing: "swing",
-                wobble: "疯狂摆动",
-                pulse: "脉冲"
-              }
-            }, {
-              name: '翻转',
-              items: {
-                flip: "翻转",
-                flipInX: "X轴淡入",
-                flipOutX: "X轴淡出",
-                flipInY: "Y轴淡入",
-                flipOutY: "Y轴淡出"
-              }
-            }, {
-              name: '淡入效果',
-              items: {
-                fadeIn: "淡入",
-                fadeInUp: "下方淡入",
-                fadeInDown: "上方淡入",
-                fadeInLeft: "左边淡入",
-                fadeInRight: "右边淡入",
-                fadeInUpBig: "底部淡入",
-                fadeInDownBig: "顶部淡入",
-                fadeInLeftBig: "页面左边淡入",
-                fadeInRightBig: "页面右边淡入"
-              }
-            }, {
-              name: "淡出效果",
-              items: {
-                fadeOut: "淡出",
-                fadeOutUp: "向上淡出",
-                fadeOutDown: "向下淡出",
-                fadeOutLeft: "向左淡出",
-                fadeOutRight: "向右淡出",
-                fadeOutUpBig: "顶部淡出",
-                fadeOutDownBig: "底部淡出",
-                fadeOutLeftBig: "页面左边淡出",
-                fadeOutRightBig: "页面右边淡出"
-              }
-            }, {
-              name: "弹跳进入效果",
-              items: {
-                bounceIn: "bounceIn",
-                bounceInDown: "bounceInDown",
-                bounceInUp: "bounceInUp",
-                bounceInLeft: "bounceInLeft",
-                bounceInRight: "bounceInRight"
-              }
-            }, {
-              name: "弹跳退出效果",
-              items: {
-                bounceOut: "bounceOut",
-                bounceOutDown: "bounceOutDown",
-                bounceOutUp: "bounceOutUp",
-                bounceOutLeft: "bounceOutLeft",
-                bounceOutRight: "bounceOutRight"
-              }
-            }, {
-              name: "旋转进入效果",
-              items: {
-                rotateIn: "rotateIn",
-                rotateInDownLeft: "rotateInDownLeft",
-                rotateInDownRight: "rotateInDownRight",
-                rotateInUpLeft: "rotateInUpLeft",
-                rotateInUpRight: "rotateInUpRight"
-              }
-            }, {
-              name: "旋转退出效果",
-              items: {
-                rotateOut: "rotateOut",
-                rotateOutDownLeft: "rotateOutDownLeft",
-                rotateOutDownRight: "rotateOutDownRight",
-                rotateOutUpLeft: "rotateOutUpLeft",
-                rotateOutUpRight: "rotateOutUpRight"
-
-              }
-            }, {
-              name: "特效",
-              items: {
-                hinge: "hinge",
-                rollIn: "rollIn",
-                rollOut: "rollOut"
-              }
-            }]
+          dl.animate-library
+            include _animation.jade
 
     .btnbox
       a(href="javascript:;").btn.btn--green 保存
@@ -186,10 +97,49 @@ body
     i.close X
 
   section.popup.popup__file.Ldn: .popupbox
+    ul.list
+      li
+        label.label
+          span.tip 标识(class)
+          span.input: input(type="text", name="namespace", placeholder="用来标识资源，具有惟一性，可选")
+      li
+        label.label
+          span.tip 名称(name)
+          span.input: input(type="text", name="name", placeholder="用来展示资源名称，可选")
+      li
+        label.label
+          span.tip 资源类型
+          span.input: select
+            option(value="circle") 圆
+            option(value="rect") 矩形
+            option(value="text") 文字
+            option(value="param") 提供参数
+            option(value="file") 导入文件[svg或图片]
+      li.import-area.Ldn
+        label.label
+          span.tip 导入文件
+          span.input
+            input(type="file")
     .preview
-    input(type="file")
     .btnbox
       a(href="javascript:;").btn.btn--green 确认
+    i.close X
+
+  section.popup__contextmenu: .popupbox
+    -
+      menu = [
+        {
+          key: 'editor_animation',
+          name: '编辑动画'
+        },{
+          key: 'editor_id',
+          name: '编辑标识'
+        }
+      ]
+    ul.menu
+      for item, key in menu
+        li.item(data-key=item.key)=item.name
+
   #scriptArea.Ldn
     script(src="../constant.js")
     script(src="./js/dom.js")

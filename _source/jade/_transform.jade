@@ -1,7 +1,6 @@
 
-
-dd.s2d
-  p.tip 变形原点
+dt 变形原点
+dd.Ldf.s2d
   ul.list
     each val in ['x', 'y']
       li.item
@@ -11,9 +10,9 @@ dd.s2d
           span.unit %
         span.control
           input(type="range", min="0", max="100", step="1", value="50")
-dd.s2d
-  span 是否3D呈现
-  ul.list
+dd.Ldf.s2d
+  span.flex-grow-4 是否3D呈现
+  ul.list.flex-grow-2
     each val, key in {'flat': '2d', 'preserve-3d': '3d'}
       li.item
         label
@@ -27,42 +26,42 @@ each val, key in  direction
   else
     -var _dir = ['X', 'Y', 'Z']
   each _val, _key in _dir
-    dd(class=_key == 2 ? 's3d Ldn' : 's2d')
-      label
+    dd.Ldf(class=_key == 2 ? 's3d Ldn' : 's2d')
+      label.flex-grow-2
         span.label #{_val}轴#{val[0]}
         span.input
           input(type="text", name=val[2] + _val, data-origin="transform")
         span.unit=val[1]
-      span.control
+      span.control.flex-grow-4
         input(type="range", value="0", min=val[3], max=val[4],step="1")
-
-dd.s2d
-  p.tip 矩阵变形
+dt 矩阵变形
+dd.Ldf.s2d
   ul.list
     each val, key in ['a', 'c','e','b','d', 'f']
       li.item
         label
           span.label 参数#{val}
           input(type="number", name=val, data-parent="matrix", data-origin="transform" value=key < 2 ? 1 : 0)
-dd.s2d
+dd.Ldf.s2d
   label
     span.label 过渡css属性
     span.input
       input(type="text", name="transition-property", value="all")
-dd.s2d
+dd.Ldf.s2d
   label
     span.label 过渡延迟时间
     span.input
       input(type="number",step="0.1", name="transition-delay")
     span.unit s
-dd.s2d
+dd.Ldf.s2d
   label
     span.label 过渡时间
     span.input
       input(type="number", step="0.1", name="transition-duration")
     span.unit s
-dd.s2d
-  p.tip 过渡效果
+dt 过渡效果
+dd.Ldf.s2d
+
   ul.list
     each val, index in ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out', 'cubic-bezier(0.500,0.250,0.500,0.750)']
       li.item

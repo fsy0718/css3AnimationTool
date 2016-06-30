@@ -14,6 +14,7 @@
     }
   }
 
+  var wordSpaceReg = /\b\s+\b/;
   var elemdisplay = {
     'html': 'block',
     'body': 'block'
@@ -43,26 +44,45 @@
       }else{
         display = cache[id].olddisplay = actualDisplay(this.nodeName);
       }
+    }else{
+      display = 'none';
     }
-    else{
-      this.style.display = 'none';
-    }
+    this.style.display = display;
     return this;
   }
-  win.SVGElement.prototype.hasClass = win.HTMLElement.prototype.hasClass = function(className){
+  var parseClassName = function(className){
     if(className){
-      return this.classList.contains(className);
+      return className.split(wordSpaceReg);
+    }
+  }
+  var hasClass = function(className,el){
+    className = parseClassName(className);
+    if(className){
+      var c1 = [];
+      var c2 = [];
+      className.forEach(function(_c){
+        el.classList.contains(_c) ? c1.push(_c) : c2.push(_c);
+      });
+      return {y: c1, n: c2};
+    }
+    return null;
+  }
+
+  win.SVGElement.prototype.hasClass = win.HTMLElement.prototype.hasClass = function(className){
+    var result = hasClass(className, this);
+    if(result && !result.n.length){
+      return true;
     }
     return false;
   };
   win.SVGElement.prototype.addClass = win.HTMLElement.prototype.addClass = function(className){
-    if(!this.hasClass(className)){
-      this.classList.add(className);
-    }
+    className = parseClassName(className);
+    className && this.classList.add.apply(this.classList,className);
     return this;
   }
   win.SVGElement.prototype.removeClass = win.HTMLElement.prototype.removeClass = function(className){
-    this.classList.remove(className);
+    className = parseClassName(className);
+    className && this.classList.remove.apply(this.classList,className);
     return this;
   }
   win.HTMLElement.prototype.parents = function(selector){

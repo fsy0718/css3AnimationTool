@@ -86,7 +86,6 @@ var popupTransformEvents = function(context) {
         }
       });
     }
-
     var _s = styles.addCss(currentNamespace, name, _value, parent, origin);
     //更新origin在图示中的位置
     if(parent === 'transform-origin'){
@@ -99,11 +98,12 @@ var popupTransformEvents = function(context) {
       origin: origin,
       namespace: currentNamespace
     })
-
   })
 
   var $tabContItem = [].slice.call(context.$popupTransform.querySelectorAll('.tab-cont-item'));
   var $tabNavItem = [].slice.call(context.$popupTransform.querySelectorAll('.tab-nav-item'));
+  var $animatedActive = null;
+  var popupTransformNavIdx = 0;
   $popupTransform.addEventListener('click', function(e) {
     var $target = e.target;
     //关闭
@@ -112,131 +112,266 @@ var popupTransformEvents = function(context) {
     }
     //获取属性
     if ($target.hasClass('btn--green')) {
-      context.trigger('popupTransformOk');
+
+      context.trigger('popupTransformOk', popupTransformNavIdx, popupTransformNavIdx == 2 ? $animatedActive.dataset.key : null);
     }
     if($target.hasClass('tab-nav-item-a')){
       $target = $target.parentNode;
     }
     if($target.hasClass('tab-nav-item') && !$target.hasClass('active')){
       var _idx = +$target.dataset.index;
-      $tabContItem.forEach(function(el,i){
-        el.css('display', i === _idx ? 'block' : 'none')
-      });
-      $tabNavItem.forEach(function(el,i){
-        el[i === _idx ? 'addClass' : 'removeClass']('active');
-      })
+      $tabNavItem[popupTransformNavIdx].removeClass('active');
+      $tabContItem[popupTransformNavIdx].removeClass('active');
+      $target.addClass('active');
+      $tabContItem[_idx].addClass('active');
+      popupTransformNavIdx = _idx;
+    }
+    if($target.hasClass('btn__animate') && !$target.hasClass('active')){
+      var animate = $target.dataset.key;
+      $target.addClass('active');
+      $animatedActive && $animatedActive.removeClass('active');
+      $animatedActive = $target;
+      context.trigger('addCssComplete',animate)
     }
   })
 }
 
-var popupFileEvent = function(context) {
-  var file = context.$popupFile.querySelector('input[type="file"]');
-  var preview = context.$popupFile.querySelector('.preview');
-  file.onchange = function(e) {
-    var file = this.files[0];
-    var img = document.createElement('img');
-    img.file = file;
-    //首先需要清空已添加的元素，一次只能添加一个
-    preview.appendChild(img);
-    var reader = new FileReader();
-    reader.onload = (function(aImg) {
-      return function(e) {
-        aImg.src = e.target.result;
-      }
-    })(img);
-    reader.readAsDataURL(file);
+var popupFileIptClass = null;
+var popupFileIptName = null;
+var popupFileSelect = null;
+var popupFileImport = null;
+var popupFileImportIpt = null;
+var popupFilePreview = null;
+var namespaceReg = /^\w+([\-\_]\w+)*$/;
+var popupFileArg = {};
+var popupFileHideHandler = function(){
+  //恢复到初始状态
+  popupFilePreview.innerHTML = '';
+  popupFileIptClass.value = '';
+  popupFileIptName.value = '';
+  popupFileImportIpt.value = '';
+  popupFileSelect.value = 'circle';
+  //将值改为初始状态
+  popupFileArg = {}
+  popupFileImport.hide();
+  this.$popupFile.hide();
+
+}
+var popupFileShowHandler = function(){
+    //第一次运行赋四个值
+  if(!popupFileIptClass){
+    var ipts = this.$popupFile.querySelectorAll('input[type="text"]')
+    popupFileIptClass = ipts[0];
+    popupFileIptName = ipts[1];
+    popupFilePreview = this.$popupFile.querySelector('.preview');
+    popupFileSelect = this.$popupFile.querySelector('select');
+    popupFileImport = this.$popupFile.querySelector('.import-area');
+    popupFileImportIpt = popupFileImport.querySelector('input[type="file"]');
   }
+  //如果当前transform还存在
+  if(this.$activeEle){
+    this.trigger('popupTransformHide');
+  }
+  this.$popupFile.css('display', 'flex');
+}
+
+var popupFileEvent = function(context) {
   context.$popupFile.addEventListener('click', function(e){
     var target = e.target;
     if(target.hasClass('btn--green')){
-      var a = preview.children[0];
+      var a = popupFilePreview.children[0];
       if(a){
-        context.trigger('addFile',a);
+        popupFileArg.file = a;
+        context.trigger('addFile',popupFileArg);
+      }else{
+        context.trigger('popupFileHide');
       }
-      file.value = null;
+
+    }
+    if(target.hasClass('close')){
       context.trigger('popupFileHide');
     }
+  },false);
+  context.$popupFile.addEventListener('change', function(e){
+    var $target = e.target;
+    var type = $target.getAttribute('type');
+    if($target.nodeName.toLowerCase() === 'select'){
+      var isFile = $target.value === 'file';
+      popupFileImport[ isFile ? 'show' : 'hide']();
+      popupFileImportIpt.value = '';
+      //类型需要变化
+      popupFileArg.type = +isFile;
+
+    }
+    if(type === 'file'){
+      var file = $target.files[0];
+      var img = document.createElement('img');
+      img.file = file;
+      //首先需要清空已添加的元素，一次只能添加一个
+      popupFilePreview.appendChild(img);
+      var reader = new FileReader();
+      reader.onload = (function(aImg) {
+        return function(e) {
+          aImg.src = e.target.result;
+        }
+      })(img);
+      reader.readAsDataURL(file);
+    }
+    if(type === 'text'){
+      var name = $target.getAttribute('name');
+      var val = ($target.value || '').trim();
+      if(val){
+        if(name === 'namespace'){
+          if(namespaceReg.test(val)){
+            popupFileArg.namespace = val;
+            popupFileIptClass.removeClass('error');
+          }else{
+            popupFileIptClass.addClass('error');
+          }
+        }
+        if(name === 'name'){
+          popupFileArg.name = val;
+        }
+      }
+    }
+  })
+}
+
+var popupMenuEvent = function(context) {
+  context.$popupMenu.addEventListener('click', function(e){
+    e.stopPropagation();
+    var $target = e.target;
+    if($target.hasClass('item')){
+      var key = $target.dataset.key;
+      if(key === 'editor_animation'){
+        context.trigger('popupMenuHide');
+        context.trigger('popupTransformShow');
+      }
+    }
+  })
+  document.body.addEventListener('click', function(e){
+    context.trigger('popupMenuHide');
   },false)
 }
 
+var animationClass = null;
+var animationTimer = null;
 var initFn = function() {
   var self = this;
   self.tree = new Tree(null, {
     dom: self.$tree,
     contextmenuFn: function(e, target, data) {
-      self.currentNamespace = 'css3_item_' + data.id;
-      self.trigger('popupTransformShow');
+      self.currentNamespace = data.id;
+      self.trigger('popupMenuShow', e, target, data);
     }
   });
   self.styles = new StyleFn();
   self.animationList = [];
   //监听展示弹框
   self.on('popupTransformShow', function(data) {
-    self.$activeEle = document.querySelector('.' + self.currentNamespace);
+    self.$activeEle = document.querySelector('.' + self.classes[self.currentNamespace].namespace);
     this.$popupTransform.css('display', 'flex');
-  })
+  });
   self.on('popupFileShow', function(data) {
-    //如果当前transform还存在
-    if(self.$activeEle){
-      self.trigger('popupTransformHide');
-    }
-    this.$popupFile.css('display', 'flex');
-  })
+    popupFileShowHandler.apply(self, arguments);
+  });
+  self.on('popupMenuShow', function(e){
+    //top要减去本身高度的一半
+    self.$popupMenu.css('left', e.x + 'px').css('top',(e.y - 48)+ 'px' )
+    self.$popupMenuBox.show();
+  });
   self.on('popupTransformHide', function(data) {
     self.currentNamespace = null;
     self.$activeEle = null;
     self.$popupTransform.hide();
-  })
+  });
   self.on('popupFileHide', function(){
-    self.$popupFile.hide();
+    return popupFileHideHandler.apply(self, arguments);
+  });
+  self.on('popupMenuHide', function(data){
+    self.$popupMenuBox.hide();
+  })
+  self.on('popupTransformOk', function(idx, className){
+    var namespace = self.classes[self.currentNamespace];
+    if(idx == 2){
+      namespace.alias ? namespace.alias.push(className) : namespace.alias = [className];
+    }else if(idx == 0 ){
+      var css = self.styles.getCssByNamespaceWithoutSelector(self.currentNamespace);
+      if(css){
+        if(!self.$style){
+          self.$style = document.createElement('style');
+          self.$style.id = 'css3__style';
+          document.head.appendChild(self.$style);
+        }
+        self.$style.innerHTML = '.animated.' + namespace.namespace + '{\n' + css + '}\n';
+      }
+    }
+    self.$activeEle.style = null;
+    self.trigger('popupTransformHide');
 
   });
-  self.on('popupTransformOk', function(){
-    if(!self.$style){
-      self.$style = document.createElement('style');
-      self.$style.id = 'css3__style';
-      document.head.appendChild(self.$style);
-    }
-    var css = self.styles.getCssByNamespace(self.currentNamespace);
-    self.$style.innerHTML = '.animated.' + css;
-    self.$activeEle.style = null;
-    //TODO 后期需要做分组动画
-    self.animationList.push(self.currentNamespace);
-    self.trigger('popupTransformHide');
-  });
     //监听添加资源
-  self.on('addFile', function(el) {
-      var tree = self.tree.addTreeItem('添加一个svg文件');
-      var $dom = document.createElement('div');
-      $dom.innerHTML = '<i class="css3_item_origin"></i>'
-      $dom.className = 'css3_items css3_item_' + tree.id;
-      $dom.appendChild(el);
-      self.$canvas.appendChild($dom);
+  self.on('addFile', function(obj) {
+    var name,namespace;
+    if(!obj.name){
+      var treeId = self.tree.getShortId();
+      name = 'tree_' + treeId;
+    }else{
+      name = obj.name;
+    }
+    var tree = self.tree.addTreeItem(name, treeId);
+    var $dom = document.createElement('div');
+    self.classes[tree.id] = {
+      namespace: obj.namespace || 'css3_item_' + treeId
+    }
+    $dom.innerHTML = '<i class="css3_item_origin"></i>'
+    $dom.className = 'css3_items ' + self.classes[tree.id].namespace;
+    $dom.appendChild(obj.file);
+    self.$canvas.appendChild($dom);
+    self.trigger('popupFileHide');
+    //默认全部添加进动画 TODO后期需要做分组动画演示
+    self.animationList.push(tree.id);
   });
     //监听变化css样式
   self.on('addCssComplete', function(data) {
-    var styles = self.styles.getStyleByFilter(data.namespace, data.name, data.parent, data.origin);
-    self.$activeEle.css(styles.name, styles.rule);
+    //添加class
+    if(typeof data === 'string'){
+      clearTimeout(animationTimer);
+      animationClass && self.$activeEle.removeClass(animationClass);
+      animationClass = 'animated ' + data;
+      self.$activeEle.addClass(animationClass);
+      animationTimer = setTimeout(function(){
+        self.$activeEle.removeClass(animationClass);
+        animationClass = null;
+      },1500);
+    }else{
+      var styles = self.styles.getStyleByFilter(data.namespace, data.name, data.parent, data.origin);
+      self.$activeEle.css(styles.name, styles.rule);
+    }
+
   });
   self.on('animationRun', function(){
     if(self.animationList.length){
-      self.animationList.forEach(function(selector){
+      self.animationList.forEach(function(id){
+        var selector = self.classes[id].namespace;
+        var className = 'animated ' + (self.classes[id].alias || []).join(' ');
         var el = document.querySelector('.' + selector);
         var timer = null;
         if(el.hasClass('animated')){
-          el.removeClass('animated');
-            clearTimeout(timer);
-            timer = setTimeout(function(){
-              el.addClass('animated')
-            },300);
+          el.removeClass(className);
+          clearTimeout(timer);
+          timer = setTimeout(function(){
+            el.addClass(className);
+          },300);
         }else{
-          el.addClass('animated');
+          el.addClass(className);
         }
       })
     }
   })
   popupTransformEvents(self);
   popupFileEvent(self);
+  popupMenuEvent(self);
   controlBtnEvents();
   return self;
 }
@@ -249,22 +384,27 @@ var on = function(type, call) {
 
 var trigger = function(type, data) {
   var self = this;
+  var arg = [].slice.call(arguments,1);
   var events = self.events;
   if (events[type]) {
-    events[type].call(self, data);
+    events[type].apply(self, arg);
   }
 }
-
+var $popupMenuBox = document.querySelector('.popup__contextmenu');
+var $popupMenu = $popupMenuBox.querySelector('.popupbox');
 var app = {
   $popupTransform: document.querySelector('.popup__transform'),
   $popupFile: document.querySelector('.popup__file'),
+  $popupMenuBox: $popupMenuBox,
+  $popupMenu: $popupMenu,
   $tree: document.querySelector('.treebox'),
   $canvas: document.querySelector('#canvas'),
   $style: document.querySelector('#css3__style'),
   init: initFn,
   trigger: trigger,
   on: on,
-  events: {}
+  events: {},
+  classes: {}
 };
 
 app.init();

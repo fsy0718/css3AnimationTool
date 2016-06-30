@@ -29,9 +29,9 @@
       dir && result.type === 1 ? result.dir = dir : null;
       return result;
     },
-    createTreeDom: function(){
+    createTreeDom: function(id){
       var dom = document.createElement('ul');
-      dom.className = 'tree tree-' + this.getShortId();
+      dom.className = 'tree tree-' + (id || this.getShortId());
       return dom;
     },
     createTreeItemEle: function(tree){
@@ -100,8 +100,8 @@
         this.options.contextmenuFn.call(this, e, target, data)
       }
     },
-    addTreeItem: function(name,dir){
-      var tree = this.createTreeItem(null,name,dir,1);
+    addTreeItem: function(name,id, dir){
+      var tree = this.createTreeItem(id,name,dir,1);
       this.tree[tree.id] = tree;
       if(this.__cacheTree && dir && this.__cacheTree[dir]){
         this.__cacheTree[dir].childs.push({
