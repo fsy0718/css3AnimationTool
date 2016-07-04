@@ -4,6 +4,8 @@ const gulp = require('gulp');
 const jade = require('gulp-jade');
 const rename = require('gulp-rename');
 const browserSync = require('browser-sync').create();
+const htmlmin = require('gulp-htmlmin');
+const template = require('gulp-underscore-template');
 
 const postcss = require('gulp-postcss');
 const scss = require('postcss-scss');
@@ -63,14 +65,26 @@ gulp.task('pcss', function() {
     .pipe(rename({
       extname: '.css'
     }))
-    .pipe(gulp.dest(targetDir + '/css'))
+    .pipe(gulp.dest(targetDir + '/dist/css'))
     .pipe(browserSync.stream({
       match: '**/*.css'
     }));
 })
 
+gulp.task('template', function(){
+  return gulp.src(sourceDir + '/template/*.html')
+    .pipe(htmlmin({
+      collapseWhitespace: true,
+      conservativeCollapse: true
+    }))
+    .pipe(template())
+    .pipe(gulp.dest(targetDir + '/dist/template'))
+    .pipe(browserSync.stream({
+      match: '**/*.js'
+    }))
+})
 
-gulp.task('default', ['jade', 'pcss'], function() {
+gulp.task('default', ['jade', 'pcss', 'template'], function() {
   browserSync.init({
     server: {
       index: 'index.html'
@@ -79,5 +93,6 @@ gulp.task('default', ['jade', 'pcss'], function() {
   });
   gulp.watch(sourceDir + '/jade/*.jade', ['jade']);
   gulp.watch(sourceDir + '/postcss/*.pcss', ['pcss']);
+  gulp.watch(sourceDir + '/template/*.html', ['template']);
   gulp.watch('./index.html').on('change', browserSync.reload)
 })

@@ -2,159 +2,68 @@ doctype html
 html
   head
     title css3动画交互调试加强版
-    link(href="./css/style.css", rel="stylesheet", type="text/css")
-    link(href="./css/animate.css", rel="stylesheet", type="text/css")
-
+    link(rel="stylesheet", type="text/css", href="./dist/lib/pure/pure-min.css")
+    link(rel="stylesheet", type="text/css", href="./dist/css/style.css")
+    script(type="text/javascript", src="./dist/js/pre.js")
 body
-  header.header
-    .box.Ldf.Ldf--space-between
-      h1.logo css3 Animation
-      .btnbox
-        a(href="javascript:;").btn.btn__run 运行
-        a(href="javascript:;").btn.btn__export 导出
-
-  section.content
-    .box.Ldf
-      section.control
-        nav.btnbox
-          -
-            btns = {
-              add: {
-                zh: '添加'
-              },
-              group: {
-                zh: '合并'
-              },
-              import: {
-                zh: '导入'
-              },
-              delete: {
-                zh: '删除'
-              }
-            }
-          each btn, key in btns
-            a.btn(href="javascript:;", class="btn__#{key}")=btn.zh
-        .treebox
-        //
-          ul.tree
+  #layout.pure-g.layout
+    header.pure-u-1.header
+      .pure-u-1.pure-u-mid-3-4.Lfll
+        .pure-menu
+          a(href="javascript:;").pure-button.button-success
+            i.fa.fa-plus(aria-hidden="true")
+            | 新建动画
+          a(href="javascript:;").pure-button.button-success
+            i.fa.fa-eye
+            | 预览
+          a(href="javascript:;").pure-button
+            i.fa.fa-css3
+            | 查看样式
+          a(href="javascript:;").pure-button
+            i.fa.fa-paint-brush
+            | 清除缓存
+          span.predefined
+            label 预定义
+            select.import
+              -
+                types = [{
+                  type: 'file-animation',
+                  name: '导入已有动画交互'
+                },{
+                  type: 'file-layout',
+                  name: '已入布局'
+                },{
+                  type: 'file-css',
+                  name: '导入动画库css文件'
+                },{
+                  type: 'input-css',
+                  name: '在线输入动画库'
+                }]
+              for type in types
+                option(value=type.type)=type.name
             -
-              resources = [
-                {
-                  title: '搜索图标',
-                  id: 'css_short_id_2'
-                },{
-                  title: '搜索栏',
-                  id: 'css_short_id_1'
-                },{
-                  title: '下拉选择',
-                  id: 'css_short_id_3',
-                  p: 'css_short_id_1'
-                }
-              ]
-            each resource, index in resources
-              li.tree-item-box
-                .tree-item
-                  span=resource.title
-            li.tree-item-box
-              .tree-dir
-                span 这是一个目录
-                ul.tree-sub
-                  li.tree-item-box
-                    .tree-item
-                      span 这是一个子文件
-      section.main
-        #canvas.canvas
+              sizes = ['640*800','1024*1500']
+            select.size
+              for size in sizes
+                option(value=size)=size
+          span.grid
+            label
+              input(type="checkbox", value="1")
+              i 显示网格线
+      .pure-u-1.pure-u-mid-1-4.Lflr
+        .pure-menu
+          label 导出文件
+          select.export
+            option(value="file-animation") 导出包
+            option(value="file-css") 导出样式
+          a(href="javascript:;").pure-button.button-error
+            i.fa.fa-refresh
+            | 重置
+    section.canvasbox
+      #canvas.canvas
 
-  section.popup.popup__transform.Ldn: .popupbox
-    .tab
-      ul.tab-nav
-        -
-          navItems = {
-            '0': {
-              name: '变形&过渡'
-            },
-            '1': {
-              name: '自定义动画'
-            },
-            '2': {
-              name: '动画库',
-            }
-          }
-        each item, key in navItems
-          li(class= key==0 ? 'active tab-nav-item' : 'tab-nav-item', data-index=key)
-            a.tab-nav-item-a=item.name
-      ul.tab-cont
-        li.tab-cont-item.active(data-index="0")
-          dl
-            include _transform.jade
-        li.tab-cont-item(data-index="1")
-        li.tab-cont-item(data-index="2")
-          dl.animate-library
-            include _animation.jade
-
-    .btnbox
-      a(href="javascript:;").btn.btn--green 保存
-      a(href="javascript:;").btn.btn--gray 撤消
-    i.close X
-
-  section.popup.popup__file.Ldn: .popupbox
-    ul.list
-      li
-        label.label
-          span.tip 标识(class)
-          span.input: input(type="text", name="namespace", placeholder="用来标识资源，具有惟一性，可选")
-      li
-        label.label
-          span.tip 名称(name)
-          span.input: input(type="text", name="name", placeholder="用来展示资源名称，可选")
-      li
-        label.label
-          span.tip 资源类型
-          span.input: select
-            option(value="circle") 圆
-            option(value="rect") 矩形
-            option(value="text") 文字
-            option(value="param") 提供参数
-            option(value="file") 导入文件[svg或图片]
-      li.import-area.Ldn
-        label.label
-          span.tip 导入文件
-          span.input
-            input(type="file")
-    .preview
-    .btnbox
-      a(href="javascript:;").btn.btn--green 确认
-    i.close X
-
-  section.popup__contextmenu: .popupbox
-    -
-      menu = [
-        {
-          key: 'editor_animation',
-          name: '编辑动画'
-        },{
-          key: 'editor_id',
-          name: '编辑标识'
-        }
-      ]
-    ul.menu
-      for item, key in menu
-        li.item(data-key=item.key)=item.name
-
-  #scriptArea.Ldn
-    script(src="../constant.js")
-    script(src="./js/dom.js")
-    script(src="./js/tree.js")
-    script(src="./js/style.js")
-    script(src="./js/snap.svg/snap.svg.js")
-    script(src="./js/app.js")
-
-
-
-
-
-
-
-
-
+  .scriptArea.Ldn
+    script(src="./dist/lib/do/do.js")
+    script(src="./dist/js/config.js")
+    script(src="./dist/js/app.js")
 
