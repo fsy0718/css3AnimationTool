@@ -3,6 +3,7 @@ html
   head
     title css3动画交互调试加强版
     link(rel="stylesheet", type="text/css", href="./dist/lib/pure/pure-min.css")
+    link(rel="stylesheet", type="text/css", href="./dist/css/layer.css")
     link(rel="stylesheet", type="text/css", href="./dist/css/style.css")
     script(type="text/javascript", src="./dist/js/pre.js")
 body
@@ -66,4 +67,23 @@ body
     script(src="./dist/lib/do/do.js")
     script(src="./dist/js/config.js")
     script(src="./dist/js/app.js")
+  .popup.popup-menu
+    .popupbox
+      -
+        menus = [{
+          type: 'update-ele',
+          name: '修改元素',
+        },{
+          type: 'delete-ele',
+          name: '删除元素'
+        },{
+          type: 'update-css',
+          name: '更新样式'
+        },{
+          type: 'delete-css',
+          name: '删除样式'
+        }]
+      ul.menulist.pure-g
+        each item in menus
+          li.pure-u-1(href="javascript:;",data-key=item.type)=item.name
 

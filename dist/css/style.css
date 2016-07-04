@@ -4,6 +4,16 @@
 .Lflr{
   float: right;
 }
+ul{
+  margin: 0;
+  padding: 0;
+}
+dl{
+  margin: 0;
+}
+dd{
+  margin-left:0;
+}
 .layout{
   box-sizing: border-box;
   padding-top: 38px;
@@ -43,6 +53,9 @@
 .layout .button-secondary {
   background: rgb(66, 184, 221);
   /* this is a light blue */
+}
+.button-small{
+  font-size: 85%;
 }
 .header{
   position: fixed;
@@ -89,4 +102,89 @@ html, body, .layout{
   width: 640px;
   height: 800px;
 }
-
+.pure-form .pure-control-group{
+  margin-bottom: 1em;
+}
+.canvas [class *= "pure-u"]{
+  border: dashed 1px rgba(0,0,0,0.5);
+  min-height: 5px;
+}
+.pure-form [class *= "pure-u"].error{
+  color: red;
+}
+.popup{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.02);
+  width: 100%;
+  height: 100%;
+}
+.popup .popupbox{
+  display: inline-block;
+  padding: 1em;
+  box-shadow: 0 0 3px rgba(0,0,0,.4);
+  text-align: center;
+  background-color: white;
+}
+.popup-menu{
+  display: none;
+}
+.popup-menu .popupbox{
+  position: absolute;
+}
+.popup-menu .menulist li{
+  cursor: pointer;
+  line-height: 1.5;
+}
+.layer-style .tab-nav{
+  line-height: 2;
+  text-align: center;
+  padding: 10px 30px;
+}
+.layer-style .tab-nav .tab-nav-item a{
+  display: block;
+  border: solid 1px rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.2);
+  color: rgba(0,0,0,0.8);
+  text-decoration: none;
+}
+.layer-style .tab-nav .tab-nav-item a:hover{
+  background-color: rgba(28,184,65,0.4);
+  color: white;
+}
+.layer-style .tab-nav .tab-nav-item.active a{
+  background-color: rgba(28,184,65,0.4);
+  color: white;
+}
+.layer-style .tab-nav .tab-nav-item + .tab-nav-item a{
+  border-left: 0 none;
+}
+.layer-style .tab-cont{
+  margin-top: 2em;
+}
+.layer-style .sort-title{
+  padding: 10px 0;
+  border-bottom: solid 1px rgba(0,0,0,0.2);
+  margin-bottom: 10px;
+}
+.layer-style .sort-content .pure-button{
+  color: rgba(0,0,0,0.6);
+}
+.layer-style .sort-content .pure-button.button-success{
+  background: rgb(28, 184, 65);
+  /* this is a green */
+  color: white;
+}

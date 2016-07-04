@@ -21,7 +21,8 @@
   d.define('layer', {
     path: lib + '/layer/layer.js',
     type: 'js'
-  })
+  });
+
 
   //underscore
   d.define('underscore',{
@@ -35,21 +36,23 @@
   d.define('canvas',{
     path: js + '/canvas.js',
     type: 'js',
-    requires: ['underscore','tpl_addElement','layer']
+    requires: ['underscore','tpl_addElement','tpl_updateStyle', 'layer', 'data']
   });
   d.define('header', {
     path: js + '/header.js',
     type: 'js',
     requires: ['check-data']
-  })
-  d.define('check-data', {
-    path: js + '/check-data.js',
-    type: 'js'
-  })
+  });
   d.define('style', {
     path: js + '/style.js',
     type: 'js'
-  })
+  });
+  d.define('data', {
+    path: js + '/data.js',
+    type: 'js'
+  });
+
+
 
   //template
   var tpl = './dist/template';
@@ -57,7 +60,11 @@
     path: tpl + '/addElement.js',
     type: 'js'
   });
+  d.define('tpl_updateStyle', {
+    path: tpl + '/updateStyle.js',
+    type: 'js'
+  })
 
-  Do.setConfig('coreLib',['pure', 'font', 'jquery']);
+  Do.setConfig('coreLib',['font', 'jquery']);
 
 })(window,Do)

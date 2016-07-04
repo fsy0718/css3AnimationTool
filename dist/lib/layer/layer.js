@@ -191,7 +191,7 @@
     return _autoClose(ele, layer);
   };
   _createOperate = function(conf, isBtn) {
-    return $.isArray(conf) && conf.length && '<a href="' + (conf[3] ? conf[3] : 'javascript:;') + '" ' + (conf[4] || '') + ' class="' + ((isBtn ? 'u-btn ' : '') + conf[1]) + ' J_action-layer btn-layer-' + conf[0] + '" data-action="' + conf[0] + '">' + conf[2] + '</a>' || '';
+    return $.isArray(conf) && conf.length && '<a href="' + (conf[3] ? conf[3] : 'javascript:;') + '" ' + (conf[4] || '') + ' class="' + ((isBtn ? 'pure-button ' : '') + conf[1]) + ' J_action-layer btn-layer-' + conf[0] + '" data-action="' + conf[0] + '">' + conf[2] + '</a>' || '';
   };
   _parseBtnsConf = function(conf, isBtns) {
     var i, len, str, _btns, _i, _item;
