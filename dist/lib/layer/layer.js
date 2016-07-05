@@ -1,5 +1,6 @@
-(function(require) {
+define(function(require) {
   var Layer, btns, config, escQue, init, isClassOrId, layer, opes, protocolReg, subElements, urlSimpleReg, zIndex, _adjustView, _asyncCont, _autoClose, _bindEvent, _camelCase, _createEle, _createIframe, _createOperate, _createShelf, _escs, _fixUrl, _getWithoutAreaHeight, _parseBtns, _parseBtnsConf, _unbindEvent;
+  var layers = {};
   btns = [['ok', 's-save', '确定'], ['no', 's-cancel', '取消'], ['other', 's-tip', '其它']];
   opes = [['max', 'ope-max', '最大化'], ['min', 'ope-min', '最小化'], ['close', 'ope-close', '关闭']];
   config = {
@@ -74,7 +75,7 @@
       self.settings = _conf;
       self.idx = zIndex / 2 + 1;
       self.status = 'active';
-      window.layers[self.idx] = self;
+      layers[self.idx] = self;
       init(self);
       return self;
     }
@@ -463,11 +464,11 @@
           if (e.keyCode === 27) {
             len = layer.escQue.length;
             while (len-- > 0) {
-              if (window.layers[layer.escQue[len]].status !== 'hidden') {
-                if ($.isFunction(window.layers[layer.escQue[len]].settings.callbacks.close)) {
-                  window.layers[layer.escQue[len]].settings.callbacks.close(e, $('.layer-idx-' + window.layers[layer.escQue[len]].idx), $('.layer-idx-' + window.layers[layer.escQue[len]].idx), window.layers[layer.escQue[len]], eData);
+              if (layers[layer.escQue[len]].status !== 'hidden') {
+                if ($.isFunction(layers[layer.escQue[len]].settings.callbacks.close)) {
+                  layers[layer.escQue[len]].settings.callbacks.close(e, $('.layer-idx-' + layers[layer.escQue[len]].idx), $('.layer-idx-' + layers[layer.escQue[len]].idx), layers[layer.escQue[len]], eData);
                 } else {
-                  window.layers[layer.escQue[len]].destroy();
+                  layers[layer.escQue[len]].destroy();
                 }
               }
             }
@@ -518,7 +519,7 @@
     if (!idx) {
       return this;
     } else {
-      return window.layers[idx];
+      return layers[idx];
     }
   };
   Layer.prototype.asyncIframeHeight = function(iframe) {
@@ -541,7 +542,7 @@
   };
   Layer.prototype.show = function(idx) {
     var layer, url, _layer;
-    layer = idx ? window.layers[idx] : this;
+    layer = idx ? layers[idx] : this;
     if (layer) {
       layer.status = 'active';
       layer.esc();
@@ -559,7 +560,7 @@
   };
   Layer.prototype.hide = function(idx) {
     var layer, _idx, _layer;
-    layer = idx ? window.layers[idx] : this;
+    layer = idx ? layers[idx] : this;
     if (layer) {
       _layer = $('.layer-idx-' + layer.idx).hide();
       layer.status = 'hidden';
@@ -580,7 +581,7 @@
   };
   Layer.prototype.destroy = function(idx) {
     var layer, _layer;
-    layer = idx ? window.layers[idx] : this;
+    layer = idx ? layers[idx] : this;
     if (layer) {
       layer.hide();
       _layer = $('.layer-idx-' + layer.idx);
@@ -589,7 +590,7 @@
       layer.settings.mask && $('.mask-' + layer.idx).remove();
       layer.settings = null;
       layer._drag = null;
-      delete window.layers[layer.idx];
+      delete layers[layer.idx];
       return layer = null;
     }
   };
@@ -604,7 +605,7 @@
     if (idxs) {
       self.escQue.length = 0;
       return $.each(idxs, function(i, j) {
-        if (window.layers[j] && window.layers[j].status !== 'hidden' && ~$.inArray(j, self._escs)) {
+        if (layers[j] && layers[j].status !== 'hidden' && ~$.inArray(j, self._escs)) {
           return self.escQue.push(j);
         }
       });
@@ -669,11 +670,15 @@
     $.extend(true, _conf, opt);
     return new Layer(_conf);
   };
+  layer.getLayerByIndex = function(idx){
+    return layers[idx];
+  };
   $.fn.layer = function(conf) {
     var _layer;
     _layer = new Layer(conf);
     $(this).attr('lidx', _layer.idx);
     return _layer;
   };
-  window.layer = layer;
-})();
+  //window.layer = layer;
+  return layer;
+});

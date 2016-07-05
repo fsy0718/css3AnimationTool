@@ -1,4 +1,4 @@
-app.tpl.addElement = function(obj){
+define(['underscore'],function(_){return function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
 __p+='';
@@ -34,4 +34,4 @@ __p+=' </select> </span> <span class="pure-u-mid-1-4">目前仅支持选择控�
 '"> </span> <span class="pure-u-mid-1-4">此元素标识只有一个，且不能重复</span> </label> </div> </form> ';
 }
 return __p;
-};
+}});

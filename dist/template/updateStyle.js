@@ -1,4 +1,4 @@
-app.tpl.updateStyle = function(obj){
+define(['underscore'],function(_){return function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
 __p+='';
@@ -118,11 +118,140 @@ __p+=' <li class="'+
 ((__t=(item.name))==null?'':__t)+
 '</a> </li> ';
  }) 
-__p+=' </ul> <ul class="tab-cont"> ';
+__p+=' </ul> <ul class="tab-cont pure-g"> ';
  } 
 __p+=' ';
+ if(obj['0']) { 
+__p+=' ';
+
+    var x = obj['0']['transform-origin'] && obj['0']['transform-origin'].x || 50;
+    var y = obj['0']['transform-origin'] && obj['0']['transform-origin'].y || 50;
+    var is3D = obj['0']['transform-style'] && obj['0']['transform-style'] === 'preserve-3d' ? true : false;
+    var is2D = obj['0']['transform-style'] && obj['0']['transform-style'] === 'flat' ? true : false;
+    var direction = [['旋转','deg','rotate',-360,360],['缩放','倍','scale',-5,5],['位移','px','translate',-1000,1000],['倾斜','deg','skew',-180,180]];
+    var t = {};
+    if(obj['0']['transform']){
+      if(obj['0']['transform']['rotate']){
+        t.X0 = obj['0']['transform']['rotate'].x;
+        t.Y0 = obj['0']['transform']['rotate'].y;
+        t.Z0 = obj['0']['transform']['rotate'].z;
+      }
+      if(obj['0']['transform']['scale']){
+        t.X1 = obj['0']['transform']['scale'].x;
+        t.Y1 = obj['0']['transform']['scale'].y;
+        t.Z1 = obj['0']['transform']['scale'].z
+      }
+      if(obj['0']['transform']['translate']){
+        t.X2 = obj['0']['transform']['translate'].x;
+        t.Y2 = obj['0']['transform']['translate'].y;
+        t.Z2 = obj['0']['transform']['translate'].z;
+      }
+      if(obj['0']['transform']['skew']){
+        t.X3 = obj['0']['transform']['skew'].x;
+        t.Y3 = obj['0']['transform']['skew'].y;
+      }
+      if(obj['0']['transform']['matrix']){
+        t.a = obj['0']['transform']['matrix'].a;
+        t.b = obj['0']['transform']['matrix'].b;
+        t.c = obj['0']['transform']['matrix'].c;
+        t.d = obj['0']['transform']['matrix'].d;
+        t.e = obj['0']['transform']['matrix'].e;
+        t.f = obj['0']['transform']['matrix'].f;
+      }
+    }
+  
+__p+=' <li class="tab-cont-item tab-cont-item-transform tab-cont-item-0 pure-u-1 '+
+((__t=((obj.idx == 0 ? 'active' : null)))==null?'':__t)+
+'" data-index="0"> <dl> <dt>变形原点</dt> <dd class="s2d"> <ul class="list"> <li class="item pure-g"> <label class="pure-u-1-3"> <span class="label">X</span> <input type="text" name="x" data-parent="transform-origin" min="0" max="100" step="1" , value="'+
+((__t=(x))==null?'':__t)+
+'"> <span class="unit">%</span> </label> <span class="control pure-u-2-3"> <input type="range" min="0" max="100" step="1" , value="'+
+((__t=(x))==null?'':__t)+
+'"> </span> </li> <li class="item pure-g"> <label class="pure-u-1-3"> <span class="label">Y</span> <input type="text" name="y" data-parent="transform-origin" min="0" max="100" step="1" , value="'+
+((__t=(y))==null?'':__t)+
+'"> <span class="unit">%</span> </label> <span class="control pure-u-2-3"> <input type="range" min="0" max="100" step="1" , value="'+
+((__t=(y))==null?'':__t)+
+'"> </span> </li> </ul> </dd> <dd class="s2d"> <span>是否3D呈现</span> <ul class="list pure-g"> <li class="item pure-u-1-2"> <label> <input type="radio" name="transform-style" , value="flat" '+
+((__t=((is2D ? 'checked="checked"' : null)))==null?'':__t)+
+'> <span class="label">2d</span> </label> </li> <li class="item pure-u-1-2"> <label> <input type="radio" name="transform-style" , value="preserve-3d" '+
+((__t=((is3D ? 'checked="checked"' : null)))==null?'':__t)+
+'> <span class="label">3d</span> </label> </li> </ul> </dd> ';
+ _.each(direction, function(val, key){ 
+__p+=' ';
+ if(key === 3){ 
+__p+=' ';
+ var _dir = ['X', 'Y'] 
+__p+=' ';
+}else{ 
+__p+=' ';
+ var _dir = ['X', 'Y', 'Z'] 
+__p+=' ';
+} 
+__p+=' ';
+ _.each(_dir, function(_val, _key){ 
+__p+=' <dd class="pure-g '+
+((__t=((_key == 2 ? (is3D ? 's3d' : 's3d Ldn') : 's2d')))==null?'':__t)+
+'"> <label class="pure-u-1-3"> <span class="label">'+
+((__t=(_val))==null?'':__t)+
+'轴'+
+((__t=(val[0]))==null?'':__t)+
+'</span> <span class="input"> <input type="text" name="'+
+((__t=((val[2] + _val)))==null?'':__t)+
+'" data-origin="transform" value="'+
+((__t=((t[_val + key] ? t[_val + key] : null)))==null?'':__t)+
+'"> </span> <span class="unit">'+
+((__t=(val[1]))==null?'':__t)+
+'</span> </label> <span class="control pure-u-2-3"> <input type="range" value="0" min="'+
+((__t=(val[3]))==null?'':__t)+
+'" max="'+
+((__t=(val[4]))==null?'':__t)+
+'" step="1" value="'+
+((__t=((t[_val + key] ? t[_val + key] : null)))==null?'':__t)+
+'"> </span> </dd> ';
+}) 
+__p+=' ';
+ }) 
+__p+=' <dt>矩阵变形</dt> <dd class="s2d"> <ul class="list pure-g"> ';
+ _.each(['a', 'b','c', 'd', 'e', 'f'], function(val, key){ 
+__p+=' <li class="item pure-u-1-3"> <label> <span class="label">参数'+
+((__t=(val))==null?'':__t)+
+'</span> <input type="number" name="'+
+((__t=(val))==null?'':__t)+
+'" data-parent="matrix" data-origin="transform" value="'+
+((__t=((t[val] ? t[val] : (key < 2 ? 1 : 0))))==null?'':__t)+
+'"> </label> </li> ';
+ }) 
+__p+=' </ul> </dd> <dd class="s2d"> <label> <span class="label">过渡css属性</span> <span class="input"> <input type="text" name="transition-property" value="all"> </span> </label> </dd> <dd class="s2d"> <label> <span class="label">过渡延迟时间</span> <span class="input"> <input type="number" name="transition-delay" step="0.1" value="'+
+((__t=((obj['0']['transition-delay'] ? obj['0']['transition-delay'] : null)))==null?'':__t)+
+'"> </span> <span class="unit">s</span> </label> </dd> <dd class="s2d"> <label> <span class="label">过渡时间</span> <span class="input"> <input type="number" name="transition-duration" step="0.1" value="'+
+((__t=((obj['0']['transition-duration'] ? obj['0']['transition-duration'] : null)))==null?'':__t)+
+'"> </span> <span class="unit">s</span> </label> </dd> <dt>过渡效果</dt> <dd class="s2d"> <ul class="list pure-g"> ';
+_.each(['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'], function(val,key){ 
+__p+=' <li class="item pure-u-1-3"> <label> <input type="radio" name="transition-timing-function" value="'+
+((__t=(val))==null?'':__t)+
+'" ';
+(obj['0']['transition-timing-function'] === val ? 'checked="checked"' : null)
+__p+=' > <span class="label">'+
+((__t=(val))==null?'':__t)+
+'</span> </label> </li> ';
+ }) 
+__p+=' <li class="item pure-u-1-3"> <label> ';
+
+            if(/^cubic\-bezier/.test(obj['0']['transition-timing-function'])){ 
+__p+=' <input type="radio" name="transition-timing-function" value="'+
+((__t=(obj['0']['transition-timing-function']))==null?'':__t)+
+'" checked="checked"> <span class="label">'+
+((__t=(obj['0']['transition-timing-function']))==null?'':__t)+
+'</span> ';
+ }else{
+__p+=' <input type="radio" name="transition-timing-function" value="cubic-bezier(0.500,0.250,0.500,0.750)"> <span class="label">cubic-bezier(0.500,0.250,0.500,0.750)</span> ';
+}
+__p+=' </label> </li> </ul> </dd> </dl> </li> ';
+} 
+__p+=' ';
  if(obj['2']){ 
-__p+=' <li class="tab-cont-item pure-u-1" data-index="2"><dl> ';
+__p+=' <li class="tab-cont-item tab-cont-item-2 tab-cont-item-animate pure-u-1 '+
+((__t=((obj.idx == 2 ? 'active' : null)))==null?'':__t)+
+'" data-index="2"> <dl> ';
  _.each(animations, function(animation, key){ 
 __p+=' <dt class="sort-title"><span>'+
 ((__t=(animation.name))==null?'':__t)+
@@ -130,7 +259,7 @@ __p+=' <dt class="sort-title"><span>'+
 if(animation.items){
 __p+=' <dd class="sort-content"> ';
  _.each(animation.items, function(item, _key){ 
-__p+=' <a href="javascript:;" class="pure-button button-small '+
+__p+=' <a href="javascript:;" class="pure-button button-animation button-small '+
 ((__t=((obj['2'] === _key ? 'button-success' : null)))==null?'':__t)+
 '" data-key="'+
 ((__t=(_key))==null?'':__t)+
@@ -151,4 +280,4 @@ __p+=' </ul> </div> ';
 __p+=' ';
 }
 return __p;
-};
+}});

@@ -7,6 +7,7 @@
 ul{
   margin: 0;
   padding: 0;
+  list-style: inside none;
 }
 dl{
   margin: 0;
@@ -86,12 +87,14 @@ html, body, .layout{
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
   width: 100%;
   height: 100%;
+  padding-right: 2%;
+  box-sizing: border-box;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
@@ -174,6 +177,25 @@ html, body, .layout{
 }
 .layer-style .tab-cont{
   margin-top: 2em;
+  margin-bottom: 1em;
+}
+.layer-style .tab-cont-item{
+  display: none;
+}
+.layer-style .tab-cont-item.active{
+  display: block;
+}
+.layer-style .tab-cont-item-transform{
+  font-size: 0.75em;
+}
+.layer-style .tab-cont-item-transform input[type="number"], .layer-style .tab-cont-item-transform input[type="text"]{
+  width: 3em;
+}
+.layer-style .tab-cont-item-transform .list{
+  padding-left: 2em;
+}
+.layer-style .tab-cont-item-transform .s2d, .layer-style .tab-cont-item-transform .s3d{
+  padding: 0.25em 0;
 }
 .layer-style .sort-title{
   padding: 10px 0;
