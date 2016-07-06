@@ -507,7 +507,7 @@ define(function(require) {
     if (layer.settings.maskContainer !== 'body') {
       $('.mask-' + layer.idx).css('position', 'absolute');
     }
-    $.isFunction(layer.settings.callbacks.beforeShow) && layer.settings.callbacks.beforeShow(ele, layer);
+    $.isFunction(layer.settings.callbacks.beforeShow) && layer.settings.callbacks.beforeShow(ele, layer, true);
     _adjustView(ele, layer.settings.view, layer, true);
     _bindEvent(ele, layer);
     if ($.isFunction(layer.settings.callbacks.afterOpen) && (!layer.settings.ajax || !layer.settings.ajax.enable)) {

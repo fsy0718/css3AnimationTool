@@ -7,7 +7,15 @@ require.config({
     'tpl': 'template',
     'underscore': 'lib/underscore/underscore-min',
     'layer': 'lib/layer/layer',
-    'data': 'js/data',
-    'event': 'js/event'
+    'event': 'js/event',
+    //data相关
+    'identifier': 'js/data/identifier',
+    'style': 'js/data/style',
+    'data': 'js/data/index'
+  },
+  config: {
+    'data': {
+      debug: true
+    }
   }
 })

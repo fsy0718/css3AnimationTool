@@ -1,4 +1,4 @@
-(function(win){
+define(function(){
   var numLikeReg = /^[-+]?(\d+|)(\.\d+)?$/;
   var cssHelp = {
     defaultVal: {
@@ -51,7 +51,7 @@
       });
       return 'matrix(' + result.join(',') + ')';
     },
-    //单位由StyleFn解决
+    //单位由Style解决
     transform: function(val, key) {
       //此处只处理transform中除matrix的属性
       return key + '(' + val + ')';
@@ -64,11 +64,11 @@
     }
   }
 
-  var StyleFn = function() {
+  var Style = function() {
     this.styles = {};
   };
-  StyleFn.cssParse = cssParse;
-  StyleFn.cssHelp = cssHelp;
+  Style.cssParse = cssParse;
+  Style.cssHelp = cssHelp;
 
   var Cache = function() {
     this.caches = {};
@@ -138,20 +138,20 @@
 
   var caches = new Cache();
 
-  StyleFn.prototype = {
+  Style.prototype = {
     /**
-     * 添加css规则，如果符合样式有前后顺序之分的，会自动记录parent或key在origin顺序
+     * 添加css规则，如果符合样式有前后顺序之分的，会自动记录par或key在origin顺序
      * @todo val 支持Object格式
      * @param {String} namespace 样式规则空间
      * @param {String} key       css属性名
      * @param {String} val       css属性值
-     * @param {String} [parent]    css属性父属性
+     * @param {String} [par]    css属性父属性
      * @param {String} [origin]    css属性属于哪个css属性
      * @example
      * //描述修改或新增transform下matrix中的a的值为0,值为{'#header':{transform:{matrix:{a:1},__index: ['matrix']}}}
      * addCss('#header','a','0','matrix','transform')
      */
-    addCss: function(namespace, key, val, parent, origin) {
+    addCss: function(namespace, key, val, par, origin) {
       if (!namespace) {
         throw Error('需要namespace');
         return;
@@ -162,11 +162,11 @@
       }
       var source = this.styles[namespace];
       //获取添加的对象
-      var target = this.getCssTarget(source, origin, parent);
+      var target = this.getCssTarget(source, origin, par);
       //如果origin需要记录顺序
       if (this.shouldOnOrder(origin)) {
-        //如果parent存在，则记录parent的顺序，否则记录本身的顺序,比如布matrix中a的值，需要记录matrix的顺序
-        var name = parent ? parent : key;
+        //如果par存在，则记录par的顺序，否则记录本身的顺序,比如布matrix中a的值，需要记录matrix的顺序
+        var name = par ? par : key;
         var index = source[origin].__index;
         if (!index && !isDel) {
           source[origin].__index = [name]
@@ -182,17 +182,17 @@
       if(isDel){
         if(key){
           delete target[key]
-        }else if(parent){
-          origin ? delete source[origin][parent] : source[parent];
+        }else if(par){
+          origin ? delete source[origin][par] : source[par];
         }else if(origin){
           delete source[origin];
         }
 
       }else{
-        target[key] = this.parseCssVal(val, key, parent);
+        target[key] = this.parseCssVal(val, key, par);
       }
 
-      var cacheName = origin || parent || key;
+      var cacheName = origin || par || key;
       //更新缓存
       caches.addChange(cacheName, namespace)
       return source;
@@ -202,13 +202,13 @@
      * 解析css规则属性值，加单位
      * @param  {String} val    属性值
      * @param  {String} key    css属性名
-     * @param  {String} [parent] css规则属性父属性
+     * @param  {String} [par] css规则属性父属性
      * @return {String}
      */
-    parseCssVal: function(val, key, parent) {
-      var unit = StyleFn.cssHelp.cssUnits[key] || '';
-      if (parent) {
-        unit = StyleFn.cssHelp.cssUnits[parent + '-' + key] || ''
+    parseCssVal: function(val, key, par) {
+      var unit = Style.cssHelp.cssUnits[key] || '';
+      if (par) {
+        unit = Style.cssHelp.cssUnits[par + '-' + key] || ''
       };
       val += unit;
       if (numLikeReg.test(val)) {
@@ -221,12 +221,12 @@
      * 删除指定样式规则
      * @param  {String} [namespace] css规则空间，如果未有namespace，则删除全部
      * @param  {String} key       css规则属性名
-     * @param  {String} parent    css规则属性父属性名
+     * @param  {String} par    css规则属性父属性名
      * @param  {String} origin    css规则属性顶层属性名
      * @return {Boolean}           是否删除成功
      */
-    delCss: function(namespace, key, parent, origin) {
-      return this.addCss(namespace, key, null, parent, origin);
+    delCss: function(namespace, key, par, origin) {
+      return this.addCss(namespace, key, null, par, origin);
     },
     /**
      * 是否需要关注属性的顺序
@@ -240,16 +240,16 @@
      * shouldOnOrder('width')
      */
     shouldOnOrder: function(key) {
-      return StyleFn.cssHelp.orderKey.diy.indexOf(key) !== -1;
+      return Style.cssHelp.orderKey.diy.indexOf(key) !== -1;
     },
     /**
      * 获取css属性设置的对象
      * @param  {Object} source css规则空间对象
      * @param  {String} [origin] css属性顶层属性名
-     * @param  {String} [parent] css属性父属性名
+     * @param  {String} [par] css属性父属性名
      * @return {Object}
      */
-    getCssTarget: function(source, origin, parent) {
+    getCssTarget: function(source, origin, par) {
       var target = source;
       if (origin) {
         if (!target[origin]) {
@@ -257,11 +257,11 @@
         }
         target = target[origin];
       }
-      if (parent) {
-        if (!target[parent]) {
-          target[parent] = {};
+      if (par) {
+        if (!target[par]) {
+          target[par] = {};
         }
-        target = target[parent];
+        target = target[par];
       }
       return target;
     },
@@ -285,19 +285,19 @@
           //var cssString = k + ':';
           v.__index.forEach(function(key, index) {
             var _val = v[key]
-            if (_val && typeof _val === 'object' && StyleFn.cssHelp.defaultVal[key]) {
-              var _val = Object.assign({}, StyleFn.cssHelp.defaultVal[key], _val);
+            if (_val && typeof _val === 'object' && Style.cssHelp.defaultVal[key]) {
+              var _val = Object.assign({}, Style.cssHelp.defaultVal[key], _val);
             }
             //解析函数调用顺序为当前属性名，顶级属性名，默认属性名
-            var _c = (StyleFn.cssParse[key] || StyleFn.cssParse[k] || StyleFn.cssParse.default)(_val, key)
+            var _c = (Style.cssParse[key] || Style.cssParse[k] || Style.cssParse.default)(_val, key)
             _c && _result.push(_c);
           })
           result = _result.join(' ');
         } else {
-          if (StyleFn.cssHelp.defaultVal[k]) {
-            var _val = Object.assign({}, StyleFn.cssHelp.defaultVal[k], v);
+          if (Style.cssHelp.defaultVal[k]) {
+            var _val = Object.assign({}, Style.cssHelp.defaultVal[k], v);
           }
-          var _c = (StyleFn.cssParse[k] || StyleFn.cssParse.default)(_val, k)
+          var _c = (Style.cssParse[k] || Style.cssParse.default)(_val, k)
           _c ? result = _c : null;
         }
       }
@@ -326,13 +326,13 @@
       return result;
     },
 
-    getStyleByFilter: function(namespace, name, parent, origin){
+    getStyleByFilter: function(namespace, name, par, origin){
       var styleObj = this.getStyleObjByNamespace(namespace);
         if(origin){
           return {name: origin, rule: styleObj[origin]};
         }
-        else if(parent){
-          return {name: parent, rule: styleObj[parent]};
+        else if(par){
+          return {name: par, rule: styleObj[par]};
         }else{
           return {name: name, rule: styleObj[name]};
         }
@@ -363,11 +363,13 @@
       }
       if(val){
         for(var i in val){
-          cssString += i + ': ' + val[i] + ';\n';
+          if(i !== '__hasChanged'){
+            cssString += i + ': ' + val[i] + ';\n';
+          }
         }
       }
       return cssString;
     }
   }
-  win.app.data.css = new StyleFn();
-})(window)
+  return Style;
+});

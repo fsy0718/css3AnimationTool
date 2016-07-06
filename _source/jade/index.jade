@@ -11,10 +11,10 @@ body
     header.pure-u-1.header
       .pure-u-1.pure-u-mid-3-4.Lfll
         .pure-menu
-          a(href="javascript:;").pure-button.button-success
+          a(href="javascript:;").pure-button.button-success(data-action="add-demo")
             i.fa.fa-plus(aria-hidden="true")
             | 新建动画
-          a(href="javascript:;").pure-button.button-success
+          a(href="javascript:;").pure-button.button-success(data-action="preview")
             i.fa.fa-eye
             | 预览
           a(href="javascript:;").pure-button
@@ -84,6 +84,7 @@ body
           type: 'delete-css',
           name: '删除样式'
         }]
+      i.close X
       ul.menulist.pure-g
         each item in menus
           li.pure-u-1(href="javascript:;",data-key=item.type)=item.name

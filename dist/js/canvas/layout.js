@@ -1,17 +1,17 @@
-define(['event'],function(event) {
+define(['event', 'data'],function(event, data) {
   //画布函数
-  var _current = {
-    key: null,
-    $el: null
-  };
   var layout = {
     $canvas: $('#canvas'),
-    addElement: function(string) {
-      layout.$canvas.append(string);
+    parseObjectToHtmlString: function(obj){
+        return '<div class="pure-u-1-5 animation_plus_tool_item ' + obj.identifier + '" data-key="' + obj.index + '"><i class="animation_plus_tool_item_origin"></i></div>'
+    },
+    addElement: function(opts) {
+      var htmlString = layout.parseObjectToHtmlString(opts);
+      layout.$canvas.append(htmlString);
     },
     updateElement: function(obj, el, call) {
       if (!el) {
-        el = layout.getCurrentArgs().$el;
+        el = data.getCurrentArgs().$el;
       }
       obj = obj || {};
       if (obj.oldClassName) {
@@ -20,17 +20,12 @@ define(['event'],function(event) {
       if (obj.newClassName) {
         el.addClass(obj.newClassName);
       }
+      if (obj.css){
+        el.css(obj.css.name, obj.css.rule);
+      }
       if($.isFunction(call)){
         call(obj, el);
       }
-    },
-    setCurrentArgs: function(key, el) {
-      _current.key = key;
-      _current.$el = el;
-      return _current;
-    },
-    getCurrentArgs: function() {
-      return _current;
     },
     init: function() {
       var self = this;
@@ -45,12 +40,13 @@ define(['event'],function(event) {
         } else {
           var key = $target.data('key');
           if (key) {
-            self.setCurrentArgs(key, $target);
+            data.setCurrentArgs(key, $target);
             event.trigger('showMenu.popup',e);
           }
         }
       })
     }
   };
+  layout.init();
   return layout;
 })

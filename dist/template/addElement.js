@@ -29,8 +29,8 @@ __p+=' <option value="'+
 ((__t=(type.name))==null?'':__t)+
 '</option> ';
  }) 
-__p+=' </select> </span> <span class="pure-u-mid-1-4">目前仅支持选择控件组</span> </label> </div> <div class="pure-control-group pure-u-1"> <label> <span class="pure-u-mid-1-4">元素标识</span> <span class="pure-u-mid-2-4"> <input type="text" , name="className" placeholder="元素标识" , value="'+
-((__t=(obj.className))==null?'':__t)+
+__p+=' </select> </span> <span class="pure-u-mid-1-4">目前仅支持选择控件组</span> </label> </div> <div class="pure-control-group pure-u-1"> <label> <span class="pure-u-mid-1-4">元素标识</span> <span class="pure-u-mid-2-4"> <input type="text" , name="identifier" placeholder="元素标识" , value="'+
+((__t=(obj.identifier))==null?'':__t)+
 '"> </span> <span class="pure-u-mid-1-4">此元素标识只有一个，且不能重复</span> </label> </div> </form> ';
 }
 return __p;

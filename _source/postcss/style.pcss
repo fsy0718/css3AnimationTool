@@ -70,6 +70,7 @@ dd{
   left: 0;
   font-size: 12px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  background-color: white;
   .predefined{
     margin-left: 1.5em;
   }
@@ -99,7 +100,28 @@ html,body,.layout{
   .canvas{
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
     width: 640px;
-    height: 800px;
+    max-height: 800px;
+    min-height: 400px;
+  }
+  .animation_plus_tool_item{
+      position:relative;
+      .animation_plus_tool_item_origin{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 10px;
+        margin-top: -5px;
+        margin-left: -5px;
+        height: 10px;
+        background-color: transparent;
+        border-radius: 50%;
+        opacity: .5;
+      }
+      &.animation_plus_tool_item_active{
+          .animation_plus_tool_item_origin{
+              background-color: red;
+        }
+      }
   }
 }
 
@@ -144,6 +166,13 @@ html,body,.layout{
   display: none;
   .popupbox{
     position: absolute;
+    .close{
+        font-style: normal;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
   }
   .menulist{
     li{
