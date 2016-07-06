@@ -361,7 +361,9 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         if(warnLayer){
             warnLayer.show();
         }else{
-            warnLayer = layer.alert(opts.msg,{})
+            warnLayer = layer.alert(opts.msg,{
+                title: '删除元素'
+            })
         }
     }
   }
