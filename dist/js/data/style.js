@@ -130,7 +130,7 @@ define(function(){
       if (!namespace) {
         this.restore();
       } else if (this.caches[namespace]) {
-        this.caches[namespace] = {};
+        delete this.caches[namespace];
       }
       return this;
     }
@@ -158,6 +158,9 @@ define(function(){
       }
       var isDel = val === null;
       if (!this.styles[namespace]) {
+        if(isDel){
+            return true;
+        }
         this.styles[namespace] = {};
       }
       var source = this.styles[namespace];
@@ -194,7 +197,7 @@ define(function(){
 
       var cacheName = origin || par || key;
       //更新缓存
-      caches.addChange(cacheName, namespace)
+      cacheName && caches.addChange(cacheName, namespace)
       return source;
     },
 
@@ -219,10 +222,10 @@ define(function(){
     },
     /**
      * 删除指定样式规则
-     * @param  {String} [namespace] css规则空间，如果未有namespace，则删除全部
-     * @param  {String} key       css规则属性名
-     * @param  {String} par    css规则属性父属性名
-     * @param  {String} origin    css规则属性顶层属性名
+     * @param  {String} namespace css规则空间
+     * @param  {String} [key]      css规则属性名
+     * @param  {String} [par]    css规则属性父属性名
+     * @param  {String} [origin]   css规则属性顶层属性名
      * @return {Boolean}           是否删除成功
      */
     delCss: function(namespace, key, par, origin) {
@@ -369,6 +372,12 @@ define(function(){
         }
       }
       return cssString;
+    },
+    destroyCssByNamespace: function(namespace){
+        caches.destroy(null, namespace);
+        this.styles[namespace] = null;
+        delete this.styles[namespace];
+        return true;
     }
   }
   return Style;

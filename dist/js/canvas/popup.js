@@ -263,7 +263,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
                 'style': _style,
                 'curIdx': idx
             });
-            console.log(css.getStyleObjByNamespace(_curArgs.index));
+            event.trigger('updateElement.canvas', {style: null}, _curArgs.$el);
         }
     }
     l.hide();
@@ -271,8 +271,27 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     data.delCurrentArgs();
   }
   //}}}
+  //警告弹框显示 {{{
+  var warnBeforeShowFn = function(_l, l, isFirst){
+    if(!isFirst){
+      _l.find('.layer-cont').text(l.__opts.msg);
+    }
+  }
+  // }}}
+  // 警告弹框确认按钮 {{{
+  var warnOkFn = function(e, ele, _l, l){
+    var _curArgs = data.getCurrentArgs();
+    if(_curArgs.$el){
+      event.trigger('delEle', _curArgs);
+      data.delCurrentArgs();
+      l.hide();
 
+    }
+
+  }
+  // }}}
   var showMenuFirst  = false;
+  // 初始化menu弹框 {{{
   var menuInit =  function() {
     showMenuFirst = true;
     popup.$menu.on('click', 'li', function(e) {
@@ -298,6 +317,8 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         event.trigger('hideMenu.popup')
     })
   };
+  // }}}
+  //弹框对象 {{{
   var popup = {
     addElement: function() {
       layer.alert(defaultEleOptionString, addEleOptions);
@@ -359,14 +380,28 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     },
     showWarn: function(opts){
         if(warnLayer){
-            warnLayer.show();
+          //TODO Layer不能获取新的opts，后期需要修改
+          warnLayer.__opts = opts;
+          warnLayer.show();
         }else{
-            warnLayer = layer.alert(opts.msg,{
-                title: '删除元素'
-            })
+          warnLayer = layer.alert(opts.msg,{
+              title: '删除元素',
+              view: {
+                maxWidth: '50%',
+                minWidth: 500,
+                minHeight: 300
+              },
+              callbacks: {
+                beforeShow: warnBeforeShowFn,
+                no: layerHideWithDelCurretArgs,
+                close: layerHideWithDelCurretArgs,
+                ok: warnOkFn
+              }
+          });
         }
     }
   }
+  // }}}
   return popup
 });
 

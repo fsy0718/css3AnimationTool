@@ -10,27 +10,32 @@ require(['event', 'js/canvas/layout', 'js/canvas/popup', 'data', 'underscore'],f
   event.on('addElement.canvas', layout.addElement);
   event.on('updateElement.canvas',layout.updateElement);
 
-  var addCssCompleteFn = function(opts, addStyleResult){
-      if(opts.par === 'transform-origin'){
-        var _kk = name === 'x' ? 'left' : 'top';
-        opts.$el.find('.animation_plus_tool_item_origin').css(_kk, addStyleResult['transform-origin'][name]);
-      }
-      var styles = data.css.getStyleByFilter(opts.index, opts.name, opts.par, opts.origin);
-      opts.$el.css(styles.name, styles.rule);
+  var delEleFn = function(curArg){
+    //删除cached
+    data.delCached(curArg.index);
+    data.identifier.delItem(curArg.index);
+    data.css.destroyCssByNamespace(curArg.index);
+    //删除元素
+    layout.delElement(curArg.$el);
   }
+  event.on('delEle', delEleFn);
 
-  event.on('addCssComplete',addCssCompleteFn);
   //页面脚本
   var $styleDemo = null;
-  var parseInlineStyle = function(obj){
+  var parseToolItems = function(obj){
       var string = '';
-      var selectors = [];
+      var selectors = {};
       _.each(obj, function(val, key){
-        selectors.push('.' + val.identifier);
+        //如果有animation名称,则添加名称
+        if(val.classNames){
+            selectors[val.identifier] = val.classNames;
+        }else if(val.style){
+            //如果有样式，则添加
+            selectors[val.identifier] = '';
+        }
         string += '.animated.' + val.identifier + '{\n' + (val.style || '') + '}\n';
       });
-      var result = {style: string, selectors: selectors.join(',')};
-      selectors = null;
+      var result = {style: string, selectors: selectors};
       return result;
 
   }
@@ -44,13 +49,12 @@ require(['event', 'js/canvas/layout', 'js/canvas/popup', 'data', 'underscore'],f
             $styleDemo = $('<style class="animation_plus_tool_style"></style>').appendTo('head');
         }
         var demoDatas = data.getCached();
-        var _style = parseInlineStyle(demoDatas);
+        var _style = parseToolItems(demoDatas);
         $styleDemo.text(_style.style);
-        clearTimeout(timer);
-        var $el = $(_style.selectors);
-        $el.addClass('animated');
+        var selectors = [];
+
         timer = setTimeout(function(){
-            $el.removeClass('animated');
+           //$el.removeClass('animated');
         }, 5000)
 
     }

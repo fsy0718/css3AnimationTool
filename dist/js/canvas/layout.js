@@ -23,9 +23,16 @@ define(['event', 'data'],function(event, data) {
       if (obj.css){
         el.css(obj.css.name, obj.css.rule);
       }
+      //删除样式
+      if (obj.style === null){
+          el[0].style = null;
+      }
       if($.isFunction(call)){
         call(obj, el);
       }
+    },
+    delElement: function(el){
+        el.remove();
     },
     init: function() {
       var self = this;

@@ -47,6 +47,17 @@ define(function(){
     },
     getItemByIndex: function(index) {
       return this.indexs[index];
+    },
+    delItem: function(index){
+        var indexInfo = this.indexs[index];
+        if(indexInfo){
+            var identifier = indexInfo.identifier;
+            indexInfo = null;
+            delete this.indexs[index];
+            delete this.identifiers[identifier];
+            return true;
+        }
+        return false;
     }
   }
 

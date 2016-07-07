@@ -77,9 +77,11 @@ define(['identifier', 'style', 'module'],function(Identifier, Style, module){
           }
           else if(key){
             cached[namespace][key] = null
+            delete cached[namespace][key]
           }
           else{
             cached[namespace] = null;
+            delete cached[namespace];
           }
       }
       return true;
