@@ -20,41 +20,58 @@ require(['event', 'js/canvas/layout', 'js/canvas/popup', 'data', 'underscore'],f
   }
   event.on('delEle', delEleFn);
 
+  var delCssFn = function(curArg){
+      //删除cached
+      data.delCached(curArg.index, 'animationName')
+  }
+
+  event.on('delCss', delCssFn);
+
   //页面脚本
   var $styleDemo = null;
   var parseToolItems = function(obj){
       var string = '';
-      var selectors = {};
+      var addIngClass = {};
+      var selectors = [];
       _.each(obj, function(val, key){
         //如果有animation名称,则添加名称
-        if(val.classNames){
-            selectors[val.identifier] = val.classNames;
-        }else if(val.style){
-            //如果有样式，则添加
-            selectors[val.identifier] = '';
+        var c = '';
+        if(val.classNames || val.animationName || val.style){
+            selectors.push(val.identifier);
+            if(val.classNames){
+                c += val.classNames.join(' ');
+            }
+            if(val.animationName){
+                c += val.animationName
+            }
+            if(c || val.style){
+                addIngClass[val.identifier] = c;
+            }
         }
         string += '.animated.' + val.identifier + '{\n' + (val.style || '') + '}\n';
       });
-      var result = {style: string, selectors: selectors};
-      return result;
+      return {addIngClass: addIngClass, style: string, selectors: selectors};
 
   }
   var timer = null;
   $('.header').on('click', '.pure-button', function(e){
     var $target = $(e.target);
     var action = $target.data('action');
-    //预览
+    //预览 TODO 此处需要做缓存 如果未修改任何样式，则不用替换css
     if(action === 'preview'){
         if(!$styleDemo){
             $styleDemo = $('<style class="animation_plus_tool_style"></style>').appendTo('head');
         }
         var demoDatas = data.getCached();
-        var _style = parseToolItems(demoDatas);
-        $styleDemo.text(_style.style);
-        var selectors = [];
-
+        var _data = parseToolItems(demoDatas);
+        $styleDemo.text(_data.style);
+        _.each(_data.selectors, function(selector){
+            $('.' + selector).addClass('animated ' + _data.addIngClass[selector])
+        })
         timer = setTimeout(function(){
-           //$el.removeClass('animated');
+            _.each(_data.selectors, function(selector){
+                $('.' + selector).removeClass('animated ' + _data.addIngClass[selector])
+            })
         }, 5000)
 
     }

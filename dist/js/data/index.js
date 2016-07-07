@@ -69,10 +69,16 @@ define(['identifier', 'style', 'module'],function(Identifier, Style, module){
           if(key === 'classNames'){
             var _classNames = cached[namespace].classNames;
             if(_classNames){
-                var _idx = _classNames.indexOf(val);
-                if(_idx > -1){
-                    _classNames.splice(_idx, 1);
+                if(val){
+                    var _idx = _classNames.indexOf(val);
+                    if(_idx > -1){
+                        _classNames.splice(_idx, 1);
+                    }
+                }else{
+                    _classNames = null;
+                    delete cached[namespace].classNames;
                 }
+
             }
           }
           else if(key){

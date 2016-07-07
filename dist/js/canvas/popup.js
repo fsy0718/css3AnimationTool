@@ -141,7 +141,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     var par = $show.data('parent');
     var name = $show.prop('name');
     var origin = $show.data('origin');
-    var val = $show.val().trim();
+    var val = $show.val().trim() || null;
     if(type === 'radio' && name === 'transform-style'){
       var is2D = val === 'flat';
       switchTransfromStyle($s3d, $s3dIpt ,is2D, _curArgs);
@@ -152,7 +152,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
             var opts = {name: name == 'x' ? 'left' : 'top', rule: _style['transform-origin'][name]}
             event.trigger('updateElement.canvas', {css: opts}, _curArgs.$el.find('.animation_plus_tool_item_origin'));
         }
-      var styles = data.css.getStyleByFilter(_curArgs.index, name, par, origin);
+      var styles = css.getStyleByFilter(_curArgs.index, name, par, origin);
       event.trigger('updateElement.canvas',{css: styles}, _curArgs.$el);
     }
   }
@@ -244,11 +244,8 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
             var animationActive = activeTabCont.find('.button-animation.button-success');
             if(animationActive.length){
               var oldAnimationName = data.getCached(_curArgs.index, 'animationName');
-              //删除原来的animationName
-              data.delCached(_curArgs.index, 'classNames', oldAnimationName);
               var key = animationActive.data('key');
               data.setCached(_curArgs.index, {
-                  'classNames': key,
                   'curIdx': idx,
                   'animationName': key
               });
@@ -282,7 +279,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
   var warnOkFn = function(e, ele, _l, l){
     var _curArgs = data.getCurrentArgs();
     if(_curArgs.$el){
-      event.trigger('delEle', _curArgs);
+      event.trigger(l.__opts.type === 'delete-ele' ? 'delEle' : 'delCss', _curArgs);
       data.delCurrentArgs();
       l.hide();
 
@@ -306,10 +303,10 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       if (key === 'update-css') {
         event.trigger('showStyle.popup');
       }
-      if (key === 'delete-ele'){
+      if (key === 'delete-ele' ||  key === 'delete-css'){
           var _curArgs = data.getCurrentArgs();
           var _identifier = identifier.getItemByIndex(_curArgs.index);
-          event.trigger('showWarn.popup', {msg: '确认删除' + _identifier.identifier});
+          event.trigger('showWarn.popup', {msg: '确认删除' + _identifier.identifier + (key === 'delete-css' ? '的样式' : null), type: key});
       }
     });
     popup.$menu.on('click', '.close', function(e){

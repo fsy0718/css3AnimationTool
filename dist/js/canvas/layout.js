@@ -21,7 +21,14 @@ define(['event', 'data'],function(event, data) {
         el.addClass(obj.newClassName);
       }
       if (obj.css){
-        el.css(obj.css.name, obj.css.rule);
+        if(obj.css.rule){
+            //变更样式
+            el.css(obj.css.name, obj.css.rule);
+        }else{
+            //删除样式
+            el[0].style[obj.css.name] = null;
+        }
+        
       }
       //删除样式
       if (obj.style === null){

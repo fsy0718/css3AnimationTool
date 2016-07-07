@@ -130,7 +130,11 @@ define(function(){
       if (!namespace) {
         this.restore();
       } else if (this.caches[namespace]) {
-        delete this.caches[namespace];
+        if(key){
+            delete this.caches[namespace][key];
+        }else{
+            delete this.caches[namespace];
+        }
       }
       return this;
     }
@@ -317,27 +321,35 @@ define(function(){
       if (obj) {
         for (var k in obj) {
           if (caches.hasChange(k, namespace)) {
-            result[k] = this.parseStyleObj(k, obj[k]);
             caches.removeChange(k, namespace);
-            caches.add(k, namespace, result[k]);
+            var v = this.parseStyleObj(k, obj[k]);
+            if(v){
+                result[k] = this.parseStyleObj(k, obj[k]);
+                caches.add(k, namespace, result[k]);
+            }else{
+                caches.destroy(k, namespace);
+            }
           } else {
-            result[k] = caches.get(k, namespace);
+            var v = caches.get(k, namespace);
+            if(v){
+                result[k] = v;
+            }
+
           }
         }
       }
-      //return result.join(';\n') + ';\n';
       return result;
     },
 
     getStyleByFilter: function(namespace, name, par, origin){
       var styleObj = this.getStyleObjByNamespace(namespace);
         if(origin){
-          return {name: origin, rule: styleObj[origin]};
+          return {name: origin, rule: styleObj[origin] || ''};
         }
         else if(par){
-          return {name: par, rule: styleObj[par]};
+          return {name: par, rule: styleObj[par] || ''};
         }else{
-          return {name: name, rule: styleObj[name]};
+          return {name: name, rule: styleObj[name] || ''};
         }
     },
 

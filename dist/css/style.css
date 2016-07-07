@@ -118,7 +118,7 @@ html, body, .layout{
   margin-top: -5px;
   margin-left: -5px;
   height: 10px;
-  background-color: transparent;
+  background-color: red;
   border-radius: 50%;
   opacity: .5;
 }
