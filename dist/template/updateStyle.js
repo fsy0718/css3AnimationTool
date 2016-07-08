@@ -108,7 +108,7 @@ __p+='';
 
 __p+=' ';
  if(obj.isFull){ 
-__p+=' <div class="tab"> <ul class="tab-nav pure-g"> ';
+__p+=' <div class="css3_tool_change_animate"> <i class="fa fa-times close" title="关闭"></i> <div class="tab"> <ul class="tab-nav pure-g"> ';
  _.each(navItems, function(item, key){ 
 __p+=' <li class="'+
 ((__t=((key == obj.idx ? 'active' : null)))==null?'':__t)+
@@ -121,9 +121,10 @@ __p+=' <li class="'+
 __p+=' </ul> <ul class="tab-cont pure-g"> ';
  } 
 __p+=' ';
- if(obj['0']) { 
+ if(obj.idx == 0) { 
 __p+=' ';
 
+    obj['0'] ? null : obj['0'] = {};
     var x = obj['0']['transform-origin'] && obj['0']['transform-origin'].x || 50;
     var y = obj['0']['transform-origin'] && obj['0']['transform-origin'].y || 50;
     var is3D = obj['0']['transform-style'] && obj['0']['transform-style'] === 'preserve-3d' ? true : false;
@@ -248,7 +249,7 @@ __p+=' <input type="radio" name="transition-timing-function" value="cubic-bezier
 __p+=' </label> </li> </ul> </dd> </dl> </li> ';
 } 
 __p+=' ';
- if(obj['2']){ 
+ if(obj.idx == 2){ 
 __p+=' <li class="tab-cont-item tab-cont-item-2 tab-cont-item-animate pure-u-1 '+
 ((__t=((obj.idx == 2 ? 'active' : null)))==null?'':__t)+
 '" data-index="2"> <dl> ';
@@ -275,7 +276,7 @@ __p+=' </dl></li> ';
  } 
 __p+=' ';
  if(obj.isFull){
-__p+=' </ul> </div> ';
+__p+=' </ul> </div> <div class="pure-u-1 pure-text-align-center"> <a href="javascript:;" class="pure-button">重置</a> <a href="javascript:;" class="button-success pure-button">确定</a> </div> </div> ';
  } 
 __p+=' ';
 }

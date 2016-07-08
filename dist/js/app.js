@@ -77,7 +77,9 @@ require(['event', 'js/canvas/layout', 'js/canvas/popup', 'data', 'underscore'],f
         }, 5000)
 
     }
-  })
+  });
+
+  event.trigger('addElement.popup');
 });
 
 

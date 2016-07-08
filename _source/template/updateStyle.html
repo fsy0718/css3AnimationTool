@@ -104,6 +104,8 @@
 %>
 
 <% if(obj.isFull){ %>
+<div class="css3_tool_change_animate">
+  <i class="fa fa-times close" title="关闭"></i>
   <div class="tab">
     <ul class="tab-nav pure-g">
       <% _.each(navItems, function(item, key){ %>
@@ -114,8 +116,9 @@
     </ul>
     <ul class="tab-cont pure-g">
 <% } %>
-<% if(obj['0']) { %>
+<% if(obj.idx == 0) { %>
   <%
+    obj['0'] ? null : obj['0'] = {};
     var x = obj['0']['transform-origin'] && obj['0']['transform-origin'].x || 50;
     var y = obj['0']['transform-origin'] && obj['0']['transform-origin'].y || 50;
     var is3D = obj['0']['transform-style'] && obj['0']['transform-style'] === 'preserve-3d' ? true : false;
@@ -285,7 +288,7 @@
     </dl>
   </li>
 <%} %>
-<% if(obj['2']){ %>
+<% if(obj.idx == 2){ %>
   <li class="tab-cont-item tab-cont-item-2 tab-cont-item-animate pure-u-1 <%=(obj.idx == 2 ? 'active' : null)%>" data-index="2">
     <dl>
     <% _.each(animations, function(animation, key){ %>
@@ -303,7 +306,12 @@
 
 <% if(obj.isFull){%>
     </ul>
-  </div>
+</div>
+<div class="pure-u-1 pure-text-align-center">
+    <a href="javascript:;" class="pure-button">重置</a>
+    <a href="javascript:;" class="button-success pure-button">确定</a>
+</div>
+</div>
 <% } %>
 
 
