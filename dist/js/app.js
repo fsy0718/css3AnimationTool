@@ -23,6 +23,8 @@ require(['event', 'js/canvas/layout', 'js/canvas/popup', 'data', 'underscore'],f
   var delCssFn = function(curArg){
       //删除cached
       data.delCached(curArg.index, 'animationName')
+      data.delCached(curArg.index, 'style');
+      data.css.destroyCssByNamespace(curArg.index);
   }
 
   event.on('delCss', delCssFn);

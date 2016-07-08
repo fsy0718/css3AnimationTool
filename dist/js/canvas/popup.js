@@ -395,6 +395,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
                 ok: warnOkFn
               }
           });
+          warnLayer.__opts = opts;
         }
     }
   }
