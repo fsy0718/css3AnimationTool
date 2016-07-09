@@ -18,11 +18,6 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     return identifierReg.test(identifier);
   };
 
-
-  var parseElOpts = function(opt) {
-    return '<div class="pure-u-1-5 ' + opt.identifier + '" data-key="' + opt.index + '"></div>';
-  };
-
   var isTransformStyle3DZ = /Z\s*$/;
 
 
@@ -40,37 +35,6 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
 
   // style ok函数 {{{
   var _styleOkFn = function(e, ele, _l, l, eData){
-    var activeTabCont = _l.find('.tab-cont-item.active');
-    var idx = activeTabCont.data('index');
-    var _curArgs = data.getCurrentArgs();
-    if(_curArgs.index){
-        //添加className
-        if(idx == '2'){
-            var animationActive = activeTabCont.find('.button-animation.button-success');
-            if(animationActive.length){
-              var oldAnimationName = data.getCached(_curArgs.index, 'animationName');
-              var key = animationActive.data('key');
-              data.setCached(_curArgs.index, {
-                  'curIdx': idx,
-                  'animationName': key
-              });
-            }else{
-                data.setCached(_curArgs.index, 'animationName', null);
-            }
-        }
-        //自定义transform
-        if(idx == '0'){
-            var _style = css.getCssByNamespaceWithoutSelector(_curArgs.index);
-            data.setCached(_curArgs.index, {
-                'style': _style,
-                'curIdx': idx
-            });
-            event.trigger('updateElement.canvas', {style: null}, _curArgs.$el);
-        }
-    }
-    l.hide();
-    //清除当前
-    data.delCurrentArgs();
   }
   //}}}
   //警告弹框显示 {{{
@@ -94,14 +58,13 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
   // }}}
 
   //获取添加元素弹框的html字符串
-  var getAddEleLayerString = function(option) {
+  var parseAddEleString = function(option) {
     option = option || {};
     return addElement(option)
   };
-
   //添加元素对象{{{
   var _addElePopup = {
-    defaultString: getAddEleLayerString({isFull: true, isAdd: true}),
+    defaultString: parseAddEleString({isFull: true, isAdd: true}),
     hasInited: false,
     init: function(){
       this.hasInited = true;
@@ -116,6 +79,9 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       this.$type = $el.find('select')
       this.$identifier = $el.find('input[name="identifier"]');
       this.$tip = this.$identifier.parent().next('span');
+      $el.find('.pure-form').on('submit', function(e){
+        e.preventDefault();
+      })
       $el.on('click', '.button-success', function(e){
         var type = self.$type.val();
         var _identifier = self.$identifier.val().trim();
@@ -182,7 +148,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         disabled: true,
         isFull: isFull
       });
-      var s =  getAddEleLayerString(_data);
+      var s =  parseAddEleString(_data);
       this.cached[curArgs.index] = s;
       return s;
     },
@@ -198,6 +164,9 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     initEvent: function(){
       var $el = this.$el;
       var self = this;
+      $el.find('.pure-form').on('submit', function(e){
+        e.preventDefault();
+      })
       $el.on('click', '.button-success', function(e){
         var $type = $el.find('select');
         var $identifier = $el.find('input[name="identifier"]');
@@ -276,35 +245,45 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     },
   };
   // }}}
-
-  var defaultStyleOptionString = updateStyle({
-    0: {
-      'transition-timing-function': 'cubic-bezier(0.500,0.500,0.500,0.750)'
-    },
-    '2': 'shake',
-    isFull: true,
-    idx: '0'
-  });
+  //自定义样式对象 {{{
   var _style = {
     hasInited: false,
     cached: {},
+    // init {{{
     init: function(curArgs){
       this.hasInited = true;
       this.curArgs = curArgs;
       var s = this.getStyleHtml({isFull: true});
       var $el = $(s).appendTo(_popup.$operate);
-      this.cached.idx = {0:true};
+      this.cached.idx = {0:true, cur: 0};
       this.$el = $el;
       _popup.show();
       this.$tabContBox = $el.find('.tab-cont');
       this.$tabNavItem = $el.find('.tab-nav-item');
+      //第一次进入直接设置
       this.$s3d = $el.find('.s3d');
       this.$s3dIpt = $el.find('.s3d input[type="text"], .s3d input[type="range"]');
       this.initEvent();
     },
+    // }}}
+    // show {{{
     show: function(curArgs){
       this.curArgs = curArgs;
     },
+
+    // }}}
+    // hide {{{
+    hide: function(curArgs){
+      delete this.curArgs;
+      delete this.$s3d;
+      delete this.$s3dIpt;
+      this.timer = null;
+      delete this.$btnAnimations;
+      this.cached.idx = {};
+      this.$el.hide();
+      _popup.hide();
+    },
+    // }}}
     // [getStyleHtml] {{{
     getStyleHtml: function(opts){
       var curArgs = this.curArgs;
@@ -337,11 +316,47 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       }
     },
     // }}}
-    hide: function(curArgs){
+    // 切换动画库类名事柄 [animationNameSwitchHandler] {{{
+    animationNameSwitchHandler: function(e){
+      var $target = $(e.target);
+      var self = this;
+      if(!$target.hasClass('button-success')){
+        var key = $target.data('key');
+        var oldBtnAnimation = this.$btnAnimations.filter('.button-success');
+        oldBtnAnimation.removeClass('button-success');
+        var _oldAnimationClass = 'animated ' + (oldBtnAnimation.data('key') || '');
+        var _newAnimationClass = 'animated ' + key;
+        $target.addClass('button-success');
+        clearTimeout(self.timer);
+        var $el = this.curArgs.$el;
+        event.trigger('updateElement.canvas', {
+          oldClassName: _oldAnimationClass,
+          newClassName: _newAnimationClass
+        }, $el);
+        self.timer = setTimeout(function(){
+          event.trigger('updateElement.canvas',{
+            oldClassName: _newAnimationClass
+          }, $el)
+        },1500)
+      }else{
+        $target.removeClass('button-success');
+      }
+    },
+    // }}}
+    // 存储一些dom变量，用于事件 [setDoms] {{{
+    setDoms: function(idx){
+      if(idx == 0){
+        this.$s3d = this.$el.find('.s3d');
+        this.$s3dIpt = this.$el.find('.s3d input[type="text"], .s3d input[type="range"]');
+      }
+      if(idx == 2){
+        this.$btnAnimations = this.$el.find('.button-animation');
+      }
 
     },
-    // iptChangeHandler {{{
-    iptChangeHandler: function(e){
+    // }}}
+    // transformIptChangeHandler {{{
+    transformIptChangeHandler: function(e){
       var $target = $(e.target);
       var _curArgs = this.curArgs;
       var type = $target.prop('type');
@@ -377,20 +392,21 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     // tabItemClickHandler {{{
     tabItemClickHandler: function(e){
       var $target = $(e.target);
-      var $par = $target.parent();
-      if (!$par.hasClass('active')) {
-        var idx = $par.data('index');
+      if (!$target.hasClass('active')) {
+        var idx = $target.data('index');
         var tabContItem = this.$el.find('.tab-cont-item');
         tabContItem.filter('.active').removeClass('active');
         if(!this.cached.idx[idx]){
           this.cached.idx[idx] = true;
           var s = this.getStyleHtml({type: idx})
           this.$tabContBox.append(s);
+          this.setDoms(idx);
         }else{
           tabContItem.filter('[data-index="' + idx + '"]').addClass('active');
         }
-        this.$tabNavItem.filter('.active').removeClass('active');
-        $par.addClass('active');
+        this.$tabNavItem.eq(this.cached.idx.cur).removeClass('active');
+        $target.addClass('active');
+        this.cached.idx.cur = idx;
       }
     },
     // }}}
@@ -412,6 +428,36 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       }
     },
     // }}}
+    // styleOkHandler {{{
+    styleOkHandler: function(e){
+      var idx = this.cached.idx.cur;
+      var index = this.curArgs.index;
+      var $el = this.curArgs.$el;
+      //添加className
+      if(idx == '2'){
+        var animationActive = this.$el.find('.button-animation.button-success');
+        if(animationActive.length){
+          var key = animationActive.data('key');
+          data.setCached(index, {
+              'curIdx': idx,
+              'animationName': key
+          });
+        }else{
+          data.setCached(index, 'animationName', null);
+        }
+      }
+      //自定义transform
+      if(idx == '0'){
+        var _style = css.getCssByNamespaceWithoutSelector(index);
+        data.setCached(index, {
+            'style': _style,
+            'curIdx': idx
+        });
+        event.trigger('updateElement.canvas', {style: null}, $el);
+      }
+      this.hide();
+    },
+    // }}}
     // initEvent {{{
     initEvent: function(){
       var self = this;
@@ -419,37 +465,12 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       var timer = null;
       var animationClass = null;
       //切换tab
-      $el.on('click', '.tab-nav-item-a', function(e) {
+      $el.on('click', '.tab-nav-item', function(e) {
         self.tabItemClickHandler(e);
       });
       //切换动画库
       $el.on('click', '.button-animation', function(e){
-        var $target = $(e.target);
-        if(!$target.hasClass('button-success')){
-          var key = $target.data('key');
-          btnAnimations.filter('.button-success').removeClass('button-success');
-          $target.addClass('button-success');
-          var _curArgs = data.getCurrentArgs();
-          if(_curArgs.$el){
-            clearTimeout(timer);
-            var _animationClass = 'animated ' + key;
-            event.trigger('updateElement.canvas', {
-              oldClassName: animationClass,
-              newClassName: _animationClass
-            }, _curArgs.$el, function(){
-              animationClass = _animationClass;
-            });
-            timer = setTimeout(function(){
-              event.trigger('updateElement.canvas',{
-                oldClassName: animationClass
-              }, _curArgs.$el, function(){
-                animationClass = null;
-              })
-            },1500)
-          }
-        }else{
-          $target.removeClass('button-success');
-        }
+        self.animationNameSwitchHandler(e);
       });
       //input[type="range"]的input事件
       $el.on('input', 'input[type="range"]', function(e){
@@ -460,7 +481,10 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       //input change
       $el.on('change', 'input', function(e){
         var _self = this;
-        self.iptChangeHandler(e, _self);
+        self.transformIptChangeHandler(e, _self);
+      });
+      $el.on('click', '.button-ok', function(e){
+        self.styleOkHandler(e);
       });
     }
     // }}}

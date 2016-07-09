@@ -276,7 +276,7 @@ __p+=' </dl></li> ';
  } 
 __p+=' ';
  if(obj.isFull){
-__p+=' </ul> </div> <div class="pure-u-1 pure-text-align-center"> <a href="javascript:;" class="pure-button">重置</a> <a href="javascript:;" class="button-success pure-button">确定</a> </div> </div> ';
+__p+=' </ul> </div> <div class="pure-u-1 pure-text-align-center"> <a href="javascript:;" class="pure-button button-reset">重置</a> <a href="javascript:;" class="button-success pure-button button-ok">确定</a> </div> </div> ';
  } 
 __p+=' ';
 }
