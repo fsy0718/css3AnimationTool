@@ -22,7 +22,7 @@ define(['identifier', 'style', 'module'],function(Identifier, Style, module){
                         obj[key] = [val];
                     }
                 }
-            }else if(val){
+            }else if(val !== undefined || val !== null){
                 obj[key] = val;
             }else{
                 delete obj[key];

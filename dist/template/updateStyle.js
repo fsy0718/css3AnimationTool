@@ -108,7 +108,7 @@ __p+='';
 
 __p+=' ';
  if(obj.isFull){ 
-__p+=' <div class="css3_tool_change_animate"> <i class="fa fa-times close" title="关闭"></i> <div class="tab"> <ul class="tab-nav pure-g"> ';
+__p+=' <div class="css3_tool_change_animate"> <i class="fa fa-times close" title="关闭"></i> <ul class="tab-nav pure-g"> ';
  _.each(navItems, function(item, key){ 
 __p+=' <li class="'+
 ((__t=((key == obj.idx ? 'active' : null)))==null?'':__t)+
@@ -118,52 +118,50 @@ __p+=' <li class="'+
 ((__t=(item.name))==null?'':__t)+
 '</a> </li> ';
  }) 
-__p+=' </ul> <ul class="tab-cont pure-g"> ';
+__p+=' </ul> <ul class="tab-cont pure-g"> <li class="tab-cont-item tab-cont-item-transform tab-cont-item-0 pure-u-1" data-index="0"> ';
  } 
 __p+=' ';
  if(obj.idx == 0) { 
 __p+=' ';
 
     obj['0'] ? null : obj['0'] = {};
-    var x = obj['0']['transform-origin'] && obj['0']['transform-origin'].x || 50;
-    var y = obj['0']['transform-origin'] && obj['0']['transform-origin'].y || 50;
+    var x = obj['0']['transform-origin'] && parseFloat(obj['0']['transform-origin'].x) || 50;
+    var y = obj['0']['transform-origin'] && parseFloat(obj['0']['transform-origin'].y) || 50;
     var is3D = obj['0']['transform-style'] && obj['0']['transform-style'] === 'preserve-3d' ? true : false;
     var is2D = obj['0']['transform-style'] && obj['0']['transform-style'] === 'flat' ? true : false;
     var direction = [['旋转','deg','rotate',-360,360],['缩放','倍','scale',-5,5],['位移','px','translate',-1000,1000],['倾斜','deg','skew',-180,180]];
     var t = {};
     if(obj['0']['transform']){
       if(obj['0']['transform']['rotate']){
-        t.X0 = obj['0']['transform']['rotate'].x;
-        t.Y0 = obj['0']['transform']['rotate'].y;
-        t.Z0 = obj['0']['transform']['rotate'].z;
+        t.X0 = parseFloat(obj['0']['transform']['rotate'].x);
+        t.Y0 = parseFloat(obj['0']['transform']['rotate'].y);
+        t.Z0 = parseFloat(obj['0']['transform']['rotate'].z);
       }
       if(obj['0']['transform']['scale']){
-        t.X1 = obj['0']['transform']['scale'].x;
-        t.Y1 = obj['0']['transform']['scale'].y;
-        t.Z1 = obj['0']['transform']['scale'].z
+        t.X1 = parseFloat(obj['0']['transform']['scale'].x);
+        t.Y1 = parseFloat(obj['0']['transform']['scale'].y);
+        t.Z1 = parseFloat(obj['0']['transform']['scale'].z);
       }
       if(obj['0']['transform']['translate']){
-        t.X2 = obj['0']['transform']['translate'].x;
-        t.Y2 = obj['0']['transform']['translate'].y;
-        t.Z2 = obj['0']['transform']['translate'].z;
+        t.X2 = parseFloat(obj['0']['transform']['translate'].x);
+        t.Y2 = parseFloat(obj['0']['transform']['translate'].y);
+        t.Z2 = parseFloat(obj['0']['transform']['translate'].z);
       }
       if(obj['0']['transform']['skew']){
-        t.X3 = obj['0']['transform']['skew'].x;
-        t.Y3 = obj['0']['transform']['skew'].y;
+        t.X3 = parseFloat(obj['0']['transform']['skew'].x);
+        t.Y3 = parseFloat(obj['0']['transform']['skew'].y);
       }
       if(obj['0']['transform']['matrix']){
-        t.a = obj['0']['transform']['matrix'].a;
-        t.b = obj['0']['transform']['matrix'].b;
-        t.c = obj['0']['transform']['matrix'].c;
-        t.d = obj['0']['transform']['matrix'].d;
-        t.e = obj['0']['transform']['matrix'].e;
-        t.f = obj['0']['transform']['matrix'].f;
+        t.a = parseFloat(obj['0']['transform']['matrix'].a);
+        t.b = parseFloat(obj['0']['transform']['matrix'].b);
+        t.c = parseFloat(obj['0']['transform']['matrix'].c);
+        t.d = parseFloat(obj['0']['transform']['matrix'].d);
+        t.e = parseFloat(obj['0']['transform']['matrix'].e);
+        t.f = parseFloat(obj['0']['transform']['matrix'].f);
       }
     }
   
-__p+=' <li class="tab-cont-item tab-cont-item-transform tab-cont-item-0 pure-u-1 '+
-((__t=((obj.idx == 0 ? 'active' : null)))==null?'':__t)+
-'" data-index="0"> <dl> <dt>变形原点</dt> <dd class="s2d"> <ul class="list"> <li class="item pure-g"> <label class="pure-u-1-3"> <span class="label">X</span> <input type="text" name="x" data-parent="transform-origin" min="0" max="100" step="1" , value="'+
+__p+=' <dl> <dt>变形原点</dt> <dd class="s2d"> <ul class="list"> <li class="item pure-g"> <label class="pure-u-1-3"> <span class="label">X</span> <input type="text" name="x" data-parent="transform-origin" min="0" max="100" step="1" , value="'+
 ((__t=(x))==null?'':__t)+
 '"> <span class="unit">%</span> </label> <span class="control pure-u-2-3"> <input type="range" min="0" max="100" step="1" , value="'+
 ((__t=(x))==null?'':__t)+
@@ -222,9 +220,9 @@ __p+=' <li class="item pure-u-1-3"> <label> <span class="label">参数'+
 '"> </label> </li> ';
  }) 
 __p+=' </ul> </dd> <dd class="s2d"> <label> <span class="label">过渡css属性</span> <span class="input"> <input type="text" name="transition-property" value="all"> </span> </label> </dd> <dd class="s2d"> <label> <span class="label">过渡延迟时间</span> <span class="input"> <input type="number" name="transition-delay" step="0.1" value="'+
-((__t=((obj['0']['transition-delay'] ? obj['0']['transition-delay'] : null)))==null?'':__t)+
+((__t=((obj['0']['transition-delay'] ? parseFloat(obj['0']['transition-delay']) : null)))==null?'':__t)+
 '"> </span> <span class="unit">s</span> </label> </dd> <dd class="s2d"> <label> <span class="label">过渡时间</span> <span class="input"> <input type="number" name="transition-duration" step="0.1" value="'+
-((__t=((obj['0']['transition-duration'] ? obj['0']['transition-duration'] : null)))==null?'':__t)+
+((__t=((obj['0']['transition-duration'] ? parseFloat(obj['0']['transition-duration']) : null)))==null?'':__t)+
 '"> </span> <span class="unit">s</span> </label> </dd> <dt>过渡效果</dt> <dd class="s2d"> <ul class="list pure-g"> ';
 _.each(['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'], function(val,key){ 
 __p+=' <li class="item pure-u-1-3"> <label> <input type="radio" name="transition-timing-function" value="'+
@@ -246,13 +244,15 @@ __p+=' <input type="radio" name="transition-timing-function" value="'+
  }else{
 __p+=' <input type="radio" name="transition-timing-function" value="cubic-bezier(0.500,0.250,0.500,0.750)"> <span class="label">cubic-bezier(0.500,0.250,0.500,0.750)</span> ';
 }
-__p+=' </label> </li> </ul> </dd> </dl> </li> ';
+__p+=' </label> </li> </ul> </dd> </dl> ';
 } 
 __p+=' ';
+ if(obj.isFull){ 
+__p+=' </li> <li class="tab-cont-item tab-cont-item-1 tab-cont-item-animate-diy pure-u-1" data-index="1"> </li> <li class="tab-cont-item tab-cont-item-2 tab-cont-item-animate pure-u-1" data-index="2"> ';
+ } 
+__p+=' ';
  if(obj.idx == 2){ 
-__p+=' <li class="tab-cont-item tab-cont-item-2 tab-cont-item-animate pure-u-1 '+
-((__t=((obj.idx == 2 ? 'active' : null)))==null?'':__t)+
-'" data-index="2"> <dl> ';
+__p+=' <dl> ';
  _.each(animations, function(animation, key){ 
 __p+=' <dt class="sort-title"><span>'+
 ((__t=(animation.name))==null?'':__t)+
@@ -272,11 +272,11 @@ __p+=' </dd> ';
 } 
 __p+=' ';
  }) 
-__p+=' </dl></li> ';
+__p+=' </dl> ';
  } 
 __p+=' ';
  if(obj.isFull){
-__p+=' </ul> </div> <div class="pure-u-1 pure-text-align-center"> <a href="javascript:;" class="pure-button button-reset">重置</a> <a href="javascript:;" class="button-success pure-button button-ok">确定</a> </div> </div> ';
+__p+=' </li> </ul> <div class="pure-text-align-center animate-button-box"> <a href="javascript:;" class="pure-button button-reset">重置</a> <a href="javascript:;" class="button-success pure-button button-ok">确定</a> </div> </div> ';
  } 
 __p+=' ';
 }

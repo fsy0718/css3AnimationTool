@@ -107,7 +107,7 @@ html,body,.layout{
   .canvas{
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
     height: 100%;
-    min-width: 640px;
+    width: 100%;
   }
   .operatebox{
       width: 40%;
@@ -126,15 +126,18 @@ html,body,.layout{
   }
   .operate{
       background: white;
-      padding: 2.5em 1em 2em 1em;
+      padding: 2em 1em 1.5em 1em;
+      max-height: 100%;
+      box-sizing: border-box;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
       position: relative;
       z-index: 100;
       font-size: 0.8em;
       .close{
           position: absolute;
-          right: 1em;
-          top: .8em;
+          right: .5em;
+          top: .5em;
+          z-index: 101;
           cursor: pointer;
           opacity: .5;
           font-size: 1.125em;
@@ -168,9 +171,19 @@ html,body,.layout{
       }
   }
     .css3_tool_change_animate{
+      padding: 3em 0 6em 0;
+      max-height: 100%;
+      box-sizing: border-box;
       .tab-nav{
+        position: absolute;
+        box-sizing: border-box;
+        right: 1em;
+        top: 2em;
+        left: 1em;
+        z-index: 100;
+        background: white;
+        padding: 0 2em 0 1em;
         line-height: 1.2;
-        padding: 1em ;
         flex-wrap: nowrap;
         .tab-nav-item{
             display: block;
@@ -196,14 +209,22 @@ html,body,.layout{
         }
       }
       .tab-cont{
-        margin-top: 2em;
-        margin-bottom: 1em;
+          max-height: 100%;
+          overflow: auto;
       }
       .tab-cont-item{
         display: none;
         &.active{
           display: block;
         }
+      }
+      .animate-button-box{
+          position: absolute;
+          bottom: 0.5em;
+          left: 1em;
+          right: 1em;
+          padding-top: .5em;
+          background: white;
       }
       .tab-cont-item-transform{
         font-size: 0.75em;

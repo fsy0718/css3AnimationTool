@@ -12,16 +12,12 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       data.delCurrentArgs();
       return l.hide();
   }
-
-  var identifierReg = /^\w+([\-\_]\w+)*$/;
+  var identifierReg = /^[^\d]\w+([\-\_]\w+)*$/;
   var identifierIsValid = function(identifier) {
     return identifierReg.test(identifier);
   };
-
   var isTransformStyle3DZ = /Z\s*$/;
 
-
-  var styleLayer = null;
   var warnLayer = null;
 
   var _styleBeforeShowFn = function(_l, l) {
@@ -32,11 +28,6 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       _initStylePopupEvent(_l, l);
     }
   }
-
-  // style ok函数 {{{
-  var _styleOkFn = function(e, ele, _l, l, eData){
-  }
-  //}}}
   //警告弹框显示 {{{
   var warnBeforeShowFn = function(_l, l, isFirst){
     if(!isFirst){
@@ -56,12 +47,12 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
 
   }
   // }}}
-
-  //获取添加元素弹框的html字符串
+  //获取添加元素弹框的html字符串 {{{
   var parseAddEleString = function(option) {
     option = option || {};
     return addElement(option)
   };
+  // }}}
   //添加元素对象{{{
   var _addElePopup = {
     defaultString: parseAddEleString({isFull: true, isAdd: true}),
@@ -257,9 +248,12 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       var $el = $(s).appendTo(_popup.$operate);
       this.cached.idx = {0:true, cur: 0};
       this.$el = $el;
+      var $content = $('.content');
+      this.setMaxHeight($content.height());
       _popup.show();
-      this.$tabContBox = $el.find('.tab-cont');
       this.$tabNavItem = $el.find('.tab-nav-item');
+      this.$tabContItem = $el.find('.tab-cont-item');
+      this.$tabContItem.eq(0).addClass('active');
       //第一次进入直接设置
       this.$s3d = $el.find('.s3d');
       this.$s3dIpt = $el.find('.s3d input[type="text"], .s3d input[type="range"]');
@@ -269,6 +263,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     // show {{{
     show: function(curArgs){
       this.curArgs = curArgs;
+      
     },
 
     // }}}
@@ -392,18 +387,17 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     // tabItemClickHandler {{{
     tabItemClickHandler: function(e){
       var $target = $(e.target);
+      $target = $target.hasClass('.tab-cont-item') ? $target : $target.parent();
       if (!$target.hasClass('active')) {
         var idx = $target.data('index');
-        var tabContItem = this.$el.find('.tab-cont-item');
-        tabContItem.filter('.active').removeClass('active');
         if(!this.cached.idx[idx]){
-          this.cached.idx[idx] = true;
           var s = this.getStyleHtml({type: idx})
-          this.$tabContBox.append(s);
+          this.$tabContItem.eq(idx).append(s)
           this.setDoms(idx);
-        }else{
-          tabContItem.filter('[data-index="' + idx + '"]').addClass('active');
+          this.cached.idx[idx] = true;
         }
+        this.$tabContItem.eq(this.cached.idx.cur).removeClass('active');
+        this.$tabContItem.eq(idx).addClass('active');
         this.$tabNavItem.eq(this.cached.idx.cur).removeClass('active');
         $target.addClass('active');
         this.cached.idx.cur = idx;
@@ -486,6 +480,14 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       $el.on('click', '.button-ok', function(e){
         self.styleOkHandler(e);
       });
+      $el.on('click', '.close', function(e){
+        self.hide();
+      })
+    },
+    // }}}
+    // setMaxHeight {{{
+    setMaxHeight: function(h){
+      this.$el.find('.tab-cont').css('max-height', h - 160);
     }
     // }}}
   }

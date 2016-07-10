@@ -79,7 +79,7 @@ require(['event', 'js/canvas/layout', 'js/canvas/popup', 'data', 'underscore'],f
     }
   });
 
-  event.trigger('addElement.popup');
+  //event.trigger('showStyle.popup');
 });
 
 
