@@ -11,7 +11,7 @@ require.config({
     'event': 'js/event',
     //data相关
     'identifier': 'js/data/identifier',
-    'style': 'js/data/style',
+    'css': 'js/data/css',
     'data': 'js/data/index'
   },
   config: {

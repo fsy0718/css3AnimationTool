@@ -28,10 +28,8 @@ define(['event', 'data'],function(event, data) {
             //删除样式
             el[0].style[obj.css.name] = null;
         }
-      }
-      //删除样式
-      if (obj.style === null){
-          el[0].style = null;
+      }else if(obj.css === null){
+        el[0].style = null;
       }
       if($.isFunction(call)){
         call(obj, el);

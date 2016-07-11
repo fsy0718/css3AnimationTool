@@ -4,7 +4,7 @@ require(['event', 'js/canvas/layout', 'js/canvas/popup', 'data', 'underscore', '
   event.on('updateElement.popup', popup.updateElement);
   event.on('showMenu.popup', popup.showMenu);
   event.on('hideMenu.popup', popup.hideMenu);
-  event.on('showStyle.popup', popup.showStyle);
+  event.on('showRule.popup', popup.showRule);
   event.on('showPrompt.popup', popup.showPrompt);
 
   event.on('addElement.canvas', layout.addElement);
@@ -20,14 +20,14 @@ require(['event', 'js/canvas/layout', 'js/canvas/popup', 'data', 'underscore', '
   }
   event.on('delEle', delEleFn);
 
-  var delCssFn = function(curArg){
+  var delRuleFn = function(curArg){
       //删除cached
       data.delCached(curArg.index, 'animationName')
       data.delCached(curArg.index, 'style');
       data.css.destroyCssByNamespace(curArg.index);
   }
 
-  event.on('delCss', delCssFn);
+  event.on('delRule', delRuleFn);
 
   //页面脚本
   var $styleDemo = null;

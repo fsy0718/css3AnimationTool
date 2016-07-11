@@ -1,10 +1,10 @@
-define(['identifier', 'style', 'module'],function(Identifier, Style, module){
+define(['identifier', 'css', 'module'],function(Identifier, Css, module){
   var debug = module.config().debug;
 
   //缓存当前编辑的元素信息
   var currentArgs = {};
   var cached = {};
-  var validKeys = ['style', 'classNames', 'html', 'curIdx', 'identifier', 'animationName']
+  var validKeys = ['css', 'classNames', 'html', 'curIdx', 'identifier', 'animationName']
   var setCached = function(obj, key, val){
     if(typeof key === 'object'){
         for(var i in key){
@@ -33,7 +33,7 @@ define(['identifier', 'style', 'module'],function(Identifier, Style, module){
 
   var data = {
     identifier: new Identifier(),
-    css: new Style(),
+    css: new Css(),
     setCurrentArgs: function(index, ele){
       currentArgs.index = index;
       currentArgs.$el = ele;

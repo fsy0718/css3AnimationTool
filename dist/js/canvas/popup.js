@@ -176,7 +176,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
           event.trigger('updateElement.popup');
         }
         if (key === 'update-css') {
-          event.trigger('showStyle.popup');
+          event.trigger('showRule.popup');
         }
         if (key === 'delete-ele' ||  key === 'delete-css'){
             var _curArgs = data.getCurrentArgs();
@@ -184,7 +184,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
             event.trigger('showPrompt.popup', '确认删除' + _identifier.identifier + (key === 'delete-css' ? '的样式' : ''), {
               beforePrompt: function(e){
                 var curArgs = data.getCurrentArgs();
-                event.trigger(key === 'delete-ele' ? 'delEle' : 'delCss', curArgs);
+                event.trigger(key === 'delete-ele' ? 'delEle' : 'delRule', curArgs);
               }
             });
         }
@@ -213,7 +213,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
   };
   // }}}
   //自定义样式对象 {{{
-  var _style = {
+  var _rule = {
     hasInited: false,
     cached: {},
     // init {{{
@@ -271,7 +271,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         this.cached[curArgs.index] = {};
       }
       if(type === 0){
-        var _style = css.getCssObjByNamespace(curArgs.index);
+        var _style = css.getRulesByNamespace(curArgs.index);
         s = updateStyle({
           '0': _style,
           isFull: opts.isFull,
@@ -377,12 +377,12 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         this.switchTransfromStyle(is2D);
       }
       if(_curArgs.index){
-          var _style = css.addCss(_curArgs.index, name, val, par, origin);
+          var _style = css.addRule(_curArgs.index, name, val, par, origin);
           if(par === 'transform-origin'){
               var opts = {name: name == 'x' ? 'left' : 'top', rule: _style['transform-origin'][name]}
               event.trigger('updateElement.canvas', {css: opts}, _curArgs.$el.find('.animation_plus_tool_item_origin'));
           }
-        var styles = css.getStyleByFilter(_curArgs.index, name, par, origin);
+        var styles = css.getCssObjByFilter(_curArgs.index, name, par, origin);
         event.trigger('updateElement.canvas',{css: styles}, _curArgs.$el);
       }
     },
@@ -412,11 +412,11 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       this.$s3d[is2D ? 'addClass' : 'removeClass']('Ldn');
       if(is2D){
           this.$s3dIpt.val(null);
-          var s3DStylesObj = css.getCssObjByNamespace(curArgs.index);
+          var s3DStylesObj = css.getRulesByNamespace(curArgs.index);
           if(s3DStylesObj && s3DStylesObj.transform){
               s3DStylesObj.transform.__index.forEach(function(z){
                   if(isTransformStyle3DZ.test(z)){
-                      css.delCss(curArgs.index, z, null, 'transform');
+                      css.delRule(curArgs.index, z, null, 'transform');
                   };
                   return true;
               })
@@ -424,8 +424,8 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       }
     },
     // }}}
-    // styleOkHandler {{{
-    styleOkHandler: function(e){
+    // ruleOkHandler {{{
+    ruleOkHandler: function(e){
       var idx = this.cached.idx.cur;
       var index = this.curArgs.index;
       var $el = this.curArgs.$el;
@@ -444,12 +444,12 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       }
       //自定义transform
       if(idx == '0'){
-        var _style = css.getCssByNamespaceWithoutSelector(index);
+        var _css = css.getCssByNamespaceWithoutSelector(index);
         data.setCached(index, {
-            'style': _style,
+            'css': _css,
             'curIdx': idx
         });
-        event.trigger('updateElement.canvas', {style: null}, $el);
+        event.trigger('updateElement.canvas', {css: null}, $el);
       }
       this.hide();
     },
@@ -483,7 +483,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         self.transformIptChangeHandler(e, _self);
       });
       $el.on('click', '.button-ok', function(e){
-        self.styleOkHandler(e);
+        self.ruleOkHandler(e);
       });
       $el.on('click', '.close', function(e){
         self.hide();
@@ -568,7 +568,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     addEle: _addElePopup,
     updateEle: _updateEle,
     menu: _menu,
-    style: _style,
+    rule: _rule,
     prompt: _prompt,
     hide: function(){
       data.delCurrentArgs();
@@ -604,13 +604,13 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     hideMenu: function(){
       _popup.menu.hide();
     },
-    showStyle: function(){
+    showRule: function(){
       var _curArgs = data.getCurrentArgs();
       if(_curArgs){
-        if(_popup.style.hasInited){
-          _popup.style.show(_curArgs);
+        if(_popup.rule.hasInited){
+          _popup.rule.show(_curArgs);
         }else{
-          _popup.style.init(_curArgs);
+          _popup.rule.init(_curArgs);
         }
       }
     },

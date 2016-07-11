@@ -1,6 +1,6 @@
 define(function(){
   var numLikeReg = /^[-+]?(\d+|)(\.\d+)?$/;
-  var cssHelp = {
+  var ruleHelp = {
     defaultVal: {
       'transform-origin': {
         x: '50%',
@@ -22,7 +22,7 @@ define(function(){
         matrix: ['a', 'b', 'c', 'd', 'e', 'f']
       }
     },
-    cssUnits: {
+    ruleUnits: {
       'transform-origin-x': '%',
       'transform-origin-y': '%',
       rotate: 'deg',
@@ -44,9 +44,9 @@ define(function(){
     }
   }
 
-  var cssParse = {
+  var ruleParse = {
     matrix: function(val) {
-      var result = cssHelp.orderKey.fix.matrix.map(function(a) {
+      var result = ruleHelp.orderKey.fix.matrix.map(function(a) {
         return val[a];
       });
       return 'matrix(' + result.join(',') + ')';
@@ -64,11 +64,11 @@ define(function(){
     }
   }
 
-  var Style = function() {
-    this.styles = {};
+  var Css = function() {
+    this.rules = {};
   };
-  Style.cssParse = cssParse;
-  Style.cssHelp = cssHelp;
+  Css.ruleParse = ruleParse;
+  Css.ruleHelp = ruleHelp;
 
   var Cache = function() {
     this.caches = {};
@@ -142,7 +142,7 @@ define(function(){
 
   var caches = new Cache();
 
-  Style.prototype = {
+  Css.prototype = {
     /**
      * 添加css规则，如果符合样式有前后顺序之分的，会自动记录par或key在origin顺序
      * @todo val 支持Object格式
@@ -153,25 +153,25 @@ define(function(){
      * @param {String} [origin]    css属性属于哪个css属性
      * @example
      * //描述修改或新增transform下matrix中的a的值为0,值为{'#header':{transform:{matrix:{a:1},__index: ['matrix']}}}
-     * addCss('#header','a','0','matrix','transform')
+     * addRule('#header','a','0','matrix','transform')
      */
-    addCss: function(namespace, key, val, par, origin) {
+    addRule: function(namespace, key, val, par, origin) {
       if (!namespace) {
         throw Error('需要namespace');
         return;
       }
       var isDel = val === null;
-      if (!this.styles[namespace]) {
+      if (!this.rules[namespace]) {
         if(isDel){
             return true;
         }
-        this.styles[namespace] = {};
+        this.rules[namespace] = {};
       }
-      var source = this.styles[namespace];
+      var source = this.rules[namespace];
       //获取添加的对象
-      var target = this.getCssTarget(source, origin, par);
+      var target = this.getRuleTarget(source, origin, par);
       //如果origin需要记录顺序
-      if (this.shouldOnOrder(origin)) {
+      if (this.hasOrder(origin)) {
         //如果par存在，则记录par的顺序，否则记录本身的顺序,比如布matrix中a的值，需要记录matrix的顺序
         var name = par ? par : key;
         var index = source[origin].__index;
@@ -196,7 +196,7 @@ define(function(){
         }
 
       }else{
-        target[key] = this.parseCssVal(val, key, par);
+        target[key] = this.ruleAddUnit(val, key, par);
       }
 
       var cacheName = origin || par || key;
@@ -206,16 +206,16 @@ define(function(){
     },
 
     /**
-     * 解析css规则属性值，加单位
-     * @param  {String} val    属性值
-     * @param  {String} key    css属性名
-     * @param  {String} [par] css规则属性父属性
+     * 解析rule的值，加单位
+     * @param  {String} val    值
+     * @param  {String} key    rule属性名
+     * @param  {String} [par] rule的父属性
      * @return {String}
      */
-    parseCssVal: function(val, key, par) {
-      var unit = Style.cssHelp.cssUnits[key] || '';
+    ruleAddUnit: function(val, key, par) {
+      var unit = Css.ruleHelp.ruleUnits[key] || '';
       if (par) {
-        unit = Style.cssHelp.cssUnits[par + '-' + key] || ''
+        unit = Css.ruleHelp.ruleUnits[par + '-' + key] || ''
       };
       val += unit;
       if (numLikeReg.test(val)) {
@@ -232,8 +232,8 @@ define(function(){
      * @param  {String} [origin]   css规则属性顶层属性名
      * @return {Boolean}           是否删除成功
      */
-    delCss: function(namespace, key, par, origin) {
-      return this.addCss(namespace, key, null, par, origin);
+    delRule: function(namespace, key, par, origin) {
+      return this.addRule(namespace, key, null, par, origin);
     },
     /**
      * 是否需要关注属性的顺序
@@ -242,21 +242,21 @@ define(function(){
      * @example
      * // transform的规则效果与规则的前后顺序有关
      * @return true  有关
-     * shouldOnOrder('transform')
+     * hasOrder('transform')
      * @return false 无关
-     * shouldOnOrder('width')
+     * hasOrder('width')
      */
-    shouldOnOrder: function(key) {
-      return Style.cssHelp.orderKey.diy.indexOf(key) !== -1;
+    hasOrder: function(key) {
+      return Css.ruleHelp.orderKey.diy.indexOf(key) !== -1;
     },
     /**
-     * 获取css属性设置的对象
-     * @param  {Object} source css规则空间对象
-     * @param  {String} [origin] css属性顶层属性名
-     * @param  {String} [par] css属性父属性名
+     * 获取设置规则的对象
+     * @param  {Object} source rule的命名空间
+     * @param  {String} [origin] rule顶层属性的名称
+     * @param  {String} [par] rule父级属性的名称
      * @return {Object}
      */
-    getCssTarget: function(source, origin, par) {
+    getRuleTarget: function(source, origin, par) {
       var target = source;
       if (origin) {
         if (!target[origin]) {
@@ -277,10 +277,10 @@ define(function(){
      * @param  {String} namespace css规则空间对象
      * @return {(Object|null)}
      */
-    getCssObjByNamespace: function(namespace) {
-      return this.styles[namespace] || null;
+    getRulesByNamespace: function(namespace) {
+      return this.rules[namespace] || null;
     },
-    parseStyleObj: function(k,v) {
+    parseRuleVal: function(k,v) {
       var result = '';
       if (v && typeof v !== 'object') {
         //result.push(k + ':' + v);
@@ -292,19 +292,19 @@ define(function(){
           //var cssString = k + ':';
           v.__index.forEach(function(key, index) {
             var _val = v[key]
-            if (_val && typeof _val === 'object' && Style.cssHelp.defaultVal[key]) {
-              var _val = Object.assign({}, Style.cssHelp.defaultVal[key], _val);
+            if (_val && typeof _val === 'object' && Css.ruleHelp.defaultVal[key]) {
+              var _val = Object.assign({}, Css.ruleHelp.defaultVal[key], _val);
             }
             //解析函数调用顺序为当前属性名，顶级属性名，默认属性名
-            var _c = (Style.cssParse[key] || Style.cssParse[k] || Style.cssParse.default)(_val, key)
+            var _c = (Css.ruleParse[key] || Css.ruleParse[k] || Css.ruleParse.default)(_val, key)
             _c && _result.push(_c);
           })
           result = _result.join(' ');
         } else {
-          if (Style.cssHelp.defaultVal[k]) {
-            var _val = Object.assign({}, Style.cssHelp.defaultVal[k], v);
+          if (Css.ruleHelp.defaultVal[k]) {
+            var _val = Object.assign({}, Css.ruleHelp.defaultVal[k], v);
           }
-          var _c = (Style.cssParse[k] || Style.cssParse.default)(_val, k)
+          var _c = (Css.ruleParse[k] || Css.ruleParse.default)(_val, k)
           _c ? result = _c : null;
         }
       }
@@ -315,16 +315,16 @@ define(function(){
      * @param  {String} namespace css规则空间
      * @return {Object}
      */
-    getStyleObjByNamespace: function(namespace) {
+    getCssObjByNamespace: function(namespace) {
       var result = {};
-      var obj = this.getCssObjByNamespace(namespace);
+      var obj = this.getRulesByNamespace(namespace);
       if (obj) {
         for (var k in obj) {
           if (caches.hasChange(k, namespace)) {
             caches.removeChange(k, namespace);
-            var v = this.parseStyleObj(k, obj[k]);
+            var v = this.parseRuleVal(k, obj[k]);
             if(v){
-                result[k] = this.parseStyleObj(k, obj[k]);
+                result[k] = this.parseRuleVal(k, obj[k]);
                 caches.add(k, namespace, result[k]);
             }else{
                 caches.destroy(k, namespace);
@@ -341,15 +341,15 @@ define(function(){
       return result;
     },
 
-    getStyleByFilter: function(namespace, name, par, origin){
-      var styleObj = this.getStyleObjByNamespace(namespace);
+    getCssObjByFilter: function(namespace, name, par, origin){
+      var cssObj = this.getCssObjByNamespace(namespace);
         if(origin){
-          return {name: origin, rule: styleObj[origin] || ''};
+          return {name: origin, rule: cssObj[origin] || ''};
         }
         else if(par){
-          return {name: par, rule: styleObj[par] || ''};
+          return {name: par, rule: cssObj[par] || ''};
         }else{
-          return {name: name, rule: styleObj[name] || ''};
+          return {name: name, rule: cssObj[name] || ''};
         }
     },
 
@@ -372,7 +372,7 @@ define(function(){
     getCssByNamespaceWithoutSelector: function(namespace){
       var cssString = '';
       if(caches.hasChange(null, namespace)){
-        val = this.getStyleObjByNamespace(namespace);
+        val = this.getCssObjByNamespace(namespace);
       }else{
         val = caches.get(null,namespace);
       }
@@ -387,10 +387,10 @@ define(function(){
     },
     destroyCssByNamespace: function(namespace){
         caches.destroy(null, namespace);
-        this.styles[namespace] = null;
-        delete this.styles[namespace];
+        this.rules[namespace] = null;
+        delete this.rules[namespace];
         return true;
     }
   }
-  return Style;
+  return Css;
 });

@@ -36,12 +36,12 @@ var popupTransformEvents = function(context) {
   });
   //删除3d特有的transform规则
   var deleteTransform3DStyle = function(currentNamespace) {
-    var cssObj = styles.getCssObjByNamespace(currentNamespace);
+    var cssObj = styles.getRulesByNamespace(currentNamespace);
     if (cssObj && cssObj.transform) {
       cssObj.transform.__index.forEach(function(z) {
         //如果是3d独有属性
         if (isTransformStyleDD3dZ.test(z)) {
-          styles.delCss(currentNamespace, z, null, 'transform');
+          styles.delRule(currentNamespace, z, null, 'transform');
         }
         return true;
       })
@@ -90,13 +90,13 @@ var popupTransformEvents = function(context) {
         }
       });
     }
-    var _s = styles.addCss(currentNamespace, name, _value, parent, origin);
+    var _s = styles.addRule(currentNamespace, name, _value, parent, origin);
     //更新origin在图示中的位置
     if(parent === 'transform-origin'){
       var _kk = name === 'x' ? 'left' : 'top'
       context.$activeEle.querySelector('.css3_item_origin').css(_kk, _s['transform-origin'][name]);
     }
-    context.trigger('addCssComplete', {
+    context.trigger('addRuleComplete', {
       name: name,
       parent: parent,
       origin: origin,
@@ -135,7 +135,7 @@ var popupTransformEvents = function(context) {
       $target.addClass('active');
       $animatedActive && $animatedActive.removeClass('active');
       $animatedActive = $target;
-      context.trigger('addCssComplete',animate)
+      context.trigger('addRuleComplete',animate)
     }
   })
 }
@@ -341,7 +341,7 @@ var initFn = function() {
     self.animationList.push(tree.id);
   });
     //监听变化css样式
-  self.on('addCssComplete', function(data) {
+  self.on('addRuleComplete', function(data) {
     //添加class
     if(typeof data === 'string'){
       clearTimeout(animationTimer);

@@ -150,9 +150,9 @@
      * @param {String} [origin]    css属性属于哪个css属性
      * @example
      * //描述修改或新增transform下matrix中的a的值为0,值为{'#header':{transform:{matrix:{a:1},__index: ['matrix']}}}
-     * addCss('#header','a','0','matrix','transform')
+     * addRule('#header','a','0','matrix','transform')
      */
-    addCss: function(namespace, key, val, parent, origin) {
+    addRule: function(namespace, key, val, parent, origin) {
       if (!namespace) {
         throw Error('需要namespace');
         return;
@@ -226,8 +226,8 @@
      * @param  {String} origin    css规则属性顶层属性名
      * @return {Boolean}           是否删除成功
      */
-    delCss: function(namespace, key, parent, origin) {
-      return this.addCss(namespace, key, null, parent, origin);
+    delRule: function(namespace, key, parent, origin) {
+      return this.addRule(namespace, key, null, parent, origin);
     },
     /**
      * 是否需要关注属性的顺序
@@ -271,7 +271,7 @@
      * @param  {String} namespace css规则空间对象
      * @return {(Object|null)}
      */
-    getCssObjByNamespace: function(namespace) {
+    getRulesByNamespace: function(namespace) {
       return this.styles[namespace] || null;
     },
     parseStyleObj: function(k,v) {
@@ -309,9 +309,9 @@
      * @param  {String} namespace css规则空间
      * @return {Object}
      */
-    getStyleObjByNamespace: function(namespace) {
+    getCssObjByNamespace: function(namespace) {
       var result = {};
-      var obj = this.getCssObjByNamespace(namespace);
+      var obj = this.getRulesByNamespace(namespace);
       if (obj) {
         for (var k in obj) {
           if (caches.hasChange(k, namespace)) {
@@ -328,7 +328,7 @@
     },
 
     getStyleByFilter: function(namespace, name, parent, origin){
-      var styleObj = this.getStyleObjByNamespace(namespace);
+      var styleObj = this.getCssObjByNamespace(namespace);
         if(origin){
           return {name: origin, rule: styleObj[origin]};
         }
@@ -358,7 +358,7 @@
     getCssByNamespaceWithoutSelector: function(namespace){
       var cssString = '';
       if(caches.hasChange(null, namespace)){
-        val = this.getStyleObjByNamespace(namespace);
+        val = this.getCssObjByNamespace(namespace);
       }else{
         val = caches.get(null,namespace);
       }
