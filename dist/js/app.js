@@ -1,4 +1,4 @@
-require(['event', 'js/canvas/layout', 'js/canvas/popup', 'data', 'underscore'],function(event,layout, popup, data, _){
+require(['event', 'js/canvas/layout', 'js/canvas/popup', 'data', 'underscore', 'library/index'],function(event,layout, popup, data, _, library){
   //event 事件
   event.on('addElement.popup', popup.addElement);
   event.on('updateElement.popup', popup.updateElement);

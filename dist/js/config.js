@@ -3,6 +3,7 @@ require.config({
   paths: {
     'js': 'js',
     'lib': 'lib',
+    'library': 'js/canvas/library',
     'jquery': 'lib/jquery/jquery-3.0.0',
     'tpl': 'template',
     'underscore': 'lib/underscore/underscore-min',
