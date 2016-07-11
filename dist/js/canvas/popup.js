@@ -17,36 +17,6 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     return identifierReg.test(identifier);
   };
   var isTransformStyle3DZ = /Z\s*$/;
-
-  var warnLayer = null;
-
-  var _styleBeforeShowFn = function(_l, l) {
-    //首次显示，绑定事件
-    if (styleLayer) {
-
-    } else {
-      _initStylePopupEvent(_l, l);
-    }
-  }
-  //警告弹框显示 {{{
-  var warnBeforeShowFn = function(_l, l, isFirst){
-    if(!isFirst){
-      _l.find('.layer-cont').text(l.__opts.msg);
-    }
-  }
-  // }}}
-  // 警告弹框确认按钮 {{{
-  var warnOkFn = function(e, ele, _l, l){
-    var _curArgs = data.getCurrentArgs();
-    if(_curArgs.$el){
-      event.trigger(l.__opts.type === 'delete-ele' ? 'delEle' : 'delCss', _curArgs);
-      data.delCurrentArgs();
-      l.hide();
-
-    }
-
-  }
-  // }}}
   //获取添加元素弹框的html字符串 {{{
   var parseAddEleString = function(option) {
     option = option || {};
@@ -211,7 +181,12 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         if (key === 'delete-ele' ||  key === 'delete-css'){
             var _curArgs = data.getCurrentArgs();
             var _identifier = identifier.getItemByIndex(_curArgs.index);
-            event.trigger('showWarn.popup', {msg: '确认删除' + _identifier.identifier + (key === 'delete-css' ? '的样式' : null), type: key});
+            event.trigger('showPrompt.popup', '确认删除' + _identifier.identifier + (key === 'delete-css' ? '的样式' : ''), {
+              beforePrompt: function(e){
+                var curArgs = data.getCurrentArgs();
+                event.trigger(key === 'delete-ele' ? 'delEle' : 'delCss', curArgs);
+              }
+            });
         }
       });
       this.$menu.on('click', '.close', function(e){
@@ -221,7 +196,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     },
     $menu: $('.popup-menu'),
     $menuCont: $('.popup-menu .popupbox'),
-    show: function(e){
+    show: function(e, options){
       if(!this.hasInited){
         this.init();
       }
@@ -229,6 +204,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         left: e.clientX,
         top: e.clientY
       });
+      data.setCurrentArgs(options.key, options.$el);
       this.$menu.show();
     },
     hide: function() {
@@ -248,32 +224,39 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       var $el = $(s).appendTo(_popup.$operate);
       this.cached.idx = {0:true, cur: 0};
       this.$el = $el;
+      this.setDoms(0);
       var $content = $('.content');
       this.setMaxHeight($content.height());
       _popup.show();
       this.$tabNavItem = $el.find('.tab-nav-item');
       this.$tabContItem = $el.find('.tab-cont-item');
       this.$tabContItem.eq(0).addClass('active');
-      //第一次进入直接设置
-      this.$s3d = $el.find('.s3d');
-      this.$s3dIpt = $el.find('.s3d input[type="text"], .s3d input[type="range"]');
       this.initEvent();
     },
     // }}}
     // show {{{
     show: function(curArgs){
       this.curArgs = curArgs;
-      
+      var _data = data.getCached(curArgs.index);
+      var type = _data.curIdx || 0;
+      this.switchTabView(type );
+      this.cached.idx[type] = true;
+      this.cached.idx.cur = type;
+      this.$el.show();
+      _popup.show();
+
     },
 
     // }}}
     // hide {{{
-    hide: function(curArgs){
+    hide: function(){
+      var idx = this.curArgs.index;
+      //缓存
+      this.cached.lastNamespace = idx;
       delete this.curArgs;
       delete this.$s3d;
       delete this.$s3dIpt;
       this.timer = null;
-      delete this.$btnAnimations;
       this.cached.idx = {};
       this.$el.hide();
       _popup.hide();
@@ -283,32 +266,52 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     getStyleHtml: function(opts){
       var curArgs = this.curArgs;
       var type = opts.type || 0;
-      var cached = this.cached[curArgs.index];
-      if(cached && cached[type]){
-        return cached[type];
-      }else{
-        var s = '';
-        if(!cached){
-          this.cached[curArgs.index] = {};
-        }
-        if(type === 0){
-          var _style = css.getStyleObjByNamespace(curArgs.index);
-          s = updateStyle({
-            '0': _style,
-            isFull: opts.isFull,
-            idx: '0'
-          });
-        }
-        if(type == 2){
-          s = updateStyle({
-            '2': data.getCached(curArgs.index, 'animationName'),
-            isFull: opts.isFull,
-            idx: '2'
-          });
-        }
-        this.cached[curArgs.index][type] = s;
-        return s;
+      var s = '';
+      if(!this.cached[curArgs.index]){
+        this.cached[curArgs.index] = {};
       }
+      if(type === 0){
+        var _style = css.getCssObjByNamespace(curArgs.index);
+        s = updateStyle({
+          '0': _style,
+          isFull: opts.isFull,
+          idx: '0'
+        });
+      }
+      if(type == 2){
+        s = updateStyle({
+          '2': data.getCached(curArgs.index, 'animationName'),
+          isFull: opts.isFull,
+          idx: '2'
+        });
+      }
+      return s;
+    },
+    // }}}
+    // setTabContItemHtml {{{
+    setTabContItemHtml: function(idx, e){
+      var $el = this.$tabContItem.eq(idx);
+      var $children = $el.children();
+      if(!$children.length){
+        var s = this.getStyleHtml({type: idx});
+        $el.append(s);
+        this.setDoms(idx);
+      }else if(idx != 2){
+        var s = this.getStyleHtml({type: idx});
+        $children.replaceWith(s);
+        this.setDoms(idx);
+      }else{
+        var _data = data.getCached(this.curArgs.index);
+        //为动画库的时，只要切换class即可
+        var animationName = _data.animationName;
+        var activeAnimation = this.$btnAnimations.filter('.active');
+        if(activeAnimation.length && activeAnimation.data('key') !== animationName){
+          activeAnimation.removeClass('active');
+        }else if(animationName){
+          this.$btnAnimations.filter('[data-key="' + animationName + '"]').addClass('active');
+        }
+      }
+      return this;
     },
     // }}}
     // 切换动画库类名事柄 [animationNameSwitchHandler] {{{
@@ -384,22 +387,21 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       }
     },
     // }}}
-    // tabItemClickHandler {{{
-    tabItemClickHandler: function(e){
-      var $target = $(e.target);
-      $target = $target.hasClass('.tab-cont-item') ? $target : $target.parent();
-      if (!$target.hasClass('active')) {
-        var idx = $target.data('index');
+    // switchTabView {{{
+    switchTabView: function(idx){
+      var $activeTabNavItem = this.$tabNavItem.filter('.active');
+      var curIdx = $activeTabNavItem.data('index');
+      //如果当前视图不是指定的视图
+      if (idx != curIdx || this.curArgs.index != this.cached.lastNamespace) {
+        //如果当前视图还未更新成指定元素的视图
         if(!this.cached.idx[idx]){
-          var s = this.getStyleHtml({type: idx})
-          this.$tabContItem.eq(idx).append(s)
-          this.setDoms(idx);
+          this.setTabContItemHtml(idx);
           this.cached.idx[idx] = true;
         }
-        this.$tabContItem.eq(this.cached.idx.cur).removeClass('active');
+        this.$tabContItem.filter('.active').removeClass('active');
+        $activeTabNavItem.removeClass('active');
         this.$tabContItem.eq(idx).addClass('active');
-        this.$tabNavItem.eq(this.cached.idx.cur).removeClass('active');
-        $target.addClass('active');
+        this.$tabNavItem.eq(idx).addClass('active');
         this.cached.idx.cur = idx;
       }
     },
@@ -407,9 +409,9 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     // switchTransfromStyle {{{
     switchTransfromStyle:function(is2D){
       var curArgs = this.curArgs;
-      this.$3d[is2D ? 'addClass' : 'removeClass']('Ldn');
+      this.$s3d[is2D ? 'addClass' : 'removeClass']('Ldn');
       if(is2D){
-          this.$3dIpt.val(null);
+          this.$s3dIpt.val(null);
           var s3DStylesObj = css.getCssObjByNamespace(curArgs.index);
           if(s3DStylesObj && s3DStylesObj.transform){
               s3DStylesObj.transform.__index.forEach(function(z){
@@ -460,7 +462,10 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       var animationClass = null;
       //切换tab
       $el.on('click', '.tab-nav-item', function(e) {
-        self.tabItemClickHandler(e);
+        var $target = $(e.target);
+        $target = $target.hasClass('tab-nav-item') ? $target : $target.parent();
+        var idx = $target.data('index');
+        self.switchTabView(idx)
       });
       //切换动画库
       $el.on('click', '.button-animation', function(e){
@@ -492,6 +497,70 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     // }}}
   }
   // }}}
+  // 自定义提示框 {{{
+  var _prompt = {
+    hasInited: false,
+    infos: [{title: '删除', btn: '删除', className: 'button-error'}],
+    getPromptHtml: function(msg, opts){
+     var  info = this.infos[opts.type || 0];
+     return '<div class="css3_tool_animation_prompt"><i class="fa fa-times close" title="关闭"></i><h3 class="prompt-title pure-text-align-center">' + info.title + '</h3><div class="pure-u-1 prompt-content">' + msg + '</div><div class="pure-u-1 pure-text-align-center"><a href="javascript:;" class="pure-button prompt-ok ' + info.className + '">' + info.btn + '</a></div></div>';
+    },
+    show: function(msg, opts){
+      this.opts = opts || {};
+      if(!this.hasInited){
+        this.init(msg);
+        this.initEvent()
+      }else{
+        this.$cont.html(msg);
+        var info = this.infos[opts.type || 0];
+        this.$title.text(info.title);
+        this.$btn.text(info.btn);
+        this.$btn[0].className = 'pure-button prompt-ok ' + info.className;
+        this.$el.show();
+      }
+      _popup.show();
+    },
+    hide: function(){
+      this.$el.hide();
+      _popup.hide();
+    },
+    init: function(msg){
+      this.hasInited = true;
+      var string = this.getPromptHtml(msg, this.opts);
+      var $el = $(string).appendTo(_popup.$operate);
+      this.$el = $el;
+      this.$cont = $el.find('prompt-content');
+      this.$title = $el.find('.prompt-title');
+      this.$btn = $el.find('.prompt-ok');
+    },
+    promptOkHandler: function(e){
+      var before = this.opts.beforePrompt;
+      var after = this.opts.afterPrompt;
+      var next = true;
+      if(_.isFunction(before)){
+        var _next = before.call(this, e);
+        _next  === false ? next = false : null;
+      }
+      if(next && _.isFunction(after)){
+        var _next = after.call(this, e);
+        _next === false ? next = false : null;
+      }
+      if(next){
+        this.hide();
+      }
+    },
+    initEvent: function(){
+      var self = this;
+      this.$el.on('click', '.prompt-ok', function(e){
+        self.promptOkHandler(e);
+      });
+      this.$el.on('click', '.close', function(e){
+        self.hide()
+      })
+    }
+     
+  }
+  // }}}
   //内部popup对象 {{{
   var _popup = {
     $operatePopup: $('#operate-popup'),
@@ -500,6 +569,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     updateEle: _updateEle,
     menu: _menu,
     style: _style,
+    prompt: _prompt,
     hide: function(){
       data.delCurrentArgs();
       this.$operatePopup.addClass('Ldn');
@@ -528,8 +598,8 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         }
       }
     },
-    showMenu: function(e){
-      _popup.menu.show(e);
+    showMenu: function(e, options){
+      _popup.menu.show(e, options);
     },
     hideMenu: function(){
       _popup.menu.hide();
@@ -543,30 +613,9 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
           _popup.style.init(_curArgs);
         }
       }
-
     },
-    showWarn: function(opts){
-        if(warnLayer){
-          //TODO Layer不能获取新的opts，后期需要修改
-          warnLayer.__opts = opts;
-          warnLayer.show();
-        }else{
-          warnLayer = layer.alert(opts.msg,{
-              title: '删除元素',
-              view: {
-                maxWidth: '50%',
-                minWidth: 500,
-                minHeight: 300
-              },
-              callbacks: {
-                beforeShow: warnBeforeShowFn,
-                no: layerHideWithDelCurretArgs,
-                close: layerHideWithDelCurretArgs,
-                ok: warnOkFn
-              }
-          });
-          warnLayer.__opts = opts;
-        }
+    showPrompt: function(msg,opts){
+      _popup.prompt.show(msg, opts);
     }
   }
   // }}}

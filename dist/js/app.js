@@ -5,7 +5,7 @@ require(['event', 'js/canvas/layout', 'js/canvas/popup', 'data', 'underscore'],f
   event.on('showMenu.popup', popup.showMenu);
   event.on('hideMenu.popup', popup.hideMenu);
   event.on('showStyle.popup', popup.showStyle);
-  event.on('showWarn.popup', popup.showWarn);
+  event.on('showPrompt.popup', popup.showPrompt);
 
   event.on('addElement.canvas', layout.addElement);
   event.on('updateElement.canvas',layout.updateElement);

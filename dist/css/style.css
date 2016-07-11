@@ -137,7 +137,6 @@ html, body, .layout{
 .pure-cont .operate{
   background: white;
   padding: 2em 1em 1.5em 1em;
-  max-height: 100%;
   box-sizing: border-box;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
   position: relative;
@@ -258,6 +257,9 @@ html, body, .layout{
 .pure-cont .css3_tool_change_animate .tab-cont-item-transform .s2d, .pure-cont .css3_tool_change_animate .tab-cont-item-transform .s3d{
   padding: 0.25em 0;
 }
+.pure-cont .css3_tool_change_animate .tab-cont-item-transform .s3d.Ldn{
+  display: none;
+}
 .pure-cont .css3_tool_change_animate .tab-cont-item-animate .button-animation{
   margin-bottom: .5em;
 }
@@ -273,6 +275,9 @@ html, body, .layout{
   background: rgb(28, 184, 65);
   /* this is a green */
   color: white;
+}
+.pure-cont .css3_tool_animation_prompt .prompt-content{
+  margin-bottom: 2em;
 }
 .pure-form .pure-control-group{
   margin-bottom: 1em;

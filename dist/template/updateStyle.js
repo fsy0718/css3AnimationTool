@@ -105,6 +105,7 @@ __p+='';
       rollOut: "rollOut"
     }
   }];
+  var NumberReg = /^[-]?(\d+)(\.\d+)?$/;
 
 __p+=' ';
  if(obj.isFull){ 
@@ -125,32 +126,31 @@ __p+=' ';
 __p+=' ';
 
     obj['0'] ? null : obj['0'] = {};
-    var x = obj['0']['transform-origin'] && parseFloat(obj['0']['transform-origin'].x) || 50;
-    var y = obj['0']['transform-origin'] && parseFloat(obj['0']['transform-origin'].y) || 50;
+    var x = 50;
+    var y = 50;
+    if(obj['0']['transform-origin']){
+        var _x = parseFloat(obj['0']['transform-origin'].x)
+        var _y = parseFloat(obj['0']['transform-origin'].y)
+        _x >= 0 ? x = _x : null;
+        _y >= 0 ? y = _y : null;
+    }
     var is3D = obj['0']['transform-style'] && obj['0']['transform-style'] === 'preserve-3d' ? true : false;
     var is2D = obj['0']['transform-style'] && obj['0']['transform-style'] === 'flat' ? true : false;
     var direction = [['旋转','deg','rotate',-360,360],['缩放','倍','scale',-5,5],['位移','px','translate',-1000,1000],['倾斜','deg','skew',-180,180]];
     var t = {};
     if(obj['0']['transform']){
-      if(obj['0']['transform']['rotate']){
-        t.X0 = parseFloat(obj['0']['transform']['rotate'].x);
-        t.Y0 = parseFloat(obj['0']['transform']['rotate'].y);
-        t.Z0 = parseFloat(obj['0']['transform']['rotate'].z);
-      }
-      if(obj['0']['transform']['scale']){
-        t.X1 = parseFloat(obj['0']['transform']['scale'].x);
-        t.Y1 = parseFloat(obj['0']['transform']['scale'].y);
-        t.Z1 = parseFloat(obj['0']['transform']['scale'].z);
-      }
-      if(obj['0']['transform']['translate']){
-        t.X2 = parseFloat(obj['0']['transform']['translate'].x);
-        t.Y2 = parseFloat(obj['0']['transform']['translate'].y);
-        t.Z2 = parseFloat(obj['0']['transform']['translate'].z);
-      }
-      if(obj['0']['transform']['skew']){
-        t.X3 = parseFloat(obj['0']['transform']['skew'].x);
-        t.Y3 = parseFloat(obj['0']['transform']['skew'].y);
-      }
+
+        t.X0 = parseFloat(obj['0']['transform'].rotateX);
+        t.Y0 = parseFloat(obj['0']['transform'].rotateY);
+        t.Z0 = parseFloat(obj['0']['transform'].rotateZ);
+        t.X1 = parseFloat(obj['0']['transform'].scaleX);
+        t.Y1 = parseFloat(obj['0']['transform'].scaleY);
+        t.Z1 = parseFloat(obj['0']['transform'].scaleZ);
+        t.X2 = parseFloat(obj['0']['transform'].translateX);
+        t.Y2 = parseFloat(obj['0']['transform'].translateY);
+        t.Z2 = parseFloat(obj['0']['transform'].translateZ);
+        t.X3 = parseFloat(obj['0']['transform'].skewX);
+        t.Y3 = parseFloat(obj['0']['transform'].skewY);
       if(obj['0']['transform']['matrix']){
         t.a = parseFloat(obj['0']['transform']['matrix'].a);
         t.b = parseFloat(obj['0']['transform']['matrix'].b);
@@ -196,15 +196,15 @@ __p+=' <dd class="pure-g '+
 '</span> <span class="input"> <input type="text" name="'+
 ((__t=((val[2] + _val)))==null?'':__t)+
 '" data-origin="transform" value="'+
-((__t=((t[_val + key] ? t[_val + key] : null)))==null?'':__t)+
+((__t=((NumberReg.test(t[_val + key]) ? t[_val + key] : null)))==null?'':__t)+
 '"> </span> <span class="unit">'+
 ((__t=(val[1]))==null?'':__t)+
-'</span> </label> <span class="control pure-u-2-3"> <input type="range" value="0" min="'+
+'</span> </label> <span class="control pure-u-2-3"> <input type="range" min="'+
 ((__t=(val[3]))==null?'':__t)+
 '" max="'+
 ((__t=(val[4]))==null?'':__t)+
 '" step="1" value="'+
-((__t=((t[_val + key] ? t[_val + key] : null)))==null?'':__t)+
+((__t=((NumberReg.test(t[_val + key]) ? t[_val + key] : null)))==null?'':__t)+
 '"> </span> </dd> ';
 }) 
 __p+=' ';
@@ -216,7 +216,7 @@ __p+=' <li class="item pure-u-1-3"> <label> <span class="label">参数'+
 '</span> <input type="number" name="'+
 ((__t=(val))==null?'':__t)+
 '" data-parent="matrix" data-origin="transform" value="'+
-((__t=((t[val] ? t[val] : (key < 2 ? 1 : 0))))==null?'':__t)+
+((__t=((NumberReg.test(t[val]) ? t[val] : (key < 2 ? 1 : 0))))==null?'':__t)+
 '"> </label> </li> ';
  }) 
 __p+=' </ul> </dd> <dd class="s2d"> <label> <span class="label">过渡css属性</span> <span class="input"> <input type="text" name="transition-property" value="all"> </span> </label> </dd> <dd class="s2d"> <label> <span class="label">过渡延迟时间</span> <span class="input"> <input type="number" name="transition-delay" step="0.1" value="'+
@@ -227,9 +227,9 @@ __p+=' </ul> </dd> <dd class="s2d"> <label> <span class="label">过渡css属性<
 _.each(['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'], function(val,key){ 
 __p+=' <li class="item pure-u-1-3"> <label> <input type="radio" name="transition-timing-function" value="'+
 ((__t=(val))==null?'':__t)+
-'" ';
-(obj['0']['transition-timing-function'] === val ? 'checked="checked"' : null)
-__p+=' > <span class="label">'+
+'" '+
+((__t=((obj['0']['transition-timing-function'] === val ? 'checked="checked"' : null)))==null?'':__t)+
+' > <span class="label">'+
 ((__t=(val))==null?'':__t)+
 '</span> </label> </li> ';
  }) 

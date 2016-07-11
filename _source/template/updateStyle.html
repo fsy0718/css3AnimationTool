@@ -101,6 +101,7 @@
       rollOut: "rollOut"
     }
   }];
+  var NumberReg = /^[-]?(\d+)(\.\d+)?$/;
 %>
 
 <% if(obj.isFull){ %>
@@ -119,32 +120,31 @@
 <% if(obj.idx == 0) { %>
   <%
     obj['0'] ? null : obj['0'] = {};
-    var x = obj['0']['transform-origin'] && parseFloat(obj['0']['transform-origin'].x) || 50;
-    var y = obj['0']['transform-origin'] && parseFloat(obj['0']['transform-origin'].y) || 50;
+    var x = 50;
+    var y = 50;
+    if(obj['0']['transform-origin']){
+        var _x = parseFloat(obj['0']['transform-origin'].x)
+        var _y = parseFloat(obj['0']['transform-origin'].y)
+        _x >= 0 ? x = _x : null;
+        _y >= 0 ? y = _y : null;
+    }
     var is3D = obj['0']['transform-style'] && obj['0']['transform-style'] === 'preserve-3d' ? true : false;
     var is2D = obj['0']['transform-style'] && obj['0']['transform-style'] === 'flat' ? true : false;
     var direction = [['旋转','deg','rotate',-360,360],['缩放','倍','scale',-5,5],['位移','px','translate',-1000,1000],['倾斜','deg','skew',-180,180]];
     var t = {};
     if(obj['0']['transform']){
-      if(obj['0']['transform']['rotate']){
-        t.X0 = parseFloat(obj['0']['transform']['rotate'].x);
-        t.Y0 = parseFloat(obj['0']['transform']['rotate'].y);
-        t.Z0 = parseFloat(obj['0']['transform']['rotate'].z);
-      }
-      if(obj['0']['transform']['scale']){
-        t.X1 = parseFloat(obj['0']['transform']['scale'].x);
-        t.Y1 = parseFloat(obj['0']['transform']['scale'].y);
-        t.Z1 = parseFloat(obj['0']['transform']['scale'].z);
-      }
-      if(obj['0']['transform']['translate']){
-        t.X2 = parseFloat(obj['0']['transform']['translate'].x);
-        t.Y2 = parseFloat(obj['0']['transform']['translate'].y);
-        t.Z2 = parseFloat(obj['0']['transform']['translate'].z);
-      }
-      if(obj['0']['transform']['skew']){
-        t.X3 = parseFloat(obj['0']['transform']['skew'].x);
-        t.Y3 = parseFloat(obj['0']['transform']['skew'].y);
-      }
+
+        t.X0 = parseFloat(obj['0']['transform'].rotateX);
+        t.Y0 = parseFloat(obj['0']['transform'].rotateY);
+        t.Z0 = parseFloat(obj['0']['transform'].rotateZ);
+        t.X1 = parseFloat(obj['0']['transform'].scaleX);
+        t.Y1 = parseFloat(obj['0']['transform'].scaleY);
+        t.Z1 = parseFloat(obj['0']['transform'].scaleZ);
+        t.X2 = parseFloat(obj['0']['transform'].translateX);
+        t.Y2 = parseFloat(obj['0']['transform'].translateY);
+        t.Z2 = parseFloat(obj['0']['transform'].translateZ);
+        t.X3 = parseFloat(obj['0']['transform'].skewX);
+        t.Y3 = parseFloat(obj['0']['transform'].skewY);
       if(obj['0']['transform']['matrix']){
         t.a = parseFloat(obj['0']['transform']['matrix'].a);
         t.b = parseFloat(obj['0']['transform']['matrix'].b);
@@ -209,12 +209,12 @@
             <label class="pure-u-1-3">
               <span class="label"><%=_val%>轴<%=val[0]%></span>
               <span class="input">
-                <input type="text" name="<%=(val[2] + _val)%>" data-origin="transform" value="<%=(t[_val + key] ? t[_val + key] : null)%>"/>
+                <input type="text" name="<%=(val[2] + _val)%>" data-origin="transform" value="<%=(NumberReg.test(t[_val + key]) ? t[_val + key] : null)%>"/>
               </span>
               <span class="unit"><%=val[1]%></span>
             </label>
             <span class="control pure-u-2-3">
-              <input type="range" value="0" min="<%=val[3]%>" max="<%=val[4]%>" step="1" value="<%=(t[_val + key] ? t[_val + key] : null)%>"/>
+              <input type="range"  min="<%=val[3]%>" max="<%=val[4]%>" step="1" value="<%=(NumberReg.test(t[_val + key]) ? t[_val + key] : null)%>"/>
             </span>
           </dd>
         <%}) %>
@@ -226,7 +226,7 @@
             <li class="item pure-u-1-3">
               <label>
                 <span class="label">参数<%=val%></span>
-                <input type="number" name="<%=val%>" data-parent="matrix" data-origin="transform" value=<%=(t[val] ? t[val] : (key < 2 ? 1 : 0))%>/>
+                <input type="number" name="<%=val%>" data-parent="matrix" data-origin="transform" value=<%=(NumberReg.test(t[val]) ? t[val] : (key < 2 ? 1 : 0))%>/>
               </label>
             </li>
           <% }) %>
@@ -264,11 +264,10 @@
           <%_.each(['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'], function(val,key){ %>
             <li class="item pure-u-1-3">
               <label>
-                <input type="radio" name="transition-timing-function" value="<%=val%>" <%(obj['0']['transition-timing-function'] === val ? 'checked="checked"' : null)%> />
+                <input type="radio" name="transition-timing-function" value="<%=val%>" <%=(obj['0']['transition-timing-function'] === val ? 'checked="checked"' : null)%> />
                 <span class="label"><%=val%></span>
               </label>
             </li>
-
           <% }) %>
           <li class="item pure-u-1-3">
             <label>

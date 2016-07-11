@@ -28,7 +28,6 @@ define(['event', 'data'],function(event, data) {
             //删除样式
             el[0].style[obj.css.name] = null;
         }
-        
       }
       //删除样式
       if (obj.style === null){
@@ -54,8 +53,7 @@ define(['event', 'data'],function(event, data) {
         } else {
           var key = $target.data('key');
           if (key) {
-            data.setCurrentArgs(key, $target);
-            event.trigger('showMenu.popup',e);
+            event.trigger('showMenu.popup',e, {key: key, $el: $target});
           }
         }
       })
