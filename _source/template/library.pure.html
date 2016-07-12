@@ -10,15 +10,16 @@
           var grids = [{key:'v_12_12', val:'12 12'},{key:'v_8_8_8_8', val:'8 8 8'},{key:'v_6_6_6_6',val:'6 6 6 6'},{key:'v_1',val:'1'}];
         %>
         <% _.each(grids, function(grid, key){ %>
-        <div class="lyrow ui-draggable" data-val="<%=grid.key%>">
-            <span class="drag label">
+        <div class="css3_tool_item_demo ui-draggable" data-val="<%=grid.key%>">
+            <a href="javascript:;" class="del pure-button button-error"><i class="fa fa-times"></i>删除</a>
+            <span class="drag pure-button">
                 <i class="fa fa-arrows"></i>拖动
             </span>
             <div class="preview">
                 <input value="<%=grid.val%>" type="text"/>
             </div>
             <div class="views">
-                <div class="pure-u-g css3_tool_item_demo">
+                <div class="pure-u-g">
                     <%
                         var arr = grid.val.split(/\s/);
                         _.each(arr, function(num){ %>

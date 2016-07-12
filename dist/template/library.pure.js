@@ -7,11 +7,11 @@ __p+='<div class="pure-menu"> <dl class="pure-menu-list"> <dt class="library-tit
         
 __p+=' ';
  _.each(grids, function(grid, key){ 
-__p+=' <div class="lyrow ui-draggable" data-val="'+
+__p+=' <div class="css3_tool_item_demo ui-draggable" data-val="'+
 ((__t=(grid.key))==null?'':__t)+
-'"> <span class="drag label"> <i class="fa fa-arrows"></i>拖动 </span> <div class="preview"> <input value="'+
+'"> <a href="javascript:;" class="del pure-button button-error"><i class="fa fa-times"></i>删除</a> <span class="drag pure-button"> <i class="fa fa-arrows"></i>拖动 </span> <div class="preview"> <input value="'+
 ((__t=(grid.val))==null?'':__t)+
-'" type="text"> </div> <div class="views"> <div class="pure-u-g css3_tool_item_demo"> ';
+'" type="text"> </div> <div class="views"> <div class="pure-u-g"> ';
 
                         var arr = grid.val.split(/\s/);
                         _.each(arr, function(num){ 

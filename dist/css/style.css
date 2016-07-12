@@ -119,6 +119,15 @@ html, body, .layout{
   height: 100%;
   width: 100%;
 }
+.pure-cont .canvas .css3_tool_item_demo{
+  position: relative;
+}
+.pure-cont .canvas .css3_tool_item_demo .preview{
+  display: none;
+}
+.pure-cont .canvas .css3_tool_item_demo .del{
+  color: red;
+}
 .pure-cont .operatebox{
   width: 40%;
 }
@@ -198,13 +207,13 @@ html, body, .layout{
 .pure-cont .library .library-title .fa-plus{
   color: rgba(28, 184, 65, .6);
 }
-.pure-cont .library .library-content .lyrow{
+.pure-cont .library .library-content .css3_tool_item_demo{
   position: relative;
   padding-left: 5em;
   box-sizing: border-box;
   margin-top: .8em;
 }
-.pure-cont .library .library-content .lyrow .label{
+.pure-cont .library .library-content .css3_tool_item_demo .label{
   position: absolute;
   top: 0;
   left: 0;
@@ -214,13 +223,16 @@ html, body, .layout{
   cursor: -webkit-grab;
   cursor: grab;
 }
-.pure-cont .library .library-content .lyrow .fa-arrows{
+.pure-cont .library .library-content .css3_tool_item_demo .fa-arrows{
   color: rgba(28, 184, 65, .5);
   padding-right: 0.4em;
 }
 .pure-cont .library .library-content .preview input{
   padding: 0.2em 0 0.2em 0.5em;
   color: rgba(0,0,0,.4);
+}
+.pure-cont .library .library-content .views, .pure-cont .library .library-content .del{
+  display: none;
 }
 /* [animation_plus_tool_item] 添加的元素 {{{*/
 .pure-cont .animation_plus_tool_item{
@@ -346,10 +358,6 @@ html, body, .layout{
   margin-bottom: 2em;
 }
 /* }}}*/
-.css3_tool_item_demo{
-	border: solid 1px red;
-	min-height: 30px;
-}
 .pure-form .pure-control-group{
   margin-bottom: 1em;
 }

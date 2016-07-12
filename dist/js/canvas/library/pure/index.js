@@ -10,7 +10,7 @@ define(['tpl/library.pure', 'event'],function(tplPure, event){
         },
         parseViews: function(val){
           var _val = val.match(this.reg);
-          var result = '<div class="pure-u-g css3_tool_item_demo">';
+          var result = '<div class="pure-u-g">';
           if(_val && _val.length){
             _val.forEach(function(_v, idx){
                 result += '<div class="ui-sortable pure-grids pure-u-' + _v + '-24"></div>';
@@ -23,10 +23,10 @@ define(['tpl/library.pure', 'event'],function(tplPure, event){
 
     var i = 0;
     var initEvent = function($pure, $el){
-        var $lyrow = $pure.find('.lyrow');
+        var $item = $pure.find('.css3_tool_item_demo');
         var self = this;
-        $lyrow.draggable({
-            connectToSorttable: '#canvas',
+        $item.draggable({
+            connectToSortable: '#canvas',
             helper: 'clone',
             handle: '.drag',
             start: function(e, ui){
