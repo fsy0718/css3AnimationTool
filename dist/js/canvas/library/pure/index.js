@@ -1,7 +1,11 @@
 define(['tpl/library.pure'],function(tplPure){
     var pure = {
         init: function(){
-            return tplPure();
+            console.log(1);
+        },
+        tpl: function(opts){
+          opts = opts || {};
+          return tplPure();
         }
     };
     return pure;

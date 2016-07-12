@@ -12,10 +12,7 @@ body
     header.pure-u-1.header
       .pure-u-1.pure-u-mid-3-4.Lfll
         .pure-menu
-          a(href="javascript:;").pure-button.button-success(data-action="add-demo")
-            i.fa.fa-plus(aria-hidden="true")
-            | 新建动画
-          a(href="javascript:;").pure-button.button-success(data-action="preview")
+          a(href="javascript:;", data-action="preview").pure-button.button-success
             i.fa.fa-eye
             | 预览
           a(href="javascript:;").pure-button
@@ -29,11 +26,11 @@ body
             select.import
               -
                 types = [{
+                  type: 'file-layout',
+                  name: '切换布局'
+                },{
                   type: 'file-animation',
                   name: '导入已有动画交互'
-                },{
-                  type: 'file-layout',
-                  name: '已入布局'
                 },{
                   type: 'file-css',
                   name: '导入动画库css文件'

@@ -7,9 +7,9 @@ __p+='<div class="pure-menu"> <dl class="pure-menu-list"> <dt class="library-tit
         
 __p+=' ';
  _.each(grids, function(grid){ 
-__p+=' <div class="lyrow ui-draggable"> <span class="drag label"> <i class="fa fa-arrows"></i>拖动 </span> <div class="preview"> <input value="'+
+__p+=' <div class="lyrow ui-draggable"> <div class="preview"> <input value="'+
 ((__t=(grid))==null?'':__t)+
-'" type="text"> </div> </div> ';
+'" type="text"> </div> <span class="drag label"> <i class="fa fa-arrows"></i>拖动 </span> </div> ';
  }) 
 __p+=' </dd> </dl> </div> ';
 }

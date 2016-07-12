@@ -109,7 +109,7 @@ __p+='';
 
 __p+=' ';
  if(obj.isFull){ 
-__p+=' <div class="css3_tool_change_animate"> <i class="fa fa-times close" title="关闭"></i> <ul class="tab-nav pure-g"> ';
+__p+=' <div class="css3_tool_change_rules"> <i class="fa fa-times close" title="关闭"></i> <ul class="tab-nav pure-g"> ';
  _.each(navItems, function(item, key){ 
 __p+=' <li class="'+
 ((__t=((key == obj.idx ? 'active' : null)))==null?'':__t)+

@@ -1,6 +1,5 @@
 define(['identifier', 'css', 'module'],function(Identifier, Css, module){
   var debug = module.config().debug;
-
   //缓存当前编辑的元素信息
   var currentArgs = {};
   var cached = {};
@@ -98,7 +97,7 @@ define(['identifier', 'css', 'module'],function(Identifier, Css, module){
     data.currentArgs = currentArgs;
     data.cached = cached;
     window.appData = data;
-    
+
   }
   return data;
 })

@@ -1,17 +1,20 @@
+/** Javascript file
+*--------------------------------------------------
+*
+*          Filename: d:\vos\web\css3animationtool\dist\js\canvas\popup.js
+*
+*            Author: fsy0718 - fsy0718@gmail.com
+*       Description: ---------- 
+*            Create: 2016-07-12 10:20:39
+*     Last Modified: 2016-07-12 10:20:39
+*--------------------------------------------------
+**/
 "use strict";
-define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function(addElement, updateStyle, layer, data, event) {
+define(['tpl/addElement', 'tpl/updateRule', 'layer', 'data', 'event'], function(addElement, updateRule, layer, data, event) {
   // data下两个实例
   var identifier = data.identifier;
   var css = data.css;
-  // 隐藏弹框
-  var layerHide = function(e, ele, _l, l) {
-    return l.hide();
-  };
 
-  var layerHideWithDelCurretArgs = function(e, ele, _l, l){
-      data.delCurrentArgs();
-      return l.hide();
-  }
   var identifierReg = /^[^\d]\w+([\-\_]\w+)*$/;
   var identifierIsValid = function(identifier) {
     return identifierReg.test(identifier);
@@ -27,6 +30,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
   var _addElePopup = {
     defaultString: parseAddEleString({isFull: true, isAdd: true}),
     hasInited: false,
+    // init {{{
     init: function(){
       this.hasInited = true;
       var $el  = $(this.defaultString).appendTo(_popup.$operate);
@@ -34,6 +38,8 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       this.initEvent();
       _popup.show();
     },
+    // }}}
+    // initEvent {{{
     initEvent: function(){
       var $el = this.$el;
       var self = this;
@@ -62,6 +68,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         self.hide();
       })
     },
+    // }}}
     show: function(){
       this.reset();
       this.$el.show();
@@ -76,7 +83,6 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       this.$identifier.val(null);
       this.$tip.text('标识必须为英文，可以用-_进行连接').removeClass('error');
     }
-
   }
   // }}}
   //修改元素对象 {{{
@@ -220,13 +226,13 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
     init: function(curArgs){
       this.hasInited = true;
       this.curArgs = curArgs;
-      var s = this.getStyleHtml({isFull: true});
+      var s = this.getRuleHtml({isFull: true});
       var $el = $(s).appendTo(_popup.$operate);
       this.cached.idx = {0:true, cur: 0};
       this.$el = $el;
       this.setDoms(0);
       var $content = $('.content');
-      this.setMaxHeight($content.height());
+      this.setRuleContMaxHeight($content.height());
       _popup.show();
       this.$tabNavItem = $el.find('.tab-nav-item');
       this.$tabContItem = $el.find('.tab-cont-item');
@@ -244,9 +250,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       this.cached.idx.cur = type;
       this.$el.show();
       _popup.show();
-
     },
-
     // }}}
     // hide {{{
     hide: function(){
@@ -262,8 +266,8 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       _popup.hide();
     },
     // }}}
-    // [getStyleHtml] {{{
-    getStyleHtml: function(opts){
+    // [getRuleHtml] {{{
+    getRuleHtml: function(opts){
       var curArgs = this.curArgs;
       var type = opts.type || 0;
       var s = '';
@@ -271,15 +275,15 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         this.cached[curArgs.index] = {};
       }
       if(type === 0){
-        var _style = css.getRulesByNamespace(curArgs.index);
-        s = updateStyle({
-          '0': _style,
+        var _rules = css.getRulesByNamespace(curArgs.index);
+        s = updateRule({
+          '0': _rules,
           isFull: opts.isFull,
           idx: '0'
         });
       }
       if(type == 2){
-        s = updateStyle({
+        s = updateRule({
           '2': data.getCached(curArgs.index, 'animationName'),
           isFull: opts.isFull,
           idx: '2'
@@ -293,11 +297,11 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       var $el = this.$tabContItem.eq(idx);
       var $children = $el.children();
       if(!$children.length){
-        var s = this.getStyleHtml({type: idx});
+        var s = this.getRuleHtml({type: idx});
         $el.append(s);
         this.setDoms(idx);
       }else if(idx != 2){
-        var s = this.getStyleHtml({type: idx});
+        var s = this.getRuleHtml({type: idx});
         $children.replaceWith(s);
         this.setDoms(idx);
       }else{
@@ -350,7 +354,6 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       if(idx == 2){
         this.$btnAnimations = this.$el.find('.button-animation');
       }
-
     },
     // }}}
     // transformIptChangeHandler {{{
@@ -374,18 +377,18 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       var val = $show.val().trim() || null;
       if(type === 'radio' && name === 'transform-style'){
         var is2D = val === 'flat';
-        this.switchTransfromStyle(is2D);
+        this.switchTransformStyleItems(is2D);
       }
       if(_curArgs.index){
-          var _style = css.addRule(_curArgs.index, name, val, par, origin);
+          var _rule = css.addRule(_curArgs.index, name, val, par, origin);
           if(par === 'transform-origin'){
-              var opts = {name: name == 'x' ? 'left' : 'top', rule: _style['transform-origin'][name]}
+              var opts = {name: name == 'x' ? 'left' : 'top', rule: _rule['transform-origin'][name]}
               event.trigger('updateElement.canvas', {css: opts}, _curArgs.$el.find('.animation_plus_tool_item_origin'));
           }
         var styles = css.getCssObjByFilter(_curArgs.index, name, par, origin);
         event.trigger('updateElement.canvas',{css: styles}, _curArgs.$el);
       }
-    },
+      },
     // }}}
     // switchTabView {{{
     switchTabView: function(idx){
@@ -406,15 +409,15 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       }
     },
     // }}}
-    // switchTransfromStyle {{{
-    switchTransfromStyle:function(is2D){
+    // switchTransformStyleItems {{{
+    switchTransformStyleItems:function(is2D){
       var curArgs = this.curArgs;
       this.$s3d[is2D ? 'addClass' : 'removeClass']('Ldn');
       if(is2D){
           this.$s3dIpt.val(null);
-          var s3DStylesObj = css.getRulesByNamespace(curArgs.index);
-          if(s3DStylesObj && s3DStylesObj.transform){
-              s3DStylesObj.transform.__index.forEach(function(z){
+          var transformStyleRuleObj = css.getRulesByNamespace(curArgs.index);
+          if(transformStyleRuleObj && transformStyleRuleObj.transform){
+              transformStyleRuleObj.transform.__index.forEach(function(z){
                   if(isTransformStyle3DZ.test(z)){
                       css.delRule(curArgs.index, z, null, 'transform');
                   };
@@ -490,8 +493,8 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
       })
     },
     // }}}
-    // setMaxHeight {{{
-    setMaxHeight: function(h){
+    // setRuleContMaxHeight {{{
+    setRuleContMaxHeight: function(h){
       this.$el.find('.tab-cont').css('max-height', h - 160);
     }
     // }}}
@@ -558,7 +561,7 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
         self.hide()
       })
     }
-     
+
   }
   // }}}
   //内部popup对象 {{{
@@ -621,6 +624,4 @@ define(['tpl/addElement', 'tpl/updateStyle', 'layer', 'data', 'event'], function
   // }}}
   return popup
 });
-
-
 // vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et:

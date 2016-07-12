@@ -155,6 +155,7 @@ define(function(){
      * //描述修改或新增transform下matrix中的a的值为0,值为{'#header':{transform:{matrix:{a:1},__index: ['matrix']}}}
      * addRule('#header','a','0','matrix','transform')
      */
+    // addRule {{{
     addRule: function(namespace, key, val, par, origin) {
       if (!namespace) {
         throw Error('需要namespace');
@@ -204,7 +205,7 @@ define(function(){
       cacheName && caches.addChange(cacheName, namespace)
       return source;
     },
-
+    // }}}
     /**
      * 解析rule的值，加单位
      * @param  {String} val    值
@@ -212,6 +213,7 @@ define(function(){
      * @param  {String} [par] rule的父属性
      * @return {String}
      */
+    // ruleAddUnit {{{
     ruleAddUnit: function(val, key, par) {
       var unit = Css.ruleHelp.ruleUnits[key] || '';
       if (par) {
@@ -222,8 +224,8 @@ define(function(){
         val = +val;
       }
       return val;
-
     },
+    // }}}
     /**
      * 删除指定样式规则
      * @param  {String} namespace css规则空间
@@ -232,9 +234,11 @@ define(function(){
      * @param  {String} [origin]   css规则属性顶层属性名
      * @return {Boolean}           是否删除成功
      */
+    // delRule {{{
     delRule: function(namespace, key, par, origin) {
       return this.addRule(namespace, key, null, par, origin);
     },
+    // }}}
     /**
      * 是否需要关注属性的顺序
      * @param  {String} key css规则属性名
@@ -246,9 +250,11 @@ define(function(){
      * @return false 无关
      * hasOrder('width')
      */
+    // hasOrder {{{
     hasOrder: function(key) {
       return Css.ruleHelp.orderKey.diy.indexOf(key) !== -1;
     },
+    // }}}
     /**
      * 获取设置规则的对象
      * @param  {Object} source rule的命名空间
@@ -256,6 +262,7 @@ define(function(){
      * @param  {String} [par] rule父级属性的名称
      * @return {Object}
      */
+    // getRuleTarget {{{
     getRuleTarget: function(source, origin, par) {
       var target = source;
       if (origin) {
@@ -272,14 +279,24 @@ define(function(){
       }
       return target;
     },
+    // }}}
     /**
      * 获取css规则对象，为最原始的数据
      * @param  {String} namespace css规则空间对象
      * @return {(Object|null)}
      */
+    // getRulesByNamespace {{{
     getRulesByNamespace: function(namespace) {
       return this.rules[namespace] || null;
     },
+    // }}}
+    /**
+     * 解析规则值
+     * @param  {String} k rule属性名
+     * @param  {(String|Object)} v rule值
+     * @return {Object}   规则值
+     */
+    // {{{
     parseRuleVal: function(k,v) {
       var result = '';
       if (v && typeof v !== 'object') {
@@ -310,11 +327,13 @@ define(function(){
       }
       return result;
     },
+    // }}}
     /**
      * 获取指定空间下的css规则对象
      * @param  {String} namespace css规则空间
      * @return {Object}
      */
+    // getCssObjByNamespace {{{
     getCssObjByNamespace: function(namespace) {
       var result = {};
       var obj = this.getRulesByNamespace(namespace);
@@ -340,7 +359,16 @@ define(function(){
       }
       return result;
     },
-
+    // }}}
+    /**
+     * 获取指定属性的css
+     * @param  {String} namespace css规则空间
+     * @param  {String} name      rule属性名
+     * @param  {String} par       rule父属性
+     * @param  {String} origin    rule顶级属性
+     * @return {Object}
+     */
+    // getCssObjByFilter {{{
     getCssObjByFilter: function(namespace, name, par, origin){
       var cssObj = this.getCssObjByNamespace(namespace);
         if(origin){
@@ -352,23 +380,26 @@ define(function(){
           return {name: name, rule: cssObj[name] || ''};
         }
     },
-
+    // }}}
     /**
      * 获取指定空间的css规则
      * @param  {String} namespace 空间
      * @return {String}
      */
+    // getCssByNamespace {{{
     getCssByNamespace: function(namespace) {
       var val, cssString = namespace + ' {\n';
       cssString += this.getCssByNamespaceWithoutSelector(namespace);
       cssString += '}\n';
       return cssString;
     },
+    // }}}
     /**
      * 获取指定空间的css规则，不包含选择器
      * @param {String} namespace
      * @return {String}
      */
+    // getCssByNamespaceWithoutSelector {{{
     getCssByNamespaceWithoutSelector: function(namespace){
       var cssString = '';
       if(caches.hasChange(null, namespace)){
@@ -385,12 +416,20 @@ define(function(){
       }
       return cssString;
     },
+    // }}}
+    /**
+     * 销毁指定空间下的rules
+     * @param  {String} namespace 空间名
+     * @return {Boolean}  true
+     */
+    // destroyCssByNamespace {{{
     destroyCssByNamespace: function(namespace){
         caches.destroy(null, namespace);
         this.rules[namespace] = null;
         delete this.rules[namespace];
         return true;
     }
+    // }}}
   }
   return Css;
 });
