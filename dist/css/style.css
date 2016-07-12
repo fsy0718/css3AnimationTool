@@ -346,6 +346,10 @@ html, body, .layout{
   margin-bottom: 2em;
 }
 /* }}}*/
+.css3_tool_item_demo{
+	border: solid 1px red;
+	min-height: 30px;
+}
 .pure-form .pure-control-group{
   margin-bottom: 1em;
 }

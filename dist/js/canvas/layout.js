@@ -1,13 +1,20 @@
-define(['event', 'data'],function(event, data) {
+define(['event', 'data', 'underscore'],function(event, data, _) {
   //画布函数
   var layout = {
     $canvas: $('#canvas'),
     parseObjectToHtmlString: function(obj){
         return '<div class="pure-u-1-5 animation_plus_tool_item ' + obj.identifier + '" data-key="' + obj.index + '"><i class="animation_plus_tool_item_origin"></i></div>'
     },
-    addElement: function(opts) {
-      var htmlString = layout.parseObjectToHtmlString(opts);
-      layout.$canvas.append(htmlString);
+    addElement: function(opts, $el) {
+      var string;
+      $el = $el || layout.$canvas;
+      _opts = $.isArray(opts) ? opts[0] : opts;
+      if($.isPlainObject(_opts)){
+        string = layout.parseObjectToHtmlString(_opts);
+      }else{
+        string = _opts;
+      }
+      return $(string).appendTo($el);
     },
     updateElement: function(obj, el, call) {
       if (!el) {
@@ -57,6 +64,6 @@ define(['event', 'data'],function(event, data) {
       })
     }
   };
-  layout.init();
+  //layout.init();
   return layout;
 })

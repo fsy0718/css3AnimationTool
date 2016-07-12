@@ -1,11 +1,74 @@
-define(['tpl/library.pure'],function(tplPure){
+define(['tpl/library.pure', 'event'],function(tplPure, event){
+    var views = {
+        reg: /(?!_)(\d+)/,
+        get: function(val, $context){
+          if(!this[val]){
+            var s = this.parseViews(val);
+            this[val] = '<div class="views">' + s + '</div>';
+          }
+          return this[val]
+        },
+        parseViews: function(val){
+          var _val = val.match(this.reg);
+          var result = '<div class="pure-u-g css3_tool_item_demo">';
+          if(_val && _val.length){
+            _val.forEach(function(_v, idx){
+                result += '<div class="ui-sortable pure-grids pure-u-' + _v + '-24"></div>';
+            });
+          }
+          result += '<div>';
+          return result;
+        }
+    };
+
+    var i = 0;
+    var initEvent = function($pure, $el){
+        var $lyrow = $pure.find('.lyrow');
+        var self = this;
+        $lyrow.draggable({
+            connectToSorttable: '#canvas',
+            helper: 'clone',
+            handle: '.drag',
+            start: function(e, ui){
+                
+                console.log(ui);
+            },
+            drag: function(e, ui){
+                ui.helper.width(400);
+            },
+            stop: function(e, ui){
+                $('#canvas .pure-grids').sortable({
+                    opacity: .35,
+                    connectWith: '.pure-grids',
+                    start: function(_e, _ui){
+                        
+                    }
+                })
+            }
+        });
+        $('#canvas, #canvas .pure-grids').sortable({
+            connectWith: '.pure-grids',
+            opacity: .35,
+            handle: '.drag',
+            start: function(e, t){
+                console.log(3);
+            },
+            stop: function(e,t){
+                console.log(1);
+            }
+        })
+    };
+
     var pure = {
-        init: function(){
-            console.log(1);
+        init: function($pure, $el, opts){
+            this.initEvent($pure, $el, opts);
         },
         tpl: function(opts){
           opts = opts || {};
           return tplPure();
+        },
+        initEvent: function($pure, $el){
+            initEvent.apply(this, arguments);
         }
     };
     return pure;

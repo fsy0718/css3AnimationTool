@@ -7,16 +7,26 @@
       </dt>
       <dd class="library-content library-grid-content">
         <%
-            var grids = ['12 12','8 8 8','6 6 6 6','1'];
+          var grids = [{key:'v_12_12', val:'12 12'},{key:'v_8_8_8_8', val:'8 8 8'},{key:'v_6_6_6_6',val:'6 6 6 6'},{key:'v_1',val:'1'}];
         %>
-        <% _.each(grids, function(grid){ %>
-        <div class="lyrow ui-draggable">
-            <div class="preview">
-                <input value="<%=grid%>" type="text"/>
-            </div>
+        <% _.each(grids, function(grid, key){ %>
+        <div class="lyrow ui-draggable" data-val="<%=grid.key%>">
             <span class="drag label">
                 <i class="fa fa-arrows"></i>拖动
             </span>
+            <div class="preview">
+                <input value="<%=grid.val%>" type="text"/>
+            </div>
+            <div class="views">
+                <div class="pure-u-g css3_tool_item_demo">
+                    <%
+                        var arr = grid.val.split(/\s/);
+                        _.each(arr, function(num){ %>
+                            <div class="ui-sortable pure-grids pure-u-<%=num%>-24"></div>
+                        <% })
+                    %>
+                </div>
+            </div>
         </div>
         <% }) %>
       </dd>
