@@ -109,16 +109,6 @@ html,body,.layout{
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
     height: 100%;
     width: 100%;
-		.css3_tool_item_demo{
-			position: relative;
-			.preview{
-				display: none;
-			}
-			.del{
-				color: red;
-			}
-		
-		}
   }
   .operatebox{
     width: 40%;
@@ -168,41 +158,41 @@ html,body,.layout{
     padding: 1% 2%;
   }
   .library{
-	line-height: 1.5;
-	font-size: .75em;
-	color: rgba(0,0,0,.7);
+    line-height: 1.5;
+    font-size: .75em;
+    color: rgba(0,0,0,.7);
     .library-name{
-		text-align: center;
-		margin: .5em 0;
-		color: rgba(0,0,0,.5);
-	}
-	.library-title{
-		font-size: 1.125em;
-		position: relative;
-		.fa-question-circle{
-			color: rgba(0,0,0,0.4);
-			position: absolute;
-			top: 0;
-			right: 0;
-		}
-		.fa-plus{
-			color: rgba(28, 184, 65, .6);
-		}
+			text-align: center;
+  		margin: .5em 0;
+  		color: rgba(0,0,0,.5);
+    }
+  	.library-title{
+  		font-size: 1.125em;
+  		position: relative;
+  		.fa-question-circle{
+  			color: rgba(0,0,0,0.4);
+  			position: absolute;
+  			top: 0;
+  			right: 0;
+  		}
+  		.fa-plus{
+  			color: rgba(28, 184, 65, .6);
+  		}
 	}
 	.library-content{
 		.css3_tool_item_demo{
 			position: relative;
-			padding-left: 5em;
+			padding-left: 7em;
 			box-sizing: border-box;
 			margin-top: .8em;
-			.label{
+			.drag{
 				position: absolute;
 				top: 0;
-				left: 0;
-				padding: 0.2em 0.5em;
-				background: rgba(0,0,0,.2);
-				color: white;
+				left: 1em;
 				cursor: grab;
+				padding-left: 0.5em;
+				padding-right: 0.5em;
+				margin-left: 0;
 			}
 			.fa-arrows{
 				color: rgba(28, 184, 65, .5);
@@ -218,6 +208,12 @@ html,body,.layout{
     .views, .del{
 			display: none;
     }
+		//移动时的样式
+		.ui-draggable-dragging{
+			.preview{
+				display: none;
+			}
+		}
 	}
   }
   // }}}
@@ -347,6 +343,30 @@ html,body,.layout{
   }
 }
 // }}}
+
+
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging,.canvas .css3_tool_item_demo{
+	position: relative;
+	.preview{
+		display: none;
+	}
+	.del,.drag{
+		font-size: 0.6em;
+		padding: 0.25em 0.5em;
+	}
+	.views{
+		display: block;
+		border: solid 1em rgba(0,0,0,0.1);
+	}
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging{
+	margin-top: 0;
+	padding-left: 0;
+	.del{
+		display: inline-block;
+	}
+}
+
 
 .pure-form{
   .pure-control-group{

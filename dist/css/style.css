@@ -119,15 +119,6 @@ html, body, .layout{
   height: 100%;
   width: 100%;
 }
-.pure-cont .canvas .css3_tool_item_demo{
-  position: relative;
-}
-.pure-cont .canvas .css3_tool_item_demo .preview{
-  display: none;
-}
-.pure-cont .canvas .css3_tool_item_demo .del{
-  color: red;
-}
 .pure-cont .operatebox{
   width: 40%;
 }
@@ -209,19 +200,19 @@ html, body, .layout{
 }
 .pure-cont .library .library-content .css3_tool_item_demo{
   position: relative;
-  padding-left: 5em;
+  padding-left: 7em;
   box-sizing: border-box;
   margin-top: .8em;
 }
-.pure-cont .library .library-content .css3_tool_item_demo .label{
+.pure-cont .library .library-content .css3_tool_item_demo .drag{
   position: absolute;
   top: 0;
-  left: 0;
-  padding: 0.2em 0.5em;
-  background: rgba(0,0,0,.2);
-  color: white;
+  left: 1em;
   cursor: -webkit-grab;
   cursor: grab;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  margin-left: 0;
 }
 .pure-cont .library .library-content .css3_tool_item_demo .fa-arrows{
   color: rgba(28, 184, 65, .5);
@@ -232,6 +223,10 @@ html, body, .layout{
   color: rgba(0,0,0,.4);
 }
 .pure-cont .library .library-content .views, .pure-cont .library .library-content .del{
+  display: none;
+}
+/*移动时的样式*/
+.pure-cont .library .library-content .ui-draggable-dragging .preview{
   display: none;
 }
 /* [animation_plus_tool_item] 添加的元素 {{{*/
@@ -358,6 +353,27 @@ html, body, .layout{
   margin-bottom: 2em;
 }
 /* }}}*/
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging, .canvas .css3_tool_item_demo{
+	position: relative;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .preview, .canvas .css3_tool_item_demo .preview{
+  display: none;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .del, .pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .drag, .canvas .css3_tool_item_demo .del, .canvas .css3_tool_item_demo .drag{
+  font-size: 0.6em;
+  padding: 0.25em 0.5em;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .views, .canvas .css3_tool_item_demo .views{
+  display: block;
+  border: solid 1em rgba(0,0,0,0.1);
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging{
+	margin-top: 0;
+	padding-left: 0;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .del{
+  display: inline-block;
+}
 .pure-form .pure-control-group{
   margin-bottom: 1em;
 }

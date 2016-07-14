@@ -1,75 +1,78 @@
-define(['tpl/library.pure', 'event'],function(tplPure, event){
-    var views = {
-        reg: /(?!_)(\d+)/,
-        get: function(val, $context){
-          if(!this[val]){
-            var s = this.parseViews(val);
-            this[val] = '<div class="views">' + s + '</div>';
-          }
-          return this[val]
-        },
-        parseViews: function(val){
-          var _val = val.match(this.reg);
-          var result = '<div class="pure-u-g">';
-          if(_val && _val.length){
-            _val.forEach(function(_v, idx){
-                result += '<div class="ui-sortable pure-grids pure-u-' + _v + '-24"></div>';
-            });
-          }
-          result += '<div>';
-          return result;
-        }
-    };
-
-    var i = 0;
-    var initEvent = function($pure, $el){
-        var $item = $pure.find('.css3_tool_item_demo');
-        var self = this;
-        $item.draggable({
-            connectToSortable: '#canvas',
-            helper: 'clone',
-            handle: '.drag',
-            start: function(e, ui){
-                
-                console.log(ui);
-            },
-            drag: function(e, ui){
-                ui.helper.width(400);
-            },
-            stop: function(e, ui){
-                $('#canvas .pure-grids').sortable({
-                    opacity: .35,
-                    connectWith: '.pure-grids',
-                    start: function(_e, _ui){
-                        
-                    }
-                })
-            }
+define(['tpl/library.pure', 'event'], function(tplPure, event) {
+  var views = {
+    reg: /(?!_)(\d+)/,
+    get: function(val, $context) {
+      if (!this[val]) {
+        var s = this.parseViews(val);
+        this[val] = '<div class="views">' + s + '</div>';
+      }
+      return this[val]
+    },
+    parseViews: function(val) {
+      var _val = val.match(this.reg);
+      var result = '<div class="pure-u-g">';
+      if (_val && _val.length) {
+        _val.forEach(function(_v, idx) {
+          result += '<div class="ui-sortable pure-grids pure-u-' + _v + '-24"></div>';
         });
-        $('#canvas, #canvas .pure-grids').sortable({
-            connectWith: '.pure-grids',
-            opacity: .35,
-            handle: '.drag',
-            start: function(e, t){
-                console.log(3);
-            },
-            stop: function(e,t){
-                console.log(1);
-            }
-        })
-    };
+      }
+      result += '<div>';
+      return result;
+    }
+  };
 
-    var pure = {
-        init: function($pure, $el, opts){
-            this.initEvent($pure, $el, opts);
-        },
-        tpl: function(opts){
-          opts = opts || {};
-          return tplPure();
-        },
-        initEvent: function($pure, $el){
-            initEvent.apply(this, arguments);
-        }
-    };
-    return pure;
+  var i = 0;
+  var initEvent = function($pure, $el) {
+    var $item = $pure.find('.css3_tool_item_demo');
+    var self = this;
+    $item.draggable({
+      connectToSortable: '#canvas',
+      helper: 'clone',
+      handle: '.drag',
+      start: function(e, ui) {
+
+        console.log(ui);
+      },
+      drag: function(e, ui) {
+        ui.helper.width(400);
+      },
+      stop: function(e, ui) {
+        $('#canvas .pure-grids').sortable({
+          opacity: .35,
+          connectWith: '.pure-grids',
+          start: function(_e, _ui) {
+            console.log(1);
+          },
+          stop: function(_e, _ui){
+            console.log(2);
+          }
+        });
+      }
+    });
+    $('#canvas, #canvas .pure-grids').sortable({
+      connectWith: '.pure-grids',
+      opacity: .35,
+      handle: '.drag',
+      start: function(e, t) {
+        console.log(3);
+      },
+      stop: function(e, t) {
+        console.log(1);
+      }
+    })
+  };
+
+  var pure = {
+    init: function($pure, $el, opts) {
+      this.initEvent($pure, $el, opts);
+    },
+    tpl: function(opts) {
+      opts = opts || {};
+      return tplPure();
+    },
+    initEvent: function($pure, $el) {
+      initEvent.apply(this, arguments);
+    }
+  };
+  return pure;
 })
