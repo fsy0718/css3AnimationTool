@@ -11,11 +11,11 @@ __p+=' <div class="css3_tool_item_demo ui-draggable" data-val="'+
 ((__t=(grid.key))==null?'':__t)+
 '"> <a href="javascript:;" class="del pure-button button-error"><i class="fa fa-times"></i>删除</a> <span class="drag pure-button"> <i class="fa fa-arrows"></i>拖动 </span> <div class="preview"> <input value="'+
 ((__t=(grid.val))==null?'':__t)+
-'" type="text"> </div> <div class="views"> <div class="pure-u-g"> ';
+'" type="text"> </div> <div class="views"> <div class="pure-u-g Lcfx"> ';
 
                         var arr = grid.val.split(/\s/);
                         _.each(arr, function(num){ 
-__p+=' <div class="ui-sortable pure-grids pure-u-'+
+__p+=' <div class="ui-sortable pure-grids Lfll pure-u-'+
 ((__t=(num))==null?'':__t)+
 '-24"></div> ';
  })

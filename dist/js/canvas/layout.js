@@ -1,4 +1,4 @@
-define(['event', 'data', 'underscore'],function(event, data, _) {
+define(['event', 'data', 'popup/promptDelEleOrCss' ,'underscore'],function(event, data,promptDelEleOrCss, _) {
   //画布函数
   var layout = {
     $canvas: $('#canvas'),
@@ -45,25 +45,50 @@ define(['event', 'data', 'underscore'],function(event, data, _) {
     delElement: function(el){
         el.remove();
     },
+    status: 'editor',
     init: function() {
       var self = this;
-      this.$canvas.on('contextmenu', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var $target = $(e.target);
-        //如果是在画布上,则新建
-        if ($target.hasClass('canvas')) {
-          //新建
-          event.trigger('addElement.popup');
-        } else {
-          var key = $target.data('key');
-          if (key) {
+      //右键事件
+      this.$canvas.on('contextmenu', '.css3_tool_item_demo', function(e){
+        if(self.status === 'editor'){
+          var $target = $(this);
+          var key = $target.data('css3Iden');
+          if(key){
+            e.preventDefault();
+            e.stopPropagation();
             event.trigger('showMenu.popup',e, {key: key, $el: $target});
           }
         }
+      });
+      //删除事件
+      this.$canvas.on('click', '.del', function(e){
+        var $target = $(this).parent('.css3_tool_item_demo');
+        var key = $target.data('css3Iden');
+        if(key){
+          data.setCurrentArgs(key, $target);
+          promptDelEleOrCss.show();
+        }
       })
+      // this.$canvas.on('contextmenu', function(e) {
+      //   if(self.status === 'editor'){
+      //     e.preventDefault();
+      //     e.stopPropagation();
+      //     var $target = $(e.target);
+      //     console.log($target);
+      //     //如果是在画布上,则新建
+      //     if ($target.hasClass('canvas')) {
+      //       //新建
+      //       event.trigger('addElement.popup');
+      //     } else {
+      //       var key = $target.data('key');
+      //       if (key) {
+      //         event.trigger('showMenu.popup',e, {key: key, $el: $target});
+      //       }
+      //     }
+      //   }
+      // })
     }
   };
-  //layout.init();
+  layout.init();
   return layout;
 })

@@ -4,6 +4,15 @@
 .Lflr{
   float: right;
 }
+.Lcfx{
+  &:after,&:before{
+    content: '';
+    display: table;
+  }
+  &:after{
+    clear: both;
+  }
+}
 ul{
   margin: 0;
   padding: 0;
@@ -96,10 +105,9 @@ html,body,.layout{
   display: flex;
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
+
   align-items: stretch;
   flex-wrap: wrap;
-  padding-left: 1%;
   flex-direction: row;
   .canvasbox{
     width: 60%;
@@ -109,6 +117,8 @@ html,body,.layout{
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
     height: 100%;
     width: 100%;
+      box-sizing: border-box;
+      padding-left: 1%;
   }
   .operatebox{
     width: 40%;
@@ -342,7 +352,8 @@ html,body,.layout{
 }
 // }}}
 
-.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging,.canvas .css3_tool_item_demo{
+// 拖动状态与编辑状态的canvas {{{
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging,.canvas--editor .css3_tool_item_demo{
   position: relative;
   .preview{
     display: none;
@@ -350,21 +361,107 @@ html,body,.layout{
   .del,.drag{
     font-size: 0.6em;
     padding: 0.25em 0.5em;
+    position: absolute;
+    margin-left: 0;
+    z-index: 10;
+  }
+  .del{
+    top: 0.5em;
+    right: 1em;
+  }
+  .drag{
+    top: 0.6em;
+    right: 7em;
   }
   .views{
     display: block;
-    border: solid 1em rgba(0,0,0,0.1);
+    > .pure-u-g{
+      padding: 2em;
+      background-color: #f5f5f5;
+      box-sizing: border-box;
+      box-shadow: inset 0 1px 13px rgba(0,0,0, .1);
+      border: solid 1px #ddd;
+    }
+    .pure-u-g{
+      position: relative;
+      &:before{
+        content: "ROW";
+        position: absolute;
+        padding: 0 0.5em;
+        background-color: #f5f5f5;
+        left: -1px;
+        top: -1px;
+        line-height: 2;
+        color: #9da0a4;
+        border: solid 1px #ddd;
+        font-size: 12px;
+        font-weight: bold;
+
+      }
+    }
+  }
+  .pure-grids{
+    padding: 2em 0;
+    box-sizing: border-box;
+    background-color: white;
+    & + .pure-grids{
+      border-left: solid 1em #f5f5f5;
+    }
   }
 }
 .pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging{
   margin-top: 0;
   padding-left: 0;
-  .del{
-    display: inline-block;
+  .drag{
+    left: auto;
+    top: 0.2em;
+    right: 1em;
+  }
+  .views{
+    .pure-u-g{
+      &:before{
+        line-height: 1.5;
+      }
+    }
+  }
+}
+.canvas--editor{
+  .css3_tool_item_demo{
+    margin: 1em 0;
+    &.ui-sortable-placeholder{
+      border: 1px dashed #ddd;
+      visibility: visible !important;
+    }
+    .del,.drag{
+      opacity: 0.1;
+    }
+    &:hover,&:focus{
+      .del,.drag{
+        opacity: 1;
+      }
+    }
+    .pure-u-g{
+      .pure-grids{
+        position: relative;
+        &:before{
+        content: 'column';
+        position: absolute;
+        padding: 0 0.5em;
+        background-color: #f5f5f5;
+        left: -1px;
+        top: -1px;
+        line-height: 2;
+        color: #9da0a4;
+        border: solid 1px #ddd;
+        font-size: 12px;
+        font-weight: bold;
+        }
+      }
+    }
   }
 }
 
-
+// }}}
 .pure-form{
   .pure-control-group{
     margin-bottom: 1em;
@@ -374,12 +471,6 @@ html,body,.layout{
   text-align:center;
 }
 
-.canvas{
-  [class *= "pure-u"]{
-    border: dashed 1px rgba(0,0,0,0.5);
-    min-height: 5px;
-  }
-}
 
 .pure-form{
   [class *= "pure-u"].error{

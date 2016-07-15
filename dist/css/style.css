@@ -4,6 +4,13 @@
 .Lflr{
   float: right;
 }
+.Lcfx:after, .Lcfx:before{
+  content: '';
+  display: table;
+}
+.Lcfx:after{
+  clear: both;
+}
 ul{
   margin: 0;
   padding: 0;
@@ -93,15 +100,17 @@ html, body, .layout{
   display: flex;
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
+
   -webkit-box-align: stretch;
+
   -webkit-align-items: stretch;
+
   -ms-flex-align: stretch;
+
   align-items: stretch;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  padding-left: 1%;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
@@ -118,6 +127,8 @@ html, body, .layout{
   box-shadow: 0 0 5px rgba(0,0,0,0.2);
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
+  padding-left: 1%;
 }
 .pure-cont .operatebox{
   width: 40%;
@@ -198,13 +209,13 @@ html, body, .layout{
 .pure-cont .library .library-title .fa-plus{
   color: rgba(28, 184, 65, .6);
 }
-.pure-cont .library .library-content .css3_tool_item_demo{
+.pure-cont .library-content .css3_tool_item_demo{
   position: relative;
   padding-left: 7em;
   box-sizing: border-box;
   margin-top: .8em;
 }
-.pure-cont .library .library-content .css3_tool_item_demo .drag{
+.pure-cont .library-content .css3_tool_item_demo .drag{
   position: absolute;
   top: 0;
   left: 1em;
@@ -214,19 +225,19 @@ html, body, .layout{
   padding-right: 0.5em;
   margin-left: 0;
 }
-.pure-cont .library .library-content .css3_tool_item_demo .fa-arrows{
+.pure-cont .library-content .css3_tool_item_demo .fa-arrows{
   color: rgba(28, 184, 65, .5);
   padding-right: 0.4em;
 }
-.pure-cont .library .library-content .preview input{
+.pure-cont .library-content .preview input{
   padding: 0.2em 0 0.2em 0.5em;
   color: rgba(0,0,0,.4);
 }
-.pure-cont .library .library-content .views, .pure-cont .library .library-content .del{
+.pure-cont .library-content .views, .pure-cont .library-content .del{
   display: none;
 }
 /*移动时的样式*/
-.pure-cont .library .library-content .ui-draggable-dragging .preview{
+.pure-cont .library-content .ui-draggable-dragging .preview{
   display: none;
 }
 /* [animation_plus_tool_item] 添加的元素 {{{*/
@@ -353,36 +364,109 @@ html, body, .layout{
   margin-bottom: 2em;
 }
 /* }}}*/
-.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging, .canvas .css3_tool_item_demo{
-	position: relative;
+/* 拖动状态与编辑状态的canvas {{{*/
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging, .canvas--editor .css3_tool_item_demo{
+  position: relative;
 }
-.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .preview, .canvas .css3_tool_item_demo .preview{
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .preview, .canvas--editor .css3_tool_item_demo .preview{
   display: none;
 }
-.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .del, .pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .drag, .canvas .css3_tool_item_demo .del, .canvas .css3_tool_item_demo .drag{
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .del, .pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .drag, .canvas--editor .css3_tool_item_demo .del, .canvas--editor .css3_tool_item_demo .drag{
   font-size: 0.6em;
   padding: 0.25em 0.5em;
+  position: absolute;
+  margin-left: 0;
+  z-index: 10;
 }
-.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .views, .canvas .css3_tool_item_demo .views{
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .del, .canvas--editor .css3_tool_item_demo .del{
+  top: 0.5em;
+  right: 1em;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .drag, .canvas--editor .css3_tool_item_demo .drag{
+  top: 0.6em;
+  right: 7em;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .views, .canvas--editor .css3_tool_item_demo .views{
   display: block;
-  border: solid 1em rgba(0,0,0,0.1);
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .views > .pure-u-g, .canvas--editor .css3_tool_item_demo .views > .pure-u-g{
+  padding: 2em;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 13px rgba(0,0,0, .1);
+  border: solid 1px #ddd;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .views .pure-u-g, .canvas--editor .css3_tool_item_demo .views .pure-u-g{
+  position: relative;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .views .pure-u-g:before, .canvas--editor .css3_tool_item_demo .views .pure-u-g:before{
+  content: "ROW";
+  position: absolute;
+  padding: 0 0.5em;
+  background-color: #f5f5f5;
+  left: -1px;
+  top: -1px;
+  line-height: 2;
+  color: #9da0a4;
+  border: solid 1px #ddd;
+  font-size: 12px;
+  font-weight: bold;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .pure-grids, .canvas--editor .css3_tool_item_demo .pure-grids{
+  padding: 2em 0;
+  box-sizing: border-box;
+  background-color: white;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .pure-grids + .pure-grids, .canvas--editor .css3_tool_item_demo .pure-grids + .pure-grids{
+  border-left: solid 1em #f5f5f5;
 }
 .pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging{
-	margin-top: 0;
-	padding-left: 0;
+  margin-top: 0;
+  padding-left: 0;
 }
-.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .del{
-  display: inline-block;
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .drag{
+  left: auto;
+  top: 0.2em;
+  right: 1em;
 }
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .views .pure-u-g:before{
+  line-height: 1.5;
+}
+.canvas--editor .css3_tool_item_demo{
+  margin: 1em 0;
+}
+.canvas--editor .css3_tool_item_demo.ui-sortable-placeholder{
+  border: 1px dashed #ddd;
+  visibility: visible !important;
+}
+.canvas--editor .css3_tool_item_demo .del, .canvas--editor .css3_tool_item_demo .drag{
+  opacity: 0.1;
+}
+.canvas--editor .css3_tool_item_demo:hover .del, .canvas--editor .css3_tool_item_demo:hover .drag, .canvas--editor .css3_tool_item_demo:focus .del, .canvas--editor .css3_tool_item_demo:focus .drag{
+  opacity: 1;
+}
+.canvas--editor .css3_tool_item_demo .pure-u-g .pure-grids{
+  position: relative;
+}
+.canvas--editor .css3_tool_item_demo .pure-u-g .pure-grids:before{
+  content: 'column';
+  position: absolute;
+  padding: 0 0.5em;
+  background-color: #f5f5f5;
+  left: -1px;
+  top: -1px;
+  line-height: 2;
+  color: #9da0a4;
+  border: solid 1px #ddd;
+  font-size: 12px;
+  font-weight: bold;
+}
+/* }}}*/
 .pure-form .pure-control-group{
   margin-bottom: 1em;
 }
 .pure-text-align-center{
   text-align:center;
-}
-.canvas [class *= "pure-u"]{
-  border: dashed 1px rgba(0,0,0,0.5);
-  min-height: 5px;
 }
 .pure-form [class *= "pure-u"].error{
   color: red;

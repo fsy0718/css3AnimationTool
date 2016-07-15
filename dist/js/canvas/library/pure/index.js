@@ -1,4 +1,4 @@
-define(['tpl/library.pure', 'event'], function(tplPure, event) {
+define(['tpl/library.pure', 'library/event'],  function(tplPure, event) {
   var views = {
     reg: /(?!_)(\d+)/,
     get: function(val, $context) {
@@ -30,8 +30,6 @@ define(['tpl/library.pure', 'event'], function(tplPure, event) {
       helper: 'clone',
       handle: '.drag',
       start: function(e, ui) {
-
-        console.log(ui);
       },
       drag: function(e, ui) {
         ui.helper.width(400);
@@ -54,11 +52,16 @@ define(['tpl/library.pure', 'event'], function(tplPure, event) {
       opacity: .35,
       handle: '.drag',
       start: function(e, t) {
-        console.log(3);
       },
       stop: function(e, t) {
-        console.log(1);
-      }
+        //为当前元素添加惟一标识符
+        var _item = t.item;
+        if(!_item.data('css3Iden')){
+          var iden = event.getIdentifier();
+          _item.data('css3Iden', iden.index);
+          _item.find('> .views > .pure-u-g').addClass(iden.identifier);
+        }
+      },
     })
   };
 

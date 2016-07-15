@@ -12,7 +12,9 @@ require.config({
     //data相关
     'identifier': 'js/data/identifier',
     'css': 'js/data/css',
-    'data': 'js/data/index'
+    'data': 'js/data/index',
+    //popup
+    'popup': 'js/canvas/popup'
   },
   config: {
     'data': {
