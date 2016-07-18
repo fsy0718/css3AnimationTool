@@ -64,31 +64,28 @@ require(['event', 'js/canvas/layout', 'popup/index', 'data', 'underscore', 'libr
         string += '.animated.' + val.identifier + '{\n' + (val.css || '') + '}\n';
       });
       return {addIngClass: addIngClass, css: string, selectors: selectors};
-
   }
   var timer = null;
-  $('.header').on('click', '.pure-button', function(e){
-    var $target = $(e.target);
-    var action = $target.data('action');
-    //预览 TODO 此处需要做缓存 如果未修改任何样式，则不用替换css
-    if(action === 'preview'){
-        if(!$cssToolDemo){
-            $cssToolDemo = $('<style class="animation_plus_tool_style"></style>').appendTo('head');
-        }
-        var demoDatas = data.getCached();
-        var _data = parseToolItems(demoDatas);
-        $cssToolDemo.text(_data.css);
-        _.each(_data.selectors, function(selector){
-            $('.' + selector).addClass('animated ' + _data.addIngClass[selector])
-        })
-        timer = setTimeout(function(){
-            _.each(_data.selectors, function(selector){
-                $('.' + selector).removeClass('animated ' + _data.addIngClass[selector])
-            })
-        }, 5000)
+  var createCss = function(){
+    if(!$cssToolDemo){
+        $cssToolDemo = $('<style class="css3_tool_style"></style>').appendTo('head');
     }
+    var demoDatas = data.getCached();
+    var _data = parseToolItems(demoDatas);
+    $cssToolDemo.text(_data.css);
+    _.each(_data.selectors, function(selector){
+        $('.' + selector).addClass('animated ' + _data.addIngClass[selector])
+    })
+    timer = setTimeout(function(){
+        _.each(_data.selectors, function(selector){
+            $('.' + selector).removeClass('animated ' + _data.addIngClass[selector])
+        })
+    }, 5000);
+  }
+  //生成样式
+  event.on('preview.css',function(isPreview){
+    isPreview && createCss();
   });
-
   //event.trigger('showStyle.popup');
 });
 

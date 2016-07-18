@@ -8,6 +8,7 @@ require.config({
     'tpl': 'template',
     'underscore': 'lib/underscore/underscore-min',
     'layer': 'lib/layer/layer',
+    'shortid': 'lib/js-shortid/js-shortid.min',
     'event': 'js/event',
     //data相关
     'identifier': 'js/data/identifier',

@@ -49,11 +49,10 @@ define(['event', 'data', 'popup/promptDelEleOrCss' ,'underscore', './header'],fu
     init: function() {
       var self = this;
       //右键事件
-      this.$el.on('contextmenu', '.css3_tool_item_demo', function(e){
+      this.$el.on('contextmenu', '.J__contextmenu-item', function(e){
         if(self.status === 'editor'){
-          console.log($(e.target));
           var $target = $(this);
-          var key = $target.data('css3Iden');
+          var key = $target.data('@__css3_iden__@');
           if(key){
             e.preventDefault();
             e.stopPropagation();
@@ -64,7 +63,7 @@ define(['event', 'data', 'popup/promptDelEleOrCss' ,'underscore', './header'],fu
       //删除事件
       this.$el.on('click', '.del', function(e){
         var $target = $(this).parent('.css3_tool_item_demo');
-        var key = $target.data('css3Iden');
+        var key = $target.data('@__css3_iden__@');
         if(key){
           data.setCurrentArgs(key, $target);
           promptDelEleOrCss.show();

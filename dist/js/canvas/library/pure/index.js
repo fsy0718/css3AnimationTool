@@ -22,6 +22,17 @@ define(['tpl/library.pure', 'library/event'],  function(tplPure, event) {
   };
 
   var i = 0;
+
+  var addCss3Key = function(item){
+    if(!item.data('@__css3_key__@')){
+      item.data('@__css3_key__@', 'true');
+      var items = item.find('.J__contextmenu-item');
+      items.each(function(index, dom){
+        var iden = event.getIdentifier();
+        $(this).addClass(iden.identifier).data('@__css3_iden__@', iden.index);
+      });
+    }
+  }
   var initEvent = function($pure, $el) {
     var $grids = $pure.find('.library-grid-content .css3_tool_item_demo');
     var $items = $pure.find('.library-box-content .css3_tool_item_demo');
@@ -43,7 +54,7 @@ define(['tpl/library.pure', 'library/event'],  function(tplPure, event) {
             console.log(1);
           },
           stop: function(_e, _ui){
-            console.log(2);
+            addCss3Key(_ui.item);
           }
         });
       }
@@ -52,28 +63,17 @@ define(['tpl/library.pure', 'library/event'],  function(tplPure, event) {
       connectToSortable: '.pure-grids',
       helper: 'clone',
       handle: '.drag',
-      start: function(e, ui) {
-      },
       drag: function(e, ui) {
         ui.helper.width(400);
-      },
-      stop: function(e, ui) {
       }
     });
     $('#canvas, #canvas .pure-grids').sortable({
       connectWith: '.pure-grids',
       opacity: .35,
       handle: '.drag',
-      start: function(e, t) {
-      },
       stop: function(e, t) {
         //为当前元素添加惟一标识符
-        var _item = t.item;
-        if(!_item.data('css3Iden')){
-          var iden = event.getIdentifier();
-          _item.data('css3Iden', iden.index);
-          _item.find('> .views > .pure-u-g').addClass(iden.identifier);
-        }
+        addCss3Key(t.item);
       },
     })
   };

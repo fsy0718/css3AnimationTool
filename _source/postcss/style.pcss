@@ -35,7 +35,6 @@ dd{
     width: 25%;
   }
   .pure-button{
-    margin-left: 1.5em;
     .fa{
       margin-right: 0.5em;
     }
@@ -110,6 +109,9 @@ html,body,.layout{
       vertical-align: middle;
     }
   }
+  .pure-button{
+    margin-left: 1.5em;
+  }
 }
 // }}}
 // [pure-cont] 主要内容 {{{
@@ -178,9 +180,9 @@ html,body,.layout{
   .librarybox{
     box-sizing: border-box;
     padding: 1% 2%;
-    background-color: white;
   }
   .library{
+    background: white;
     line-height: 1.5;
     font-size: .75em;
     color: rgba(0,0,0,.7);
@@ -448,7 +450,6 @@ html,body,.layout{
 //编辑状态
 .canvas--editor{
   .css3_tool_item_demo{
-    margin: 1em 0;
     &.ui-sortable-placeholder{
       border: 1px dashed #ddd;
       visibility: visible !important;
@@ -479,6 +480,9 @@ html,body,.layout{
         }
       }
     }
+  }
+  .css3_tool_item__box{
+    padding-top: 2em;
   }
 }
 //预览状态

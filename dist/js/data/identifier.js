@@ -1,7 +1,4 @@
-define(function(){
-  var shortId = function(){
-    return 'fsy_' + Date.now()
-  }
+define(['shortid'],function(shortid){
   var Identifier = function(){
     this.identifiers = {};
     this.indexs = {};
@@ -13,7 +10,7 @@ define(function(){
     },
     addIdentifier: function(id, type) {
       if (!this.hasIdentifier(id)) {
-        var _i = shortId();
+        var _i = shortid.gen();
         this.identifiers[id] = _i;
         this.indexs[_i] = {
           identifier: id,

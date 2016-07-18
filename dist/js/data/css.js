@@ -42,8 +42,7 @@ define(function(){
       'transition-delay': 's',
       'animation-delay': 's'
     }
-  }
-
+  };
   var ruleParse = {
     matrix: function(val) {
       var result = ruleHelp.orderKey.fix.matrix.map(function(a) {

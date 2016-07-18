@@ -1,6 +1,6 @@
 "use strict";
 
-define(['tpl/addElement', './popup', 'data'], function (addElement, popup, data) {
+define(['tpl/addElement', './popup', 'data', 'event'], function (addElement, popup, data, event) {
   var identifier = data.identifier;
   var identifierReg = /^[^\d]\w+([\-\_]\w+)*$/;
   var identifierIsValid = function (identifier) {
@@ -35,7 +35,7 @@ define(['tpl/addElement', './popup', 'data'], function (addElement, popup, data)
         disabled: true,
         isFull: isFull
       });
-      var s = addElement(data);
+      var s = addElement(_data);
       this.cached[curArgs.index] = s;
       return s;
     },

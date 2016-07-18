@@ -1,18 +1,17 @@
 "use strict";
 
-define(['event','data'],function(event, data){
+define(['event','data', 'shortid'],function(event, data, shortid){
   var iden = data.identifier;
   var randomGenerated = function(i){
     if(i){
       if(iden.hasIdentifier(i)){
-        return i + Date.now()
+        return i + shortid.gen();
       }else{
         return i;
       }
     }else{
-      return 'css3-tool-iden-' + Date.now();
+      return 'css3-tool-iden-' + shortid.gen();
     }
-
   };
 
   var getIdentifierName = function(i){

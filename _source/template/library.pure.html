@@ -10,7 +10,7 @@
           var grids = [{key:'v_12_12', val:'12 12'},{key:'v_8_8_8_8', val:'8 8 8'},{key:'v_6_6_6_6',val:'6 6 6 6'},{key:'v_1',val:'1'}];
         %>
         <% _.each(grids, function(grid, key){ %>
-        <div class="css3_tool_item_demo ui-draggable" data-val="<%=grid.key%>">
+        <div class="css3_tool_item_demo css3_tool_item__grids ui-draggable" data-val="<%=grid.key%>">
             <a href="javascript:;" class="del pure-button button-error"><i class="fa fa-times"></i>删除</a>
             <span class="drag pure-button">
                 <i class="fa fa-arrows"></i>拖动
@@ -19,11 +19,11 @@
                 <input value="<%=grid.val%>" type="text"/>
             </div>
             <div class="views">
-                <div class="pure-u-g Lcfx">
+                <div class="pure-u-g Lcfx J__contextmenu-item">
                     <%
                         var arr = grid.val.split(/\s/);
                         _.each(arr, function(num){ %>
-                            <div class="ui-sortable pure-grids Lfll pure-u-<%=num%>-24"></div>
+                            <div class="ui-sortable pure-grids J__contextmenu-item Lfll pure-u-<%=num%>-24"></div>
                         <% })
                     %>
                 </div>
@@ -37,16 +37,41 @@
         <span>基本css</span>
       </dt>
       <dd class="library-content library-box-content">
-        <div class="css3_tool_item_demo ui-draggable">
+        <div class="css3_tool_item_demo css3_tool_item__box ui-draggable">
             <a href="javascript:;" class="del pure-button button-error"><i class="fa fa-times"></i>删除</a>
             <span class="drag pure-button">
                 <i class="fa fa-arrows"></i>拖动
             </span>
-            <div class="preview">
-                按钮
-            </div>
+            <div class="preview">按钮</div>
             <div class="views">
-                <a href="javascript:;" class="pure-button">按钮</a>
+                <a href="javascript:;" class="pure-button J__contextmenu-item">按钮</a>
+            </div>
+        </div>
+        <div class="css3_tool_item_demo css3_tool_item__box ui-draggable">
+            <a href="javascript:;" class="del pure-button button-error"><i class="fa fa-times"></i>删除</a>
+            <span class="drag pure-button">
+                <i class="fa fa-arrows"></i>拖动
+            </span>
+            <div class="preview">表格</div>
+            <div class="views">
+                <table class="pure-table J__contextmenu-item">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2</td>
+                            <td>Toyota</td>
+                            <td>Camry</td>
+                            <td>2012</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
       </dd>

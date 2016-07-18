@@ -32,9 +32,6 @@ dd{
 .layout .pure-u-mid-1-4{
   width: 25%;
 }
-.layout .pure-button{
-  margin-left: 1.5em;
-}
 .layout .pure-button .fa{
   margin-right: 0.5em;
 }
@@ -103,6 +100,9 @@ html, body, .layout{
 }
 .header .grid input[type="checkbox"]{
   vertical-align: middle;
+}
+.header .pure-button{
+  margin-left: 1.5em;
 }
 /* }}}*/
 /* [pure-cont] 主要内容 {{{*/
@@ -197,10 +197,10 @@ html, body, .layout{
 .pure-cont .librarybox{
   box-sizing: border-box;
   padding: 1% 2%;
-  background-color: white;
 }
 /* }}}*/
 .pure-cont .library{
+  background: white;
   line-height: 1.5;
   font-size: .75em;
   color: rgba(0,0,0,.7);
@@ -452,9 +452,6 @@ html, body, .layout{
   line-height: 1.5;
 }
 /*编辑状态*/
-.canvas--editor .css3_tool_item_demo{
-  margin: 1em 0;
-}
 .canvas--editor .css3_tool_item_demo.ui-sortable-placeholder{
   border: 1px dashed #ddd;
   visibility: visible !important;
@@ -480,6 +477,9 @@ html, body, .layout{
   border: solid 1px #ddd;
   font-size: 12px;
   font-weight: bold;
+}
+.canvas--editor .css3_tool_item__box{
+  padding-top: 2em;
 }
 /*预览状态*/
 .canvas--preview .css3_tool_item_demo .del, .canvas--preview .css3_tool_item_demo .drag, .canvas--preview .css3_tool_item_demo .preview{
