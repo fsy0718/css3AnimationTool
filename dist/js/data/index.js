@@ -3,7 +3,8 @@ define(['identifier', 'css', 'module'],function(Identifier, Css, module){
   //缓存当前编辑的元素信息
   var currentArgs = {};
   var cached = {};
-  var validKeys = ['css', 'classNames', 'html', 'curIdx', 'identifier', 'animationName']
+  var innerKeyReg = /^@__(.+)__@$/;
+  var validKeys = ['css', 'classNames', 'html', 'curIdx', 'identifier', 'animationName', '@__css__@', '@__change__@']
   var setCached = function(obj, key, val){
     if(typeof key === 'object'){
         for(var i in key){
@@ -25,6 +26,12 @@ define(['identifier', 'css', 'module'],function(Identifier, Css, module){
                 obj[key] = val;
             }else{
                 delete obj[key];
+            }
+            var _r = innerKeyReg.exec(key);
+            if(_r && _r[1] === 'css'){
+                delete cached['@__change__@'];
+            }else{
+                cached['@__change__@'] = 1;
             }
         }
     }

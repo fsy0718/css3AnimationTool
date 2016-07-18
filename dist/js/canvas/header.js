@@ -20,6 +20,9 @@ define(['event'], function(event){
       $el.data('isPreview', isPreview ? null : 'preview');
       $el.find('span').text(isPreview ? '预览' : '退出预览');
       event.trigger('preview', !isPreview);
+    },
+    run: function($el){
+      event.trigger('runAnimation');
     }
   };
   var btnEvent = function(){

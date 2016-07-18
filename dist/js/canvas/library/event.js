@@ -22,11 +22,15 @@ define(['event','data', 'shortid'],function(event, data, shortid){
     return iden.addIdentifier(_n);
   };
 
+  var addIdentifierCache = function(){
+    return data.setCached.apply(data, arguments);
+  }
 
 
   var _event = {
     getIdentifier: getIdentifier,
-    getIdentifierName: getIdentifierName
+    getIdentifierName: getIdentifierName,
+    addIdentifierCache: addIdentifierCache
   };
   return _event;
 

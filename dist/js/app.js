@@ -42,6 +42,7 @@ require(['event', 'js/canvas/layout', 'popup/index', 'data', 'underscore', 'libr
   // }}}
   //页面脚本
   var $cssToolDemo = null;
+  var cached = {};
   var parseToolItems = function(obj){
       var string = '';
       var addIngClass = {};
@@ -63,7 +64,9 @@ require(['event', 'js/canvas/layout', 'popup/index', 'data', 'underscore', 'libr
         }
         string += '.animated.' + val.identifier + '{\n' + (val.css || '') + '}\n';
       });
-      return {addIngClass: addIngClass, css: string, selectors: selectors};
+      var result  = {addIngClass: addIngClass, css: string, selectors: selectors}
+      data.setCached('@__all__@','@__css__@', result);
+      return result;
   }
   var timer = null;
   var createCss = function(){
@@ -71,8 +74,18 @@ require(['event', 'js/canvas/layout', 'popup/index', 'data', 'underscore', 'libr
         $cssToolDemo = $('<style class="css3_tool_style"></style>').appendTo('head');
     }
     var demoDatas = data.getCached();
-    var _data = parseToolItems(demoDatas);
-    $cssToolDemo.text(_data.css);
+    if(demoDatas['@__change__@']){
+        var _data = parseToolItems(demoDatas);
+        $cssToolDemo.text(_data.css);
+    }
+    event.trigger('runAnimation');
+  }
+  //生成样式
+  event.on('preview.css',function(isPreview){
+    isPreview && createCss();
+  });
+  event.on('runAnimation', function(){
+    var _data = data.getCached('@__all__@')['@__css__@'];
     _.each(_data.selectors, function(selector){
         $('.' + selector).addClass('animated ' + _data.addIngClass[selector])
     })
@@ -81,11 +94,7 @@ require(['event', 'js/canvas/layout', 'popup/index', 'data', 'underscore', 'libr
             $('.' + selector).removeClass('animated ' + _data.addIngClass[selector])
         })
     }, 5000);
-  }
-  //生成样式
-  event.on('preview.css',function(isPreview){
-    isPreview && createCss();
-  });
+  })
   //event.trigger('showStyle.popup');
 });
 

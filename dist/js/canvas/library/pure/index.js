@@ -29,8 +29,10 @@ define(['tpl/library.pure', 'library/event'],  function(tplPure, event) {
       var items = item.find('.J__contextmenu-item');
       items.each(function(index, dom){
         var iden = event.getIdentifier();
+        event.addIdentifierCache(iden.index, 'identifier', iden.identifier);
         $(this).addClass(iden.identifier).data('@__css3_iden__@', iden.index);
       });
+
     }
   }
   var initEvent = function($pure, $el) {
