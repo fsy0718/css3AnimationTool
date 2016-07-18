@@ -1,13 +1,13 @@
-define(['event', 'data', 'popup/promptDelEleOrCss' ,'underscore'],function(event, data,promptDelEleOrCss, _) {
+define(['event', 'data', 'popup/promptDelEleOrCss' ,'underscore', './header'],function(event, data,promptDelEleOrCss, _, header) {
   //画布函数
   var layout = {
-    $canvas: $('#canvas'),
+    $el: $('#canvas'),
     parseObjectToHtmlString: function(obj){
         return '<div class="pure-u-1-5 animation_plus_tool_item ' + obj.identifier + '" data-key="' + obj.index + '"><i class="animation_plus_tool_item_origin"></i></div>'
     },
     addElement: function(opts, $el) {
       var string;
-      $el = $el || layout.$canvas;
+      $el = $el || layout.$el;
       _opts = $.isArray(opts) ? opts[0] : opts;
       if($.isPlainObject(_opts)){
         string = layout.parseObjectToHtmlString(_opts);
@@ -49,8 +49,9 @@ define(['event', 'data', 'popup/promptDelEleOrCss' ,'underscore'],function(event
     init: function() {
       var self = this;
       //右键事件
-      this.$canvas.on('contextmenu', '.css3_tool_item_demo', function(e){
+      this.$el.on('contextmenu', '.css3_tool_item_demo', function(e){
         if(self.status === 'editor'){
+          console.log($(e.target));
           var $target = $(this);
           var key = $target.data('css3Iden');
           if(key){
@@ -61,34 +62,29 @@ define(['event', 'data', 'popup/promptDelEleOrCss' ,'underscore'],function(event
         }
       });
       //删除事件
-      this.$canvas.on('click', '.del', function(e){
+      this.$el.on('click', '.del', function(e){
         var $target = $(this).parent('.css3_tool_item_demo');
         var key = $target.data('css3Iden');
         if(key){
           data.setCurrentArgs(key, $target);
           promptDelEleOrCss.show();
         }
+      });
+      //监听事件
+      event.on('preview.canvas', function(isPreview){
+        if(isPreview){
+            self.$el.removeClass('canvas--editor').addClass('canvas--preview');
+            self.status = 'preview';
+        }else{
+            self.$el.removeClass('canvas--preview').addClass('canvas--editor');
+            self.status = 'editor';
+        }
       })
-      // this.$canvas.on('contextmenu', function(e) {
-      //   if(self.status === 'editor'){
-      //     e.preventDefault();
-      //     e.stopPropagation();
-      //     var $target = $(e.target);
-      //     console.log($target);
-      //     //如果是在画布上,则新建
-      //     if ($target.hasClass('canvas')) {
-      //       //新建
-      //       event.trigger('addElement.popup');
-      //     } else {
-      //       var key = $target.data('key');
-      //       if (key) {
-      //         event.trigger('showMenu.popup',e, {key: key, $el: $target});
-      //       }
-      //     }
-      //   }
-      // })
     }
   };
   layout.init();
+  header.init();
   return layout;
-})
+});
+
+// vim:sw=2:ts=2:sts=2:noet:fdm=marker:fdc=1

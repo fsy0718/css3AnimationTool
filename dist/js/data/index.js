@@ -96,8 +96,10 @@ define(['identifier', 'css', 'module'],function(Identifier, Css, module){
   if(debug){
     data.currentArgs = currentArgs;
     data.cached = cached;
-    window.appData = data;
-
+    if(!window.__app__){
+      window.__app__ = {};
+    }
+    window.__app__.data = data;
   }
   return data;
 })

@@ -23,9 +23,10 @@ define(['tpl/library.pure', 'library/event'],  function(tplPure, event) {
 
   var i = 0;
   var initEvent = function($pure, $el) {
-    var $item = $pure.find('.css3_tool_item_demo');
+    var $grids = $pure.find('.library-grid-content .css3_tool_item_demo');
+    var $items = $pure.find('.library-box-content .css3_tool_item_demo');
     var self = this;
-    $item.draggable({
+    $grids.draggable({
       connectToSortable: '#canvas',
       helper: 'clone',
       handle: '.drag',
@@ -45,6 +46,18 @@ define(['tpl/library.pure', 'library/event'],  function(tplPure, event) {
             console.log(2);
           }
         });
+      }
+    });
+    $items.draggable({
+      connectToSortable: '.pure-grids',
+      helper: 'clone',
+      handle: '.drag',
+      start: function(e, ui) {
+      },
+      drag: function(e, ui) {
+        ui.helper.width(400);
+      },
+      stop: function(e, ui) {
       }
     });
     $('#canvas, #canvas .pure-grids').sortable({

@@ -1,4 +1,5 @@
-define(function(){
+define(['module'],function(module){
+  var debug = module.config().debug;
   var _events = {};
   var namespaceReg =  /^(\w+)(?:\.(\w+))?$/;
   var parseNameSpace = function(namespace){
@@ -114,5 +115,12 @@ define(function(){
       }
     }
   };
+  if(debug){
+      if(!window.__app__){
+        window.__app__ = {};
+      }
+      window.__app__.event = event;
+      window.__app__._event = _events;
+  }
   return events;
 })

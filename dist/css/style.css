@@ -62,6 +62,18 @@ dd{
   background: rgb(66, 184, 221);
   /* this is a light blue */
 }
+.layout.layout--preview .operatebox{
+  display: none;
+}
+.layout.layout--preview .pure-cont{
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.layout.layout--preview .pure-cont .canvas{
+  padding-left: 0;
+}
 .button-small{
   font-size: 85%;
 }
@@ -75,6 +87,7 @@ html, body, .layout{
   top: 0;
   left: 0;
   font-size: 12px;
+  z-index: 1000;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   background-color: white;
 }
@@ -184,6 +197,7 @@ html, body, .layout{
 .pure-cont .librarybox{
   box-sizing: border-box;
   padding: 1% 2%;
+  background-color: white;
 }
 /* }}}*/
 .pure-cont .library{
@@ -197,6 +211,7 @@ html, body, .layout{
   color: rgba(0,0,0,.5);
 }
 .pure-cont .library .library-title{
+  margin-top: 1em;
   font-size: 1.125em;
   position: relative;
 }
@@ -232,9 +247,13 @@ html, body, .layout{
 .pure-cont .library-content .preview input{
   padding: 0.2em 0 0.2em 0.5em;
   color: rgba(0,0,0,.4);
+  margin-top: 0.1em;
 }
 .pure-cont .library-content .views, .pure-cont .library-content .del{
   display: none;
+}
+.pure-cont .library-content.library-box-content .preview{
+  padding-top: .3em;
 }
 /*移动时的样式*/
 .pure-cont .library-content .ui-draggable-dragging .preview{
@@ -432,6 +451,7 @@ html, body, .layout{
 .pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .views .pure-u-g:before{
   line-height: 1.5;
 }
+/*编辑状态*/
 .canvas--editor .css3_tool_item_demo{
   margin: 1em 0;
 }
@@ -460,6 +480,13 @@ html, body, .layout{
   border: solid 1px #ddd;
   font-size: 12px;
   font-weight: bold;
+}
+/*预览状态*/
+.canvas--preview .css3_tool_item_demo .del, .canvas--preview .css3_tool_item_demo .drag, .canvas--preview .css3_tool_item_demo .preview{
+  display: none;
+}
+.canvas--preview .css3_tool_item_demo .pure-grids{
+  padding: 1em 0;
 }
 /* }}}*/
 .pure-form .pure-control-group{

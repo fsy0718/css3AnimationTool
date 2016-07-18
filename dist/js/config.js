@@ -19,6 +19,9 @@ require.config({
   config: {
     'data': {
       debug: true
+    },
+    'event': {
+      debug: true
     }
   }
 })

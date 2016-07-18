@@ -22,7 +22,7 @@ __p+=' <div class="ui-sortable pure-grids Lfll pure-u-'+
                     
 __p+=' </div> </div> </div> ';
  }) 
-__p+=' </dd> </dl> </div> ';
+__p+=' </dd> <dt class="library-title pure-menu-item library-title-box"> <i class="fa fa-plus"></i> <i class="fa fa-question-circle"></i> <span>基本css</span> </dt> <dd class="library-content library-box-content"> <div class="css3_tool_item_demo ui-draggable"> <a href="javascript:;" class="del pure-button button-error"><i class="fa fa-times"></i>删除</a> <span class="drag pure-button"> <i class="fa fa-arrows"></i>拖动 </span> <div class="preview"> 按钮 </div> <div class="views"> <a href="javascript:;" class="pure-button">按钮</a> </div> </div> </dd> </dl> </div> ';
 }
 return __p;
 }});

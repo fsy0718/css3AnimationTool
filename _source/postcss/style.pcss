@@ -67,6 +67,17 @@ dd{
   .button-secondary {
     background: rgb(66, 184, 221); /* this is a light blue */
   }
+  &.layout--preview{
+    .operatebox{
+      display: none;
+    }
+    .pure-cont{
+      justify-content: center;
+      .canvas{
+        padding-left: 0;
+      }
+    }
+  }
 }
 .button-small{
   font-size: 85%;
@@ -83,6 +94,7 @@ html,body,.layout{
   top: 0;
   left: 0;
   font-size: 12px;
+  z-index: 1000;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   background-color: white;
   .predefined{
@@ -166,6 +178,7 @@ html,body,.layout{
   .librarybox{
     box-sizing: border-box;
     padding: 1% 2%;
+    background-color: white;
   }
   .library{
     line-height: 1.5;
@@ -177,6 +190,7 @@ html,body,.layout{
       color: rgba(0,0,0,.5);
     }
     .library-title{
+      margin-top: 1em;
       font-size: 1.125em;
       position: relative;
       .fa-question-circle{
@@ -214,10 +228,16 @@ html,body,.layout{
       input{
         padding: 0.2em 0 0.2em 0.5em;
         color: rgba(0,0,0,.4);
+        margin-top: 0.1em;
       }
     }
     .views, .del{
       display: none;
+    }
+    &.library-box-content{
+      .preview{
+        padding-top: .3em;
+      }
     }
     //移动时的样式
     .ui-draggable-dragging{
@@ -425,6 +445,7 @@ html,body,.layout{
     }
   }
 }
+//编辑状态
 .canvas--editor{
   .css3_tool_item_demo{
     margin: 1em 0;
@@ -457,6 +478,17 @@ html,body,.layout{
         font-weight: bold;
         }
       }
+    }
+  }
+}
+//预览状态
+.canvas--preview{
+  .css3_tool_item_demo{
+    .del,.drag,.preview{
+      display: none;
+    }
+    .pure-grids{
+      padding: 1em 0;
     }
   }
 }
