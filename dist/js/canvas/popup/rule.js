@@ -66,6 +66,15 @@ define(['data', 'tpl/updateRule', './popup', 'event'], function (data, updateRul
           idx: '0'
         });
       }
+      if (type == 1){
+        //需要重新建一个css出来
+        var _rules = css.getRulesByNamespace(curArgs.index);
+        s = updateRule({
+          '1': _rules,
+          isFull: opts.isFull,
+          idx: '1'
+        });
+      }
       if (type == 2) {
         s = updateRule({
           '2': data.getCached(curArgs.index, 'animationName'),

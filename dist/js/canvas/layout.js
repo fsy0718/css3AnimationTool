@@ -45,12 +45,12 @@ define(['event', 'data', 'popup/promptDelEleOrCss' ,'underscore', './header'],fu
     delElement: function(el){
         el.remove();
     },
-    status: 'editor',
     init: function() {
       var self = this;
+      data.setCached('@__all__@', '@__appstatus__@', 'editor');
       //右键事件
       this.$el.on('contextmenu', '.J__contextmenu-item', function(e){
-        if(self.status === 'editor'){
+        if(data.getCached('@__all__@','@__appstatus__@') === 'editor'){
           var $target = $(this);
           var key = $target.data('@__css3_iden__@');
           if(key){
@@ -73,10 +73,10 @@ define(['event', 'data', 'popup/promptDelEleOrCss' ,'underscore', './header'],fu
       event.on('preview.canvas', function(isPreview){
         if(isPreview){
             self.$el.removeClass('canvas--editor').addClass('canvas--preview');
-            self.status = 'preview';
+            data.setCached('@__all__@', '@__appstatus__@', 'preview');
         }else{
             self.$el.removeClass('canvas--preview').addClass('canvas--editor');
-            self.status = 'editor';
+            data.setCached('@__all__@', '@__appstatus__@', 'editor');
         }
       })
     }

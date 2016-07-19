@@ -431,6 +431,24 @@ html, body, .layout{
   font-size: 12px;
   font-weight: bold;
 }
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .views .filebox, .canvas--editor .css3_tool_item_demo .views .filebox{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border: dashed 1px rgba(0,0,0,.1);
+  text-align: center;
+  padding: 0.5rem 0;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .views .filebox .fa-plus, .canvas--editor .css3_tool_item_demo .views .filebox .fa-plus{
+  font-size: 30px;
+  color: rgba(28,184,65,.3);
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+}
+.pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .views .filebox .css3_tool_item__custom_file, .canvas--editor .css3_tool_item_demo .views .filebox .css3_tool_item__custom_file{
+  opacity: 0;
+}
 .pure-cont .library-content .css3_tool_item_demo.ui-draggable-dragging .pure-grids, .canvas--editor .css3_tool_item_demo .pure-grids{
   padding: 2em 0;
   box-sizing: border-box;

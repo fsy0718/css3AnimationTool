@@ -4,7 +4,7 @@ define(['identifier', 'css', 'module'],function(Identifier, Css, module){
   var currentArgs = {};
   var cached = {};
   var innerKeyReg = /^@__(.+)__@$/;
-  var validKeys = ['css', 'classNames', 'html', 'curIdx', 'identifier', 'animationName', '@__css__@', '@__change__@']
+  var validKeys = ['css', 'classNames', 'html', 'curIdx', 'identifier', 'animationName', '@__css__@', '@__change__@', '@__appstatus__@']
   var setCached = function(obj, key, val){
     if(typeof key === 'object'){
         for(var i in key){
@@ -28,8 +28,8 @@ define(['identifier', 'css', 'module'],function(Identifier, Css, module){
                 delete obj[key];
             }
             var _r = innerKeyReg.exec(key);
-            if(_r && _r[1] === 'css'){
-                delete cached['@__change__@'];
+            if(_r){
+                _r[1] === 'css' && delete cached['@__change__@'];
             }else{
                 cached['@__change__@'] = 1;
             }

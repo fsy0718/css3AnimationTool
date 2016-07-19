@@ -25,12 +25,16 @@ define(['event','data', 'shortid'],function(event, data, shortid){
   var addIdentifierCache = function(){
     return data.setCached.apply(data, arguments);
   }
+  var getAppStatus = function(){
+      return data.getCached('@__all__@', '@__appstatus__@');
+  }
 
 
   var _event = {
     getIdentifier: getIdentifier,
     getIdentifierName: getIdentifierName,
-    addIdentifierCache: addIdentifierCache
+    addIdentifierCache: addIdentifierCache,
+    getAppStatus: getAppStatus
   };
   return _event;
 

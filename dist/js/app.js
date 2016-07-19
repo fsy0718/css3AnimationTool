@@ -85,7 +85,6 @@ require(['event', 'js/canvas/layout', 'popup/index', 'data', 'underscore', 'libr
   });
   //执行动画
   var runAnimationFn = _.throttle(function(){
-    console.log(1);
     createCss();
     var _data = data.getCached('@__all__@')['@__css__@'];
     _.each(_data.selectors, function(selector){

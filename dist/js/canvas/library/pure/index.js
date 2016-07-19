@@ -23,7 +23,7 @@ define(['tpl/library.pure', 'library/event'],  function(tplPure, event) {
 
   var i = 0;
 
-  var addCss3Key = function(item){
+  var addIdentifier = function(item){
     if(!item.data('@__css3_key__@')){
       item.data('@__css3_key__@', 'true');
       var items = item.find('.J__contextmenu-item');
@@ -32,7 +32,6 @@ define(['tpl/library.pure', 'library/event'],  function(tplPure, event) {
         event.addIdentifierCache(iden.index, 'identifier', iden.identifier);
         $(this).addClass(iden.identifier).data('@__css3_iden__@', iden.index);
       });
-
     }
   }
   var initEvent = function($pure, $el) {
@@ -56,7 +55,7 @@ define(['tpl/library.pure', 'library/event'],  function(tplPure, event) {
             console.log(1);
           },
           stop: function(_e, _ui){
-            addCss3Key(_ui.item);
+            addIdentifier(_ui.item);
           }
         });
       }
@@ -75,9 +74,25 @@ define(['tpl/library.pure', 'library/event'],  function(tplPure, event) {
       handle: '.drag',
       stop: function(e, t) {
         //为当前元素添加惟一标识符
-        addCss3Key(t.item);
+        addIdentifier(t.item);
       },
-    })
+    });
+    $('#canvas').on('click','.css3_tool_item__custom_file', function(e){
+        if(event.getAppStatus() === 'preview'){
+            return e.preventDefault()
+        }
+    });
+    $('#canvas').on('change', '.css3_tool_item__custom_file', function(e){
+        var reader = new FileReader();
+        reader.onload = function(e){
+            console.log(e);
+        }
+        file = e.target.files[0];
+        if(file){
+            //reader.readAsDataURL(file);
+            reader.readAsText(file);
+        }
+    });
   };
 
   var pure = {

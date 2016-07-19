@@ -248,9 +248,55 @@ __p+=' </label> </li> </ul> </dd> </dl> ';
 } 
 __p+=' ';
  if(obj.isFull){ 
-__p+=' </li> <li class="tab-cont-item tab-cont-item-1 tab-cont-item-animate-diy pure-u-1" data-index="1"> </li> <li class="tab-cont-item tab-cont-item-2 tab-cont-item-animate pure-u-1" data-index="2"> ';
+__p+=' </li> <li class="tab-cont-item tab-cont-item-1 tab-cont-item-animate-diy pure-u-1" data-index="1"> ';
  } 
 __p+=' ';
+ if(obj.idx == 1){ 
+__p+=' ';
+
+  obj['1'] = obj['1'] || {};
+  var animationIterationCount = obj['1']['animation-iteration-count'];
+  animationIterationCount = animationIterationCount === 'infinite' ? 'infinite' : parseInt(animationIterationCount) || null;
+
+__p+=' <dl> <dd> <label> <span class="label">动画名称</span> <span class="input"> <input type="text" name="animation-name" value="'+
+((__t=((obj['1']['animation-name'] ? obj['1']['animation-name'] : null)))==null?'':__t)+
+'"> </span> </label></dd> <dd> <label> <span class="label">执行时间</span> <span class="input"> <input type="number" name="animation-duration" step="0.1" value="'+
+((__t=((obj['1']['animation-duration'] ? parseFloat(obj['1']['animation-duration']) : null)))==null?'':__t)+
+'"> </span> <span class="unit">s</span> </label> </dd> <dd> <label> <span class="label">延迟执行</span> <span class="input"> <input type="number" name="animation-delay" step="0.1" value="'+
+((__t=((obj['1']['animation-delay'] ? parseFloat(obj['1']['animation-delay']) : null)))==null?'':__t)+
+'"> </span> <span class="unit">s</span> </label> </dd> <dd> <label> <span class="label">执行次数</span> <span class="input"> <input type="number" name="animation-iteration-count" step="1" value="'+
+((__t=(animationIterationCount))==null?'':__t)+
+'"> </span> </label> </dd> <dd> <label> <span class="label">变形原点</span> </label> <ul class="list"> <li class="item pure-g"> <label class="pure-u-1-3"> <span class="label">X</span> <input type="text" name="x" data-parent="animation-origin" min="0" max="100" step="1" , value="'+
+((__t=(x))==null?'':__t)+
+'"> <span class="unit">%</span> </label> <span class="control pure-u-2-3"> <input type="range" min="0" max="100" step="1" , value="'+
+((__t=(x))==null?'':__t)+
+'"> </span> </li> <li class="item pure-g"> <label class="pure-u-1-3"> <span class="label">Y</span> <input type="text" name="y" data-parent="animation-origin" min="0" max="100" step="1" , value="'+
+((__t=(y))==null?'':__t)+
+'"> <span class="unit">%</span> </label> <span class="control pure-u-2-3"> <input type="range" min="0" max="100" step="1" , value="'+
+((__t=(y))==null?'':__t)+
+'"> </span> </li> </ul> </dd> <dd> <label> <span class="label">过渡效果</span> </label> <div class="list"> ';
+_.each(['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'], function(val,key){ 
+__p+=' ';
+ var isChecked =  obj['1']['animation-timing-function'] === val; 
+__p+=' <a href="javascript:;" class="item pure-button '+
+((__t=((isChecked ? 'button-success' : null) ))==null?'':__t)+
+'">'+
+((__t=(val))==null?'':__t)+
+'<a> ';
+ }) 
+__p+=' <a href="javascript:;" class="pure-button item '+
+((__t=((/^cubic\-bezier/.test(obj['1']['animation-timing-function']) ? 'button-success' : null) ))==null?'':__t)+
+'"> ';
+if(/^cubic\-bezier/.test(obj['1']['animation-timing-function'])){ 
+__p+=' '+
+((__t=(obj['1']['animation-timing-function']))==null?'':__t)+
+' ';
+ }else{
+__p+=' cubic-bezier(0.500,0.250,0.500,0.750) ';
+}
+__p+=' </a> </a></a></div> </dd> </dl> ';
+ } 
+__p+=' </li> <li class="tab-cont-item tab-cont-item-2 tab-cont-item-animate pure-u-1" data-index="2"> ';
  if(obj.idx == 2){ 
 __p+=' <dl> ';
  _.each(animations, function(animation, key){ 
