@@ -78,13 +78,15 @@ require(['event', 'js/canvas/layout', 'popup/index', 'data', 'underscore', 'libr
         var _data = parseToolItems(demoDatas);
         $cssToolDemo.text(_data.css);
     }
-    event.trigger('runAnimation');
   }
   //生成样式
   event.on('preview.css',function(isPreview){
-    isPreview && createCss();
+    isPreview && createCss() && event.trigger('runAnimation');
   });
-  event.on('runAnimation', function(){
+  //执行动画
+  var runAnimationFn = _.throttle(function(){
+    console.log(1);
+    createCss();
     var _data = data.getCached('@__all__@')['@__css__@'];
     _.each(_data.selectors, function(selector){
         $('.' + selector).addClass('animated ' + _data.addIngClass[selector])
@@ -94,7 +96,8 @@ require(['event', 'js/canvas/layout', 'popup/index', 'data', 'underscore', 'libr
             $('.' + selector).removeClass('animated ' + _data.addIngClass[selector])
         })
     }, 5000);
-  })
+  }, 1000)
+  event.on('runAnimation', runAnimationFn)
   //event.trigger('showStyle.popup');
 });
 
